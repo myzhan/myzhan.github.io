@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-Hans">
+  <head>
+    <title>jenkins源码阅读：启动和请求处理 // Myzhan 的博客</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.68.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="John Doe" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://myzhan.github.io/css/main.min.88e7083eff65effb7485b6e6f38d10afbec25093a6fac42d734ce9024d3defbd.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="jenkins源码阅读：启动和请求处理"/>
+<meta name="twitter:description" content="jenkins 编译后，会生成一个 jenkins.war 文件，阅读 jenkins 源码，我们需要研究的一切，都在这个文件里面了。按照习惯，先寻找入口点，然后顺藤摸瓜，才能进入源码树中。
+如果 jenkins 独立运行，启动命令是：
+$ java -jar jenkins.war 所以 jenkins.war 其实是一个普通的 jar 包。java 命令运行一个 jar 文件，会在 jenkens.war/META-INF/ 目录下，找 MANIFEST.MF 文件。这个文件里面有入口类，在这里，是 Main，即是 jenkins.war/Main.class 文件。
+jenkins.war/META-INF/MANIFEST.MF
+$ cat MANIFEST.MF Manifest-Version: 1.0 Jenkins-Version: 2.13-SNAPSHOT Implementation-Version: 2.13-SNAPSHOT Built-By: myzhan Build-Jdk: 1.7.0_79 Hudson-Version: 1.395 Created-By: Apache Maven 3.3.3 Main-Class: Main Archiver-Version: Plexus Archiver 反编译一下 Main.class 文件，一个标准的 Main 文件，属于 default 包。但是这个 Main 文件，并不在 jenkins 的源码里面，即不在 jenkins core 里面。过了一遍反编译的源码，发现它先将 jenkins.war 解压到 $JENKINS_HOME/war 目录下，再启动一个 winstone 容器。鉴于jenkins 本身是一个 Servlet 程序，我猜测，在这个入口，是先启动一个 Servlet 容器，再加载 jenkins 本身。"/>
+
+    <meta property="og:title" content="jenkins源码阅读：启动和请求处理" />
+<meta property="og:description" content="jenkins 编译后，会生成一个 jenkins.war 文件，阅读 jenkins 源码，我们需要研究的一切，都在这个文件里面了。按照习惯，先寻找入口点，然后顺藤摸瓜，才能进入源码树中。
+如果 jenkins 独立运行，启动命令是：
+$ java -jar jenkins.war 所以 jenkins.war 其实是一个普通的 jar 包。java 命令运行一个 jar 文件，会在 jenkens.war/META-INF/ 目录下，找 MANIFEST.MF 文件。这个文件里面有入口类，在这里，是 Main，即是 jenkins.war/Main.class 文件。
+jenkins.war/META-INF/MANIFEST.MF
+$ cat MANIFEST.MF Manifest-Version: 1.0 Jenkins-Version: 2.13-SNAPSHOT Implementation-Version: 2.13-SNAPSHOT Built-By: myzhan Build-Jdk: 1.7.0_79 Hudson-Version: 1.395 Created-By: Apache Maven 3.3.3 Main-Class: Main Archiver-Version: Plexus Archiver 反编译一下 Main.class 文件，一个标准的 Main 文件，属于 default 包。但是这个 Main 文件，并不在 jenkins 的源码里面，即不在 jenkins core 里面。过了一遍反编译的源码，发现它先将 jenkins.war 解压到 $JENKINS_HOME/war 目录下，再启动一个 winstone 容器。鉴于jenkins 本身是一个 Servlet 程序，我猜测，在这个入口，是先启动一个 Servlet 容器，再加载 jenkins 本身。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://myzhan.github.io/posts/jenkins-src-entry-point/" />
+<meta property="article:published_time" content="2016-07-16T18:35:21+08:00" />
+<meta property="article:modified_time" content="2016-07-16T18:35:21+08:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://myzhan.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="John Doe" /></a>
+      <h1>Myzhan 的博客</h1>
+      <p>A nerd</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://github.com/myzhan" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">jenkins源码阅读：启动和请求处理</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Jul 16, 2016
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          2 min read
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>jenkins 编译后，会生成一个 jenkins.war 文件，阅读 jenkins 源码，我们需要研究的一切，都在这个文件里面了。按照习惯，先寻找入口点，然后顺藤摸瓜，才能进入源码树中。</p>
+<p>如果 jenkins 独立运行，启动命令是：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ java -jar jenkins.war
+</code></pre></div><p>所以 jenkins.war 其实是一个普通的 jar 包。java 命令运行一个 jar 文件，会在 jenkens.war/META-INF/ 目录下，找 MANIFEST.MF 文件。这个文件里面有入口类，在这里，是 Main，即是 jenkins.war/Main.class 文件。</p>
+<p>jenkins.war/META-INF/MANIFEST.MF</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cat MANIFEST.MF
+Manifest-Version: 1.0
+Jenkins-Version: 2.13-SNAPSHOT
+Implementation-Version: 2.13-SNAPSHOT
+Built-By: myzhan
+Build-Jdk: 1.7.0_79
+Hudson-Version: 1.395
+Created-By: Apache Maven 3.3.3
+Main-Class: Main
+Archiver-Version: Plexus Archiver
+</code></pre></div><p>反编译一下 Main.class 文件，一个标准的 Main 文件，属于 default 包。但是这个 Main 文件，并不在 jenkins 的源码里面，即不在 jenkins core 里面。过了一遍反编译的源码，发现它先将 jenkins.war 解压到 $JENKINS_HOME/war 目录下，再启动一个 winstone 容器。鉴于jenkins 本身是一个 Servlet 程序，我猜测，在这个入口，是先启动一个 Servlet 容器，再加载 jenkins 本身。</p>
+<p>通过查看 $JENKINS_SRC/war/pom.xml 文件，发现这个 Main 文件，在 org.jenkins-ci:executable-war 这个依赖中，验证了我的猜测。</p>
+<p>既然是一个 Servlet 程序，那我们再去 $JENKINS_HOME/war/WEB-INF/web.xml 找入口点。与 Servlet 有关的配置，在这里。</p>
+<p>$JENKINS_HOME/war/WEB-INF/web.xml</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;servlet&gt;</span>
+    <span style="color:#f92672">&lt;servlet-name&gt;</span>Stapler<span style="color:#f92672">&lt;/servlet-name&gt;</span>
+    <span style="color:#f92672">&lt;servlet-class&gt;</span>org.kohsuke.stapler.Stapler<span style="color:#f92672">&lt;/servlet-class&gt;</span>
+<span style="color:#f92672">&lt;/servlet&gt;</span>
+<span style="color:#f92672">&lt;servlet-mapping&gt;</span>
+    <span style="color:#f92672">&lt;servlet-name&gt;</span>Stapler<span style="color:#f92672">&lt;/servlet-name&gt;</span>
+    <span style="color:#f92672">&lt;url-pattern&gt;</span>/*<span style="color:#f92672">&lt;/url-pattern&gt;</span>
+<span style="color:#f92672">&lt;/servlet-mapping&gt;</span>
+</code></pre></div><p>在这里，jenkins 将所有 URL 请求的处理，都交给了 Stapler。根据 Stapler 的文档，了解到它提供了 URL 到对象的映射。即所有请求，都先交给 Stapler 处理，然后 Stapler 通过反射的方式，找到对应的处理类及方法。</p>
+<p>顺着 web.xml 往下看，终于找到了与 jenkins core 有关的配置。</p>
+<p>$JENKINS_HOME/war/WEB-INF/web.xml</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;listener&gt;</span>
+    <span style="color:#f92672">&lt;listener-class&gt;</span>hudson.WebAppMain<span style="color:#f92672">&lt;/listener-class&gt;</span>
+<span style="color:#f92672">&lt;/listener&gt;</span>
+</code></pre></div><p>WebAppMain.java 文件，在 $JENKINS_SRC/core/src/main/java/hudson 目录下面，文件开头的注释，解释了它的身份。</p>
+<p>$JENKINS_SRC/core/src/main/java/hudson/WebAppMain.java</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
+</span><span style="color:#75715e">* Entry point when Hudson is used as a webapp.
+</span><span style="color:#75715e">*
+</span><span style="color:#75715e">* @author Kohsuke Kawaguchi
+</span><span style="color:#75715e">*/</span>
+</code></pre></div><p>这个类的代码大约 400 行，大多是一些初始化工作，下面这段代码引起了我的注意。</p>
+<p>$JENKINS_SRC/core/src/main/java/hudson/WebAppMain.java</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">context<span style="color:#f92672">.</span><span style="color:#a6e22e">setAttribute</span><span style="color:#f92672">(</span>APP<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> HudsonIsLoading<span style="color:#f92672">());</span>
+initThread <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Jenkins initialization thread&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        Jenkins instance <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Hudson<span style="color:#f92672">(</span>_home<span style="color:#f92672">,</span> context<span style="color:#f92672">);</span>
+        context<span style="color:#f92672">.</span><span style="color:#a6e22e">setAttribute</span><span style="color:#f92672">(</span>APP<span style="color:#f92672">,</span> instance<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">};</span>
+initThread<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+</code></pre></div><p>熟悉 jenkins 的同学，到了这里有没有一点似曾相识的感觉？ jenkins 在刚启动的时候，会显示一个 loading 页面，启动完成后，才切到主页，就是靠这段代码实现的，HudsonIsLoading 就是 loading 页面，Hudson 就是主页。</p>
+<p>现在看来 context.setAttribute(APP, xxxx) 这个方法调用，能把 xxxx 对象挂到 &ldquo;/&rdquo; 这个 URL 下面。不过 context.setAttribute 方法，在 Servlet 编程里面，只是保存了一个变量而已，为什么能挂到 &ldquo;/&rdquo; 下面呢？答案一定在 Stapler 的源码里！从 web.xml 配置我们可以知道，入口在 org.kohsuke.stapler.Stapler。继续查看 Stapler 的源码，我找到了答案。</p>
+<p>/org/kohsuke/stapler/Stapler.java</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">protected</span> <span style="color:#a6e22e">@Override</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">service</span><span style="color:#f92672">(</span>HttpServletRequest req<span style="color:#f92672">,</span> HttpServletResponse rsp<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    Object root <span style="color:#f92672">=</span> webApp<span style="color:#f92672">.</span><span style="color:#a6e22e">getApp</span><span style="color:#f92672">();</span>
+    <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>root<span style="color:#f92672">==</span><span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
+        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> ServletException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;there&#39;s no \&#34;app\&#34; attribute in the application context.&#34;</span><span style="color:#f92672">);</span>
+    invoke<span style="color:#f92672">(</span> req<span style="color:#f92672">,</span> rsp<span style="color:#f92672">,</span> root<span style="color:#f92672">,</span> servletPath<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>/org/kohsuke/stapler/WebApp.java</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
+</span><span style="color:#75715e">* Returns the &#39;app&#39; object, which is the user-specified object that
+</span><span style="color:#75715e">* sits at the root of the URL hierarchy and handles the request to &#39;/&#39;.
+</span><span style="color:#75715e">*/</span>
+<span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">getApp</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">return</span> context<span style="color:#f92672">.</span><span style="color:#a6e22e">getAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;app&#34;</span><span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>跟踪到这里，jenkins 的启动，和处理请求的过程，已经清楚。总结一下，主要是下面这几步。</p>
+<ol>
+<li>启动 winstone 容器，加载 jenkins。</li>
+<li>Stapler 负责处理请求。</li>
+<li>WebAppMain 负责初始化。</li>
+</ol>
+<p>最后，写一个 Hello World 庆祝一下，在 Jenkins.java 中，加入以下代码。</p>
+<p>$JENKINS_SRC/core/src/main/java/jenkins/model/Jenkins.java</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">doHelloWorld</span><span style="color:#f92672">(</span> StaplerRequest req<span style="color:#f92672">,</span> StaplerResponse rsp <span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException<span style="color:#f92672">,</span> ServletException <span style="color:#f92672">{</span>
+    rsp<span style="color:#f92672">.</span><span style="color:#a6e22e">getWriter</span><span style="color:#f92672">().</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hello World&#34;</span><span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>重新编译生成 jenkins.war，运行后用浏览器打开 http://localhost:8080/helloWorld 即可看到 Hello World。</p>
+<p>注意这里的 URL 是大小写敏感的。</p>
+<p>如果想了解 Stapler 的基本用法，可以查看下面这几篇文档。</p>
+<ul>
+<li><a href="http://stapler.kohsuke.org/what-is.html">what-is</a></li>
+<li><a href="http://stapler.kohsuke.org/getting-started.html">getting-started</a></li>
+<li><a href="http://stapler.kohsuke.org/reference.html">reference</a></li>
+</ul>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

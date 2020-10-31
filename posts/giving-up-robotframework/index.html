@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-Hans">
+  <head>
+    <title>告别robotframework // Myzhan 的博客</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.68.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="John Doe" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://myzhan.github.io/css/main.min.88e7083eff65effb7485b6e6f38d10afbec25093a6fac42d734ce9024d3defbd.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="告别robotframework"/>
+<meta name="twitter:description" content="刚开始工作的两年，在做 API 型服务端的自动化测试。当时老大安利了 robotframework，一直在用。由于可以编写自定义的 library，robot 的扩展能力非常强，基本上 python 能做的事情，都可以在 robot 里面实现。通过编写 library，我实现了很多好玩的功能。例如，检测数据库，mc，日志，和运行时更换 mock 服务。
+去年想尝试新事物，便换了项目。新项目的自动化从零开始，我也不想继续再用 robot。不用 robot，用什么呢？当时我也没有答案。不过当时我在做一件事情，就是把新项目的接口调用，都封装到一个 python 写的库里面。既然像模像样地写一个库，自然要有逼格，src，test，doc 这些目录都要有，不然会被程序员 BS 。写了好几个接口后，突然来了灵感，我写在 test 下面的那些 unittest，不就可以用来做服务端的自动化测试吗？事实证明，完全可以！ 被测对象，从 python 库，变成了服务端 API。
+举个例子，服务端有个 login 接口，接收 name 和 password 参数。我把这个接口封装成了 python 调用，类似于 RPC。
+resp = User.login(name, password) 这样，如果有人需要访问 login 接口，只要像上面这样调用就可以了。
+我这样写 unittest。
+def test_login(): resp = User.login(&#34;xxx&#34;, &#34;123&#34;) assert resp.nick_name == &#34;xxx&#34; 在 robot 里面淫浸多年，我非常喜欢数据驱动方式的自动化测试，于是通过 pytest 来解决这个问题。
+import pytest @pytest.mark.parametrize(&#34;name, password, expected&#34;, [ (&#34;xxx&#34;, &#34;123&#34;, &#34;xxx&#34;), (&#34;yyy&#34;, &#34;123&#34;, &#34;yyy&#34;), ]) def test_login(name, password, expected): resp = User."/>
+
+    <meta property="og:title" content="告别robotframework" />
+<meta property="og:description" content="刚开始工作的两年，在做 API 型服务端的自动化测试。当时老大安利了 robotframework，一直在用。由于可以编写自定义的 library，robot 的扩展能力非常强，基本上 python 能做的事情，都可以在 robot 里面实现。通过编写 library，我实现了很多好玩的功能。例如，检测数据库，mc，日志，和运行时更换 mock 服务。
+去年想尝试新事物，便换了项目。新项目的自动化从零开始，我也不想继续再用 robot。不用 robot，用什么呢？当时我也没有答案。不过当时我在做一件事情，就是把新项目的接口调用，都封装到一个 python 写的库里面。既然像模像样地写一个库，自然要有逼格，src，test，doc 这些目录都要有，不然会被程序员 BS 。写了好几个接口后，突然来了灵感，我写在 test 下面的那些 unittest，不就可以用来做服务端的自动化测试吗？事实证明，完全可以！ 被测对象，从 python 库，变成了服务端 API。
+举个例子，服务端有个 login 接口，接收 name 和 password 参数。我把这个接口封装成了 python 调用，类似于 RPC。
+resp = User.login(name, password) 这样，如果有人需要访问 login 接口，只要像上面这样调用就可以了。
+我这样写 unittest。
+def test_login(): resp = User.login(&#34;xxx&#34;, &#34;123&#34;) assert resp.nick_name == &#34;xxx&#34; 在 robot 里面淫浸多年，我非常喜欢数据驱动方式的自动化测试，于是通过 pytest 来解决这个问题。
+import pytest @pytest.mark.parametrize(&#34;name, password, expected&#34;, [ (&#34;xxx&#34;, &#34;123&#34;, &#34;xxx&#34;), (&#34;yyy&#34;, &#34;123&#34;, &#34;yyy&#34;), ]) def test_login(name, password, expected): resp = User." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://myzhan.github.io/posts/giving-up-robotframework/" />
+<meta property="article:published_time" content="2016-03-04T20:16:40+08:00" />
+<meta property="article:modified_time" content="2016-03-04T20:16:40+08:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://myzhan.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="John Doe" /></a>
+      <h1>Myzhan 的博客</h1>
+      <p>A nerd</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://github.com/myzhan" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">告别robotframework</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Mar 4, 2016
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          1 min read
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>刚开始工作的两年，在做 API 型服务端的自动化测试。当时老大安利了 robotframework，一直在用。由于可以编写自定义的 library，robot 的扩展能力非常强，基本上 python 能做的事情，都可以在 robot 里面实现。通过编写 library，我实现了很多好玩的功能。例如，检测数据库，mc，日志，和运行时更换 mock 服务。</p>
+<p>去年想尝试新事物，便换了项目。新项目的自动化从零开始，我也不想继续再用 robot。不用 robot，用什么呢？当时我也没有答案。不过当时我在做一件事情，就是把新项目的接口调用，都封装到一个 python 写的库里面。既然像模像样地写一个库，自然要有逼格，src，test，doc 这些目录都要有，不然会被程序员 BS 。写了好几个接口后，突然来了灵感，我写在 test 下面的那些 unittest，不就可以用来做服务端的自动化测试吗？事实证明，完全可以！ 被测对象，从 python 库，变成了服务端 API。</p>
+<p>举个例子，服务端有个 login 接口，接收 name 和 password 参数。我把这个接口封装成了 python 调用，类似于 RPC。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python">resp <span style="color:#f92672">=</span> User<span style="color:#f92672">.</span>login(name, password)
+</code></pre></div><p>这样，如果有人需要访问 login 接口，只要像上面这样调用就可以了。</p>
+<p>我这样写 unittest。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_login</span>():
+    resp <span style="color:#f92672">=</span> User<span style="color:#f92672">.</span>login(<span style="color:#e6db74">&#34;xxx&#34;</span>, <span style="color:#e6db74">&#34;123&#34;</span>)
+    <span style="color:#66d9ef">assert</span> resp<span style="color:#f92672">.</span>nick_name <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;xxx&#34;</span>
+</code></pre></div><p>在 robot 里面淫浸多年，我非常喜欢数据驱动方式的自动化测试，于是通过 pytest 来解决这个问题。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python"><span style="color:#f92672">import</span> pytest
+<span style="color:#a6e22e">@pytest.mark.parametrize</span>(<span style="color:#e6db74">&#34;name, password, expected&#34;</span>, [
+    (<span style="color:#e6db74">&#34;xxx&#34;</span>, <span style="color:#e6db74">&#34;123&#34;</span>, <span style="color:#e6db74">&#34;xxx&#34;</span>),
+    (<span style="color:#e6db74">&#34;yyy&#34;</span>, <span style="color:#e6db74">&#34;123&#34;</span>, <span style="color:#e6db74">&#34;yyy&#34;</span>),
+])
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_login</span>(name, password, expected):
+    resp <span style="color:#f92672">=</span> User<span style="color:#f92672">.</span>login(name, password)
+    <span style="color:#66d9ef">assert</span> resp<span style="color:#f92672">.</span>nick_name <span style="color:#f92672">==</span> expected
+</code></pre></div><p>Bingo！现在完全可以通过不同的 name 和 password，来测试服务端的 login 接口了。接着我又把我在 robot 里面已经实现的一些功能，搬了过来。</p>
+<p>测试缓存不存在的情况。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_login</span>():
+    <span style="color:#66d9ef">with</span> mc_delete(<span style="color:#e6db74">&#34;userinfo_xxx&#34;</span>):
+        resp <span style="color:#f92672">=</span> User<span style="color:#f92672">.</span>login(<span style="color:#e6db74">&#34;xxx&#34;</span>, <span style="color:#e6db74">&#34;123&#34;</span>)
+        <span style="color:#66d9ef">assert</span> resp<span style="color:#f92672">.</span>nick_name <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;xxx&#34;</span>
+</code></pre></div><p>熟悉的 with ！不过这还不能完全体现 with 的优势，来看看另外一个例子。</p>
+<p>假设 login 接口，需要再调用内部系统去完成，那么我们可以测试内部系统响应异常的情况。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_login</span>():
+    <span style="color:#66d9ef">with</span> mock(<span style="color:#e6db74">&#34;microservice&#34;</span>, <span style="color:#e6db74">&#34;error&#34;</span>):
+        resp <span style="color:#f92672">=</span> User<span style="color:#f92672">.</span>login(<span style="color:#e6db74">&#34;xxx&#34;</span>, <span style="color:#e6db74">&#34;123&#34;</span>)
+        <span style="color:#66d9ef">assert</span> resp<span style="color:#f92672">.</span>not_ok
+        <span style="color:#66d9ef">assert</span> resp<span style="color:#f92672">.</span>nick_name <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span>
+</code></pre></div><p>mock 函数把内部系统的响应，mock 为 error，导致我们的系统，不能正常登录。很妙的是，mock 还是一个 context manager，离开 with 块之后，自动取消 mock 状态。测试用例还可以写成这样。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_login</span>():
+    <span style="color:#66d9ef">with</span> mock(<span style="color:#e6db74">&#34;microservice&#34;</span>, <span style="color:#e6db74">&#34;error&#34;</span>):
+        resp <span style="color:#f92672">=</span> User<span style="color:#f92672">.</span>login(<span style="color:#e6db74">&#34;xxx&#34;</span>, <span style="color:#e6db74">&#34;123&#34;</span>)
+        <span style="color:#66d9ef">assert</span> resp<span style="color:#f92672">.</span>not_ok
+        <span style="color:#66d9ef">assert</span> resp<span style="color:#f92672">.</span>nick_name <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span>
+    resp <span style="color:#f92672">=</span> User<span style="color:#f92672">.</span>login(<span style="color:#e6db74">&#34;xxx&#34;</span>, <span style="color:#e6db74">&#34;123&#34;</span>)
+    <span style="color:#66d9ef">assert</span> resp<span style="color:#f92672">.</span>ok
+    <span style="color:#66d9ef">assert</span> resp<span style="color:#f92672">.</span>nick_name <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;xxx&#34;</span>
+</code></pre></div><p>很快，这样子写出来的用例，就有了 600 多个，每天都在 jenkins 上面做自动化回归测试。于是我成功地告别了 robot。</p>
+<p>撸完这些后，忽然觉得心里空荡荡的。这大概就是我所理解的，API 接口自动化的最好状态了。</p>
+<p>Simple is better than complex！</p>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

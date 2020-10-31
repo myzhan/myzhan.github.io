@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-Hans">
+  <head>
+    <title>编译和运行jenkins // Myzhan 的博客</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.68.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="John Doe" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://myzhan.github.io/css/main.min.88e7083eff65effb7485b6e6f38d10afbec25093a6fac42d734ce9024d3defbd.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="编译和运行jenkins"/>
+<meta name="twitter:description" content="在工作中使用 jenkins 做持续集成，已经将近3年了。按照我的性格，用一样东西，就想了解它的源码实现。期间看过不少 jenkins 插件的代码，却一直没有看过 jenkins core 的源码。主要原因，是第一眼看代码的时候，感觉 jenkins 当初从 hudson 分出来，背负了不少历史包袱，代码结构有点混乱。
+不过最近心血来潮，又开始想研究 jenkins core 的源码，在公司里面使用 jenkins，大多是用来实现自动打包部署，和自动化测试。这些 job 的实现，查看文档，使用几个插件就能完成。不了解源码，已经不能满足我的好奇心了。
+学习源码，第一步要做的，就是能够编译运行，并且debug。jenkins 使用 maven 作为构建系统，编译和运行，都非常简单。不过依赖非常多，在 maven 下载依赖的时候，在这里写博客。算是挖个坑，督促自己把坑填了。:D
+源码 jenkins 的源码，目前放在 github 上面，clone 下来即可。
+$ git clone https://github.com/jenkinsci/jenkins.git 编译 编译 jenkins，需要 JDK 和 maven，按照 官方文档 操作即可。不过默认的构建命令，会跑单元测试，由于环境原因，测试用例或许会失败。为了先简单体验一下，我们可以跳过部分测试。这里我用了源码目录里，BUILDING.TXT 文件介绍的命令。
+$ mvn clean install -pl war -am -DskipTests 这一步执行后，maven 需要在源里下载很多依赖包，由于国内的网络环境，需要花不少时间。如果等不及，可以使用国内的 maven 源。不过我在使用 oschina 提供的源时，提示缺少依赖，可能是还没同步过来，乖乖换回了官方的源。
+如果一切顺利，就能在 war/target/ 目录下面，找到 jenkins.war 文件。在我这边就不顺利，由于网络不好，光是下载依赖就花了几个小时，哈哈。
+运行 在使用方面，jenkins非常友好。所有代码、依赖，都在 jenkins.war 文件里面，所有数据，默认都在 $HOME/.jenkins 目录下面。在升级版本，或者备份、迁移数据的时候，都很舒服。
+上面我们已经得到 jenkins."/>
+
+    <meta property="og:title" content="编译和运行jenkins" />
+<meta property="og:description" content="在工作中使用 jenkins 做持续集成，已经将近3年了。按照我的性格，用一样东西，就想了解它的源码实现。期间看过不少 jenkins 插件的代码，却一直没有看过 jenkins core 的源码。主要原因，是第一眼看代码的时候，感觉 jenkins 当初从 hudson 分出来，背负了不少历史包袱，代码结构有点混乱。
+不过最近心血来潮，又开始想研究 jenkins core 的源码，在公司里面使用 jenkins，大多是用来实现自动打包部署，和自动化测试。这些 job 的实现，查看文档，使用几个插件就能完成。不了解源码，已经不能满足我的好奇心了。
+学习源码，第一步要做的，就是能够编译运行，并且debug。jenkins 使用 maven 作为构建系统，编译和运行，都非常简单。不过依赖非常多，在 maven 下载依赖的时候，在这里写博客。算是挖个坑，督促自己把坑填了。:D
+源码 jenkins 的源码，目前放在 github 上面，clone 下来即可。
+$ git clone https://github.com/jenkinsci/jenkins.git 编译 编译 jenkins，需要 JDK 和 maven，按照 官方文档 操作即可。不过默认的构建命令，会跑单元测试，由于环境原因，测试用例或许会失败。为了先简单体验一下，我们可以跳过部分测试。这里我用了源码目录里，BUILDING.TXT 文件介绍的命令。
+$ mvn clean install -pl war -am -DskipTests 这一步执行后，maven 需要在源里下载很多依赖包，由于国内的网络环境，需要花不少时间。如果等不及，可以使用国内的 maven 源。不过我在使用 oschina 提供的源时，提示缺少依赖，可能是还没同步过来，乖乖换回了官方的源。
+如果一切顺利，就能在 war/target/ 目录下面，找到 jenkins.war 文件。在我这边就不顺利，由于网络不好，光是下载依赖就花了几个小时，哈哈。
+运行 在使用方面，jenkins非常友好。所有代码、依赖，都在 jenkins.war 文件里面，所有数据，默认都在 $HOME/.jenkins 目录下面。在升级版本，或者备份、迁移数据的时候，都很舒服。
+上面我们已经得到 jenkins." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://myzhan.github.io/posts/building-and-debugging-jenkins/" />
+<meta property="article:published_time" content="2016-07-09T17:17:49+08:00" />
+<meta property="article:modified_time" content="2016-07-09T17:17:49+08:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://myzhan.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="John Doe" /></a>
+      <h1>Myzhan 的博客</h1>
+      <p>A nerd</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://github.com/myzhan" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">编译和运行jenkins</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Jul 9, 2016
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          1 min read
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>在工作中使用 jenkins 做持续集成，已经将近3年了。按照我的性格，用一样东西，就想了解它的源码实现。期间看过不少 jenkins 插件的代码，却一直没有看过 jenkins core 的源码。主要原因，是第一眼看代码的时候，感觉 jenkins 当初从 hudson 分出来，背负了不少历史包袱，代码结构有点混乱。</p>
+<p>不过最近心血来潮，又开始想研究 jenkins core 的源码，在公司里面使用 jenkins，大多是用来实现自动打包部署，和自动化测试。这些 job 的实现，查看文档，使用几个插件就能完成。不了解源码，已经不能满足我的好奇心了。</p>
+<p>学习源码，第一步要做的，就是能够编译运行，并且debug。jenkins 使用 maven 作为构建系统，编译和运行，都非常简单。不过依赖非常多，在 maven 下载依赖的时候，在这里写博客。算是挖个坑，督促自己把坑填了。:D</p>
+<h2 id="源码">源码</h2>
+<p>jenkins 的源码，目前放在 github 上面，clone 下来即可。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git clone https://github.com/jenkinsci/jenkins.git
+</code></pre></div><h2 id="编译">编译</h2>
+<p>编译 jenkins，需要 JDK 和 maven，按照 <a href="https://wiki.jenkins-ci.org/display/JENKINS/Building+Jenkins">官方文档</a> 操作即可。不过默认的构建命令，会跑单元测试，由于环境原因，测试用例或许会失败。为了先简单体验一下，我们可以跳过部分测试。这里我用了源码目录里，BUILDING.TXT 文件介绍的命令。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ mvn clean install -pl war -am -DskipTests
+</code></pre></div><p>这一步执行后，maven 需要在源里下载很多依赖包，由于国内的网络环境，需要花不少时间。如果等不及，可以使用国内的 maven 源。不过我在使用 oschina 提供的源时，提示缺少依赖，可能是还没同步过来，乖乖换回了官方的源。</p>
+<p>如果一切顺利，就能在 war/target/ 目录下面，找到 jenkins.war 文件。在我这边就不顺利，由于网络不好，光是下载依赖就花了几个小时，哈哈。</p>
+<h2 id="运行">运行</h2>
+<p>在使用方面，jenkins非常友好。所有代码、依赖，都在 jenkins.war 文件里面，所有数据，默认都在 $HOME/.jenkins 目录下面。在升级版本，或者备份、迁移数据的时候，都很舒服。</p>
+<p>上面我们已经得到 jenkins.war 文件，运行之。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ java -jar jenkins.war
+</code></pre></div><p>用浏览器访问 http://localhost:8080 ，即可以访问我们从源码编译出来的 jenkins 版本了。</p>
+<h2 id="debug">Debug</h2>
+<p>成功编译运行后，最简单、原始的方法，就是在自己不懂的地方，打日志，重新编译运行啦。IDE 我用的是 Intellij IDEA，因为可以通过直接打开 maven 的 pom 文件，来导入一个 Project。</p>
+<p>如果更习惯使用 debugger 来单步调试，也是支持的。根据文档，在源码目录，执行以下命令即可。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cd war
+$ mvnDebug jenkins-dev:run
+</code></pre></div><p>这样子跑起来的 jenkins 实例，会额外监听 8000 端口(jdwp端口)，用 IDE 提供的 remote debug 功能连上去即可。</p>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

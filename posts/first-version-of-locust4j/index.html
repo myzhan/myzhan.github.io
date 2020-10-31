@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-Hans">
+  <head>
+    <title>locust4j 1.0.0 发布 // Myzhan 的博客</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.68.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="John Doe" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://myzhan.github.io/css/main.min.88e7083eff65effb7485b6e6f38d10afbec25093a6fac42d734ce9024d3defbd.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="locust4j 1.0.0 发布"/>
+<meta name="twitter:description" content="不知不觉，维护 boomer 已经两年了。说来也奇怪，接到的性能测试需求，一般都是私有协议的，很难直接用 jmeter 这类通用的工具，一般只能基于 boomer 自己写一个。前不久需要压测 Flume 的 Avro Source，这货偏偏没有一个 Go 的客户端！
+由于时间紧，只好用 Java 写一个简单版的命令行工具。事后研究一下 Avro 的 ipc 协议，写了一个玩票性质的 avroipc。最近，索性又写了一个 Java 版的 boomer，即 locust4j。灵感来自一位印度哥们写的 nomadacris，得到他的同意，直接就用了他写的 msgpack 相关序列化和反序列化的代码。实现上，基本上是从 boomer 翻译过来的，除了用线程替代 Goroutine，用 ConcurrentLinkedQueue 替代 channel。
+So，现在也可以用 Java 来写 locust 的 slave 部分了，即用 Java 来写压测逻辑。无论是 Go 还是 Java，性能方面都能碾压原生的 Python 实现。boomer 和 locust4j，都是从队列中取出用户侧上报的测试结果，统计汇总后再定时上报的。从测试情况来看，locust4j 统计的性能比 boomer 还要厉害。空跑一个死循环的情况下，在我的 MBP 上可以跑到 200w 的 RPS，boomer 只能到 50w。但很少单实例能压到这么高的 RPS，大部分情况下，CPU 和内存都是实际的压测代码在使用。一般压测服务端，Go 标准库用起来更爽一点，如果是 Java，还要去找一个能利用非阻塞 IO 的客户端，不然线程都阻塞在 IO 操作上了，也快不起来。
+目前 locust 的 1."/>
+
+    <meta property="og:title" content="locust4j 1.0.0 发布" />
+<meta property="og:description" content="不知不觉，维护 boomer 已经两年了。说来也奇怪，接到的性能测试需求，一般都是私有协议的，很难直接用 jmeter 这类通用的工具，一般只能基于 boomer 自己写一个。前不久需要压测 Flume 的 Avro Source，这货偏偏没有一个 Go 的客户端！
+由于时间紧，只好用 Java 写一个简单版的命令行工具。事后研究一下 Avro 的 ipc 协议，写了一个玩票性质的 avroipc。最近，索性又写了一个 Java 版的 boomer，即 locust4j。灵感来自一位印度哥们写的 nomadacris，得到他的同意，直接就用了他写的 msgpack 相关序列化和反序列化的代码。实现上，基本上是从 boomer 翻译过来的，除了用线程替代 Goroutine，用 ConcurrentLinkedQueue 替代 channel。
+So，现在也可以用 Java 来写 locust 的 slave 部分了，即用 Java 来写压测逻辑。无论是 Go 还是 Java，性能方面都能碾压原生的 Python 实现。boomer 和 locust4j，都是从队列中取出用户侧上报的测试结果，统计汇总后再定时上报的。从测试情况来看，locust4j 统计的性能比 boomer 还要厉害。空跑一个死循环的情况下，在我的 MBP 上可以跑到 200w 的 RPS，boomer 只能到 50w。但很少单实例能压到这么高的 RPS，大部分情况下，CPU 和内存都是实际的压测代码在使用。一般压测服务端，Go 标准库用起来更爽一点，如果是 Java，还要去找一个能利用非阻塞 IO 的客户端，不然线程都阻塞在 IO 操作上了，也快不起来。
+目前 locust 的 1." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://myzhan.github.io/posts/first-version-of-locust4j/" />
+<meta property="article:published_time" content="2017-12-14T23:11:00+08:00" />
+<meta property="article:modified_time" content="2017-12-14T23:11:00+08:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://myzhan.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="John Doe" /></a>
+      <h1>Myzhan 的博客</h1>
+      <p>A nerd</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://github.com/myzhan" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">locust4j 1.0.0 发布</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Dec 14, 2017
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          1 min read
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>不知不觉，维护 <a href="https://github.com/myzhan/boomer">boomer</a> 已经两年了。说来也奇怪，接到的性能测试需求，一般都是私有协议的，很难直接用 jmeter 这类通用的工具，一般只能基于 boomer 自己写一个。前不久需要压测 Flume 的 <a href="https://flume.apache.org/FlumeUserGuide.html#avro-source">Avro Source</a>，这货偏偏没有一个 Go 的客户端！</p>
+<p>由于时间紧，只好用 Java 写一个简单版的命令行工具。事后研究一下 Avro 的 ipc 协议，写了一个玩票性质的 <a href="https://github.com/myzhan/avroipc">avroipc</a>。最近，索性又写了一个 Java 版的 boomer，即 <a href="https://github.com/myzhan/locust4j">locust4j</a>。灵感来自一位印度哥们写的 <a href="https://github.com/vrajat/nomadacris">nomadacris</a>，得到他的<a href="https://github.com/vrajat/nomadacris/issues/1">同意</a>，直接就用了他写的 msgpack 相关序列化和反序列化的代码。实现上，基本上是从 boomer 翻译过来的，除了用线程替代 Goroutine，用 ConcurrentLinkedQueue 替代 channel。</p>
+<p>So，现在也可以用 Java 来写 locust 的 slave 部分了，即用 Java 来写压测逻辑。无论是 Go 还是 Java，性能方面都能碾压原生的 Python 实现。boomer 和 locust4j，都是从队列中取出用户侧上报的测试结果，统计汇总后再定时上报的。从测试情况来看，locust4j 统计的性能比 boomer 还要厉害。空跑一个死循环的情况下，在我的 MBP 上可以跑到 200w 的 RPS，boomer 只能到 50w。但很少单实例能压到这么高的 RPS，大部分情况下，CPU 和内存都是实际的压测代码在使用。一般压测服务端，Go 标准库用起来更爽一点，如果是 Java，还要去找一个能利用非阻塞 IO 的客户端，不然线程都阻塞在 IO 操作上了，也快不起来。</p>
+<p>目前 locust 的 1.0.0 版本已经发布到 maven 的中心库，用 maven 的项目，声明一下即可使用。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>com.github.myzhan<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>locust4j<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>1.0.0<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><p>如果不用 maven，可以在 <a href="https://github.com/myzhan/locust4j/releases">release 页面</a> 下一个预先编译好的 jar 包。</p>
+<p>在代码库中，有一个用于测试的<a href="https://github.com/myzhan/locust4j/blob/master/src/main/java/com/github/myzhan/locust4j/examples/Main.java">小程序</a>，里面包含了所有  locust4j 提供的 API。</p>
+<p>由于 JVM 中 JIT 和 GC 的存在，locust4j 收集到的响应时间，有可能是错的，用的时候需要注意。JIT 会导致响应时间逐渐变短，GC 会导致响应时间偶尔变长。实际的结果，需要参考被测程序的反应。</p>
+<p>Enjoy!</p>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

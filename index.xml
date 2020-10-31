@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Myzhan 的博客</title>
+    <link>https://myzhan.github.io/</link>
+    <description>Recent content on Myzhan 的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-Hans</language>
+    <lastBuildDate>Thu, 14 Dec 2017 23:11:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://myzhan.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>locust4j 1.0.0 发布</title>
+      <link>https://myzhan.github.io/posts/first-version-of-locust4j/</link>
+      <pubDate>Thu, 14 Dec 2017 23:11:00 +0800</pubDate>
+      
+      <guid>https://myzhan.github.io/posts/first-version-of-locust4j/</guid>
+      <description>不知不觉，维护 boomer 已经两年了。说来也奇怪，接到的性能测试需求，一般都是私有协议的，很难直接用 jmeter 这类通用的工具，一般只能基于 boomer 自己写一个。前不久需要压测 Flume 的 Avro Source，这货偏偏没有一个 Go 的客户端！
+由于时间紧，只好用 Java 写一个简单版的命令行工具。事后研究一下 Avro 的 ipc 协议，写了一个玩票性质的 avroipc。最近，索性又写了一个 Java 版的 boomer，即 locust4j。灵感来自一位印度哥们写的 nomadacris，得到他的同意，直接就用了他写的 msgpack 相关序列化和反序列化的代码。实现上，基本上是从 boomer 翻译过来的，除了用线程替代 Goroutine，用 ConcurrentLinkedQueue 替代 channel。
+So，现在也可以用 Java 来写 locust 的 slave 部分了，即用 Java 来写压测逻辑。无论是 Go 还是 Java，性能方面都能碾压原生的 Python 实现。boomer 和 locust4j，都是从队列中取出用户侧上报的测试结果，统计汇总后再定时上报的。从测试情况来看，locust4j 统计的性能比 boomer 还要厉害。空跑一个死循环的情况下，在我的 MBP 上可以跑到 200w 的 RPS，boomer 只能到 50w。但很少单实例能压到这么高的 RPS，大部分情况下，CPU 和内存都是实际的压测代码在使用。一般压测服务端，Go 标准库用起来更爽一点，如果是 Java，还要去找一个能利用非阻塞 IO 的客户端，不然线程都阻塞在 IO 操作上了，也快不起来。
+目前 locust 的 1.</description>
+    </item>
+    
+    <item>
+      <title>jenkins源码阅读：渲染主页</title>
+      <link>https://myzhan.github.io/posts/jenkins-src-render-index/</link>
+      <pubDate>Mon, 18 Jul 2016 19:55:13 +0800</pubDate>
+      
+      <guid>https://myzhan.github.io/posts/jenkins-src-render-index/</guid>
+      <description>jenkins 的一切 URL 请求，都托管给了 Stapler，要了解主页是如何渲染的，依然要从 Stapler 开始。用现在 Web 开发的目光来看 Stapler，它是一个纯粹的路由组件，即根据用户访问的 URL ，找到对应的处理代码。不过对于 Stapler 来说，“约定”优于“配置”，除了在 web.xml 中将 /* 交给 Stapler 处理，再也没有任何配置。免“配置”，对于开发来说，省了很多麻烦，只要在文档中详细说明“约定”，大家通读一遍文档，也就知道了。
+Stapler 的文档里面记录了很多细节，与主页（Index）有关的，有“Index View”和“Index Action Method”这两个。不过 $JENKINS_SRC/core/src/main/resources/jenkins/model/Jenkins 目录下面，并没有 index.jelly 文件，jenkins.model.Jenkins 类里面，也没有 doIndex 方法。
+Google 了一下，找到了一份PPT和一篇文章，原来 jenkins.model.Jenkins 实现了 StaplerFallback 接口。Stapler 实在找不到处理方法的时候，会调用 getStaplerFallback 方法，jenkins.model.Jenkins 就是靠这个方法，实现了主页的渲染。
+getStaplerFallback 方法返回了一个 hudson.model.View 对象，Stapler 会根据这个对象，再去找对应的模板，这是最后的方法了，如果还是找不到，就会返回 404。终于，在 $JENKINS_SRC/core/src/main/resources/hudson/model/View 目录下，找到了 index.jelly 文件，主页的模板！
+来试着“劫持”一下 jenkins 的主页。修改 Jenkins.java 文件，加上下面的方法。
+$JENKINS_SRC/core/src/main/java/jenkins/model/Jenkins.java
+public void doIndex( StaplerRequest req, StaplerResponse rsp ) throws IOException, ServletException { rsp.</description>
+    </item>
+    
+    <item>
+      <title>jenkins源码阅读：启动和请求处理</title>
+      <link>https://myzhan.github.io/posts/jenkins-src-entry-point/</link>
+      <pubDate>Sat, 16 Jul 2016 18:35:21 +0800</pubDate>
+      
+      <guid>https://myzhan.github.io/posts/jenkins-src-entry-point/</guid>
+      <description>jenkins 编译后，会生成一个 jenkins.war 文件，阅读 jenkins 源码，我们需要研究的一切，都在这个文件里面了。按照习惯，先寻找入口点，然后顺藤摸瓜，才能进入源码树中。
+如果 jenkins 独立运行，启动命令是：
+$ java -jar jenkins.war 所以 jenkins.war 其实是一个普通的 jar 包。java 命令运行一个 jar 文件，会在 jenkens.war/META-INF/ 目录下，找 MANIFEST.MF 文件。这个文件里面有入口类，在这里，是 Main，即是 jenkins.war/Main.class 文件。
+jenkins.war/META-INF/MANIFEST.MF
+$ cat MANIFEST.MF Manifest-Version: 1.0 Jenkins-Version: 2.13-SNAPSHOT Implementation-Version: 2.13-SNAPSHOT Built-By: myzhan Build-Jdk: 1.7.0_79 Hudson-Version: 1.395 Created-By: Apache Maven 3.3.3 Main-Class: Main Archiver-Version: Plexus Archiver 反编译一下 Main.class 文件，一个标准的 Main 文件，属于 default 包。但是这个 Main 文件，并不在 jenkins 的源码里面，即不在 jenkins core 里面。过了一遍反编译的源码，发现它先将 jenkins.war 解压到 $JENKINS_HOME/war 目录下，再启动一个 winstone 容器。鉴于jenkins 本身是一个 Servlet 程序，我猜测，在这个入口，是先启动一个 Servlet 容器，再加载 jenkins 本身。</description>
+    </item>
+    
+    <item>
+      <title>编译和运行jenkins</title>
+      <link>https://myzhan.github.io/posts/building-and-debugging-jenkins/</link>
+      <pubDate>Sat, 09 Jul 2016 17:17:49 +0800</pubDate>
+      
+      <guid>https://myzhan.github.io/posts/building-and-debugging-jenkins/</guid>
+      <description>在工作中使用 jenkins 做持续集成，已经将近3年了。按照我的性格，用一样东西，就想了解它的源码实现。期间看过不少 jenkins 插件的代码，却一直没有看过 jenkins core 的源码。主要原因，是第一眼看代码的时候，感觉 jenkins 当初从 hudson 分出来，背负了不少历史包袱，代码结构有点混乱。
+不过最近心血来潮，又开始想研究 jenkins core 的源码，在公司里面使用 jenkins，大多是用来实现自动打包部署，和自动化测试。这些 job 的实现，查看文档，使用几个插件就能完成。不了解源码，已经不能满足我的好奇心了。
+学习源码，第一步要做的，就是能够编译运行，并且debug。jenkins 使用 maven 作为构建系统，编译和运行，都非常简单。不过依赖非常多，在 maven 下载依赖的时候，在这里写博客。算是挖个坑，督促自己把坑填了。:D
+源码 jenkins 的源码，目前放在 github 上面，clone 下来即可。
+$ git clone https://github.com/jenkinsci/jenkins.git 编译 编译 jenkins，需要 JDK 和 maven，按照 官方文档 操作即可。不过默认的构建命令，会跑单元测试，由于环境原因，测试用例或许会失败。为了先简单体验一下，我们可以跳过部分测试。这里我用了源码目录里，BUILDING.TXT 文件介绍的命令。
+$ mvn clean install -pl war -am -DskipTests 这一步执行后，maven 需要在源里下载很多依赖包，由于国内的网络环境，需要花不少时间。如果等不及，可以使用国内的 maven 源。不过我在使用 oschina 提供的源时，提示缺少依赖，可能是还没同步过来，乖乖换回了官方的源。
+如果一切顺利，就能在 war/target/ 目录下面，找到 jenkins.war 文件。在我这边就不顺利，由于网络不好，光是下载依赖就花了几个小时，哈哈。
+运行 在使用方面，jenkins非常友好。所有代码、依赖，都在 jenkins.war 文件里面，所有数据，默认都在 $HOME/.jenkins 目录下面。在升级版本，或者备份、迁移数据的时候，都很舒服。
+上面我们已经得到 jenkins.</description>
+    </item>
+    
+    <item>
+      <title>告别robotframework</title>
+      <link>https://myzhan.github.io/posts/giving-up-robotframework/</link>
+      <pubDate>Fri, 04 Mar 2016 20:16:40 +0800</pubDate>
+      
+      <guid>https://myzhan.github.io/posts/giving-up-robotframework/</guid>
+      <description>刚开始工作的两年，在做 API 型服务端的自动化测试。当时老大安利了 robotframework，一直在用。由于可以编写自定义的 library，robot 的扩展能力非常强，基本上 python 能做的事情，都可以在 robot 里面实现。通过编写 library，我实现了很多好玩的功能。例如，检测数据库，mc，日志，和运行时更换 mock 服务。
+去年想尝试新事物，便换了项目。新项目的自动化从零开始，我也不想继续再用 robot。不用 robot，用什么呢？当时我也没有答案。不过当时我在做一件事情，就是把新项目的接口调用，都封装到一个 python 写的库里面。既然像模像样地写一个库，自然要有逼格，src，test，doc 这些目录都要有，不然会被程序员 BS 。写了好几个接口后，突然来了灵感，我写在 test 下面的那些 unittest，不就可以用来做服务端的自动化测试吗？事实证明，完全可以！ 被测对象，从 python 库，变成了服务端 API。
+举个例子，服务端有个 login 接口，接收 name 和 password 参数。我把这个接口封装成了 python 调用，类似于 RPC。
+resp = User.login(name, password) 这样，如果有人需要访问 login 接口，只要像上面这样调用就可以了。
+我这样写 unittest。
+def test_login(): resp = User.login(&amp;#34;xxx&amp;#34;, &amp;#34;123&amp;#34;) assert resp.nick_name == &amp;#34;xxx&amp;#34; 在 robot 里面淫浸多年，我非常喜欢数据驱动方式的自动化测试，于是通过 pytest 来解决这个问题。
+import pytest @pytest.mark.parametrize(&amp;#34;name, password, expected&amp;#34;, [ (&amp;#34;xxx&amp;#34;, &amp;#34;123&amp;#34;, &amp;#34;xxx&amp;#34;), (&amp;#34;yyy&amp;#34;, &amp;#34;123&amp;#34;, &amp;#34;yyy&amp;#34;), ]) def test_login(name, password, expected): resp = User.</description>
+    </item>
+    
+    <item>
+      <title>用 golang 来编写压测工具</title>
+      <link>https://myzhan.github.io/posts/write-a-load-testing-tool-in-golang/</link>
+      <pubDate>Tue, 01 Mar 2016 19:32:24 +0800</pubDate>
+      
+      <guid>https://myzhan.github.io/posts/write-a-load-testing-tool-in-golang/</guid>
+      <description>之前在项目中做服务端性能测试，一般用的都是 LoadRunner，或者 jmeter。随着接触的项目越来越多，各种各样的代码都有，光传输协议，就有 HTTP，TCP，UDP。有时数据传的不是明文，可能是 protobuf，也可能是 RSA 加密后的密文。继续用 LR 或 jmeter，有点难以招架。
+于是，我开始关注 Locust 这个压测工具。与 LR 使用的 C 和 jmeter 使用的 Java 相比，Locust 使用 Python 来编写压测代码，代码量会少很多。且 Locust 本身的概念少，学习成本较低，上手很快。
+在实现并发方面，Locust 并没有使用进程、线程来实现，事实上，CPython 的实现也对多线程不友好。于是，Locust 使用 gevent 提供的非阻塞 IO，和 coroutine来实现网络层的并发请求。实际使用中，使用 Locust 编写的压测脚本，单个实例，可以提供 1000 rps 左右的压力，如果还需要更多的压力，挂多几个 slave，也能满足需求。不过我生性爱折腾，一直想着摆脱 CPython 的 GIL，和 gevent 的 monkey_patch()，过年在家无聊，就一直在构思着怎样实现一个性能更好的施压端，用golang 提供的 goroutine，应该是个不错的选择。
+Locust 已经实现了 master &amp;amp; slave 的架构，一个 Locust 进程如果运行在 master 模式，那它要做的事情，就只是收集各个 slave 汇报上来的信息，并展示在 web界面上而已。我的想法很简单，用 golang 来实现 slave 这一部分。实现为一个框架，在运行时，按需创建 goroutine 来跑调用方提供的 function，然后定时将信息汇报给 Locust 的 master。</description>
+    </item>
+    
+    <item>
+      <title>我与 HotSpot JIT 的故事</title>
+      <link>https://myzhan.github.io/posts/the-stroy-of-hotspot-jit-and-me/</link>
+      <pubDate>Tue, 02 Feb 2016 19:12:36 +0800</pubDate>
+      
+      <guid>https://myzhan.github.io/posts/the-stroy-of-hotspot-jit-and-me/</guid>
+      <description>线上有一个 HTTP 服务，之前都运行的好好的，突然有一天，出现了一个问题。应用刚刚重启的时候，系统 的 CPU 负载非常高，24 核的 CPU，Load 要去到 40 到 50。持续 2 分钟左右，负载才会慢慢降回正常水平。
+项目使用的 web 框架基于 netty，处理请求的方式是队列加线程池。在刚启动的时候，可以看到马上就有 1w 多的连接挂了上来。请求队列中，有上 w 个积压的请求。我们当时的推论是，积压的请求过多，导致负载过高。
+这个问题，困扰了我一年多时间，把所有启动相关的代码都 review 了一遍，期间还发现了数据库连接池的问题， 但都没找到问题的根本原因。
+直到有一天，另外一个用同样框架的项目也遇到了这个问题，且对他们的影响很大，他们不得不停下手头的工作， 集中精力排查这个问题。最后在 JVM 启动参数中，加上了 -XX:CICompilerCount=12，终于解决了这个问题！ 启动后 2-3 秒，负载恢复正常。
+这个问题，居然真的跟 JIT 有关！为什么说是真的呢？因为我们也曾怀疑过，刚启动的时候，需要 JIT 来预热。 我们给框架加了一个预热线程池，在刚启动的时候，使用一个非常小的线程池，来处理请求。避免 JVM 中，有过 多的线程抢占 CPU 时间，线程越多，处理越慢。过了十几秒（拍脑袋决定的，估计十几秒后，JIT 能编译大部分 “热”代码），才换一个较大的线程池，来处理请求队列中的请求。这个优化做完后，高负载的持续时间，减少到了 1 分半左右，依然没有解决问题。
+从上面的拍脑袋可以看出，当时我们对 JIT 是一知半解，白白浪费了解决问题的灵感。于是昨晚认真看了 《JAVA性能权威指南》 中的 JIT 相关章节，就当作是亡羊补牢吧。</description>
+    </item>
+    
+  </channel>
+</rss>

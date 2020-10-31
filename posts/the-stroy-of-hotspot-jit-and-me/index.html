@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-Hans">
+  <head>
+    <title>我与 HotSpot JIT 的故事 // Myzhan 的博客</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.68.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="John Doe" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://myzhan.github.io/css/main.min.88e7083eff65effb7485b6e6f38d10afbec25093a6fac42d734ce9024d3defbd.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="我与 HotSpot JIT 的故事"/>
+<meta name="twitter:description" content="线上有一个 HTTP 服务，之前都运行的好好的，突然有一天，出现了一个问题。应用刚刚重启的时候，系统 的 CPU 负载非常高，24 核的 CPU，Load 要去到 40 到 50。持续 2 分钟左右，负载才会慢慢降回正常水平。
+项目使用的 web 框架基于 netty，处理请求的方式是队列加线程池。在刚启动的时候，可以看到马上就有 1w 多的连接挂了上来。请求队列中，有上 w 个积压的请求。我们当时的推论是，积压的请求过多，导致负载过高。
+这个问题，困扰了我一年多时间，把所有启动相关的代码都 review 了一遍，期间还发现了数据库连接池的问题， 但都没找到问题的根本原因。
+直到有一天，另外一个用同样框架的项目也遇到了这个问题，且对他们的影响很大，他们不得不停下手头的工作， 集中精力排查这个问题。最后在 JVM 启动参数中，加上了 -XX:CICompilerCount=12，终于解决了这个问题！ 启动后 2-3 秒，负载恢复正常。
+这个问题，居然真的跟 JIT 有关！为什么说是真的呢？因为我们也曾怀疑过，刚启动的时候，需要 JIT 来预热。 我们给框架加了一个预热线程池，在刚启动的时候，使用一个非常小的线程池，来处理请求。避免 JVM 中，有过 多的线程抢占 CPU 时间，线程越多，处理越慢。过了十几秒（拍脑袋决定的，估计十几秒后，JIT 能编译大部分 “热”代码），才换一个较大的线程池，来处理请求队列中的请求。这个优化做完后，高负载的持续时间，减少到了 1 分半左右，依然没有解决问题。
+从上面的拍脑袋可以看出，当时我们对 JIT 是一知半解，白白浪费了解决问题的灵感。于是昨晚认真看了 《JAVA性能权威指南》 中的 JIT 相关章节，就当作是亡羊补牢吧。"/>
+
+    <meta property="og:title" content="我与 HotSpot JIT 的故事" />
+<meta property="og:description" content="线上有一个 HTTP 服务，之前都运行的好好的，突然有一天，出现了一个问题。应用刚刚重启的时候，系统 的 CPU 负载非常高，24 核的 CPU，Load 要去到 40 到 50。持续 2 分钟左右，负载才会慢慢降回正常水平。
+项目使用的 web 框架基于 netty，处理请求的方式是队列加线程池。在刚启动的时候，可以看到马上就有 1w 多的连接挂了上来。请求队列中，有上 w 个积压的请求。我们当时的推论是，积压的请求过多，导致负载过高。
+这个问题，困扰了我一年多时间，把所有启动相关的代码都 review 了一遍，期间还发现了数据库连接池的问题， 但都没找到问题的根本原因。
+直到有一天，另外一个用同样框架的项目也遇到了这个问题，且对他们的影响很大，他们不得不停下手头的工作， 集中精力排查这个问题。最后在 JVM 启动参数中，加上了 -XX:CICompilerCount=12，终于解决了这个问题！ 启动后 2-3 秒，负载恢复正常。
+这个问题，居然真的跟 JIT 有关！为什么说是真的呢？因为我们也曾怀疑过，刚启动的时候，需要 JIT 来预热。 我们给框架加了一个预热线程池，在刚启动的时候，使用一个非常小的线程池，来处理请求。避免 JVM 中，有过 多的线程抢占 CPU 时间，线程越多，处理越慢。过了十几秒（拍脑袋决定的，估计十几秒后，JIT 能编译大部分 “热”代码），才换一个较大的线程池，来处理请求队列中的请求。这个优化做完后，高负载的持续时间，减少到了 1 分半左右，依然没有解决问题。
+从上面的拍脑袋可以看出，当时我们对 JIT 是一知半解，白白浪费了解决问题的灵感。于是昨晚认真看了 《JAVA性能权威指南》 中的 JIT 相关章节，就当作是亡羊补牢吧。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://myzhan.github.io/posts/the-stroy-of-hotspot-jit-and-me/" />
+<meta property="article:published_time" content="2016-02-02T19:12:36+08:00" />
+<meta property="article:modified_time" content="2016-02-02T19:12:36+08:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://myzhan.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="John Doe" /></a>
+      <h1>Myzhan 的博客</h1>
+      <p>A nerd</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://github.com/myzhan" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">我与 HotSpot JIT 的故事</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Feb 2, 2016
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          1 min read
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>线上有一个 HTTP 服务，之前都运行的好好的，突然有一天，出现了一个问题。应用刚刚重启的时候，系统
+的 CPU 负载非常高，24 核的 CPU，Load 要去到 40 到 50。持续 2 分钟左右，负载才会慢慢降回正常水平。</p>
+<p>项目使用的 web 框架基于 netty，处理请求的方式是队列加线程池。在刚启动的时候，可以看到马上就有 1w
+多的连接挂了上来。请求队列中，有上 w 个积压的请求。我们当时的推论是，积压的请求过多，导致负载过高。</p>
+<p>这个问题，困扰了我一年多时间，把所有启动相关的代码都 review 了一遍，期间还发现了数据库连接池的问题，
+但都没找到问题的根本原因。</p>
+<p>直到有一天，另外一个用同样框架的项目也遇到了这个问题，且对他们的影响很大，他们不得不停下手头的工作，
+集中精力排查这个问题。最后在 JVM 启动参数中，加上了 -XX:CICompilerCount=12，终于解决了这个问题！
+启动后 2-3 秒，负载恢复正常。</p>
+<p>这个问题，居然真的跟 JIT 有关！为什么说是真的呢？因为我们也曾怀疑过，刚启动的时候，需要 JIT 来预热。
+我们给框架加了一个预热线程池，在刚启动的时候，使用一个非常小的线程池，来处理请求。避免 JVM 中，有过
+多的线程抢占 CPU 时间，线程越多，处理越慢。过了十几秒（拍脑袋决定的，估计十几秒后，JIT 能编译大部分
+“热”代码），才换一个较大的线程池，来处理请求队列中的请求。这个优化做完后，高负载的持续时间，减少到了
+1 分半左右，依然没有解决问题。</p>
+<p>从上面的拍脑袋可以看出，当时我们对 JIT 是一知半解，白白浪费了解决问题的灵感。于是昨晚认真看了
+<a href="http://book.douban.com/subject/25872755/">《JAVA性能权威指南》</a> 中的 JIT 相关章节，就当作是亡羊补牢吧。</p>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
