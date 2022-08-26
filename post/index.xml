@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on myzhan</title>
+    <link>http://localhost:1313/post/</link>
+    <description>Recent content in Posts on myzhan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 14 Dec 2017 23:11:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>locust4j 1.0.0 发布</title>
+      <link>http://localhost:1313/post/first-version-of-locust4j/</link>
+      <pubDate>Thu, 14 Dec 2017 23:11:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/post/first-version-of-locust4j/</guid>
+      <description>不知不觉，维护 boomer 已经两年了。说来也奇怪，接到的性能测试需求，一般都是私有协议的，很难直接用 jmeter 这类通用的工具，一般只能基于 boomer 自己写一个。前不久</description>
+    </item>
+    
+    <item>
+      <title>用 golang 来编写压测工具</title>
+      <link>http://localhost:1313/post/write-a-load-testing-tool-in-golang/</link>
+      <pubDate>Thu, 14 Dec 2017 23:11:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/post/write-a-load-testing-tool-in-golang/</guid>
+      <description>之前在项目中做服务端性能测试，一般用的都是 LoadRunner，或者 jmeter。随着接触的项目越来越多，各种各样的代码都有，光传输协议，就</description>
+    </item>
+    
+    <item>
+      <title>jenkins源码阅读：渲染主页</title>
+      <link>http://localhost:1313/post/jenkins-src-render-index/</link>
+      <pubDate>Mon, 18 Jul 2016 19:55:13 +0000</pubDate>
+      
+      <guid>http://localhost:1313/post/jenkins-src-render-index/</guid>
+      <description>jenkins 的一切 URL 请求，都托管给了 Stapler，要了解主页是如何渲染的，依然要从 Stapler 开始。用现在 Web 开发的目光来看 Stapler，它是一个纯粹的路由组</description>
+    </item>
+    
+    <item>
+      <title>jenkins源码阅读：启动和请求处理</title>
+      <link>http://localhost:1313/post/jenkins-src-entry-point/</link>
+      <pubDate>Sat, 16 Jul 2016 18:35:21 +0000</pubDate>
+      
+      <guid>http://localhost:1313/post/jenkins-src-entry-point/</guid>
+      <description>jenkins 编译后，会生成一个 jenkins.war 文件，阅读 jenkins 源码，我们需要研究的一切，都在这个文件里面了。按照习惯，先寻找入口点，然后顺藤摸瓜，才能进入源码树中。 如果</description>
+    </item>
+    
+    <item>
+      <title>编译和运行jenkins</title>
+      <link>http://localhost:1313/post/building-and-debugging-jenkins/</link>
+      <pubDate>Sat, 09 Jul 2016 17:17:49 +0000</pubDate>
+      
+      <guid>http://localhost:1313/post/building-and-debugging-jenkins/</guid>
+      <description>在工作中使用 jenkins 做持续集成，已经将近3年了。按照我的性格，用一样东西，就想了解它的源码实现。期间看过不少 jenkins 插件的代码，却一直没有看过 jenkins core 的源码</description>
+    </item>
+    
+    <item>
+      <title>告别robotframework</title>
+      <link>http://localhost:1313/post/giving-up-robotframework/</link>
+      <pubDate>Fri, 04 Mar 2016 20:16:40 +0000</pubDate>
+      
+      <guid>http://localhost:1313/post/giving-up-robotframework/</guid>
+      <description>刚开始工作的两年，在做 API 型服务端的自动化测试。当时老大安利了 robotframework，一直在用。由于可以编写自定义的 library，ro</description>
+    </item>
+    
+    <item>
+      <title>我与 HotSpot JIT 的故事</title>
+      <link>http://localhost:1313/post/the-stroy-of-hotspot-jit-and-me/</link>
+      <pubDate>Tue, 02 Feb 2016 19:12:36 +0000</pubDate>
+      
+      <guid>http://localhost:1313/post/the-stroy-of-hotspot-jit-and-me/</guid>
+      <description>线上有一个 HTTP 服务，之前都运行的好好的，突然有一天，出现了一个问题。应用刚刚重启的时候，系统 的 CPU 负载非常高，24 核的 CPU，Load 要去到 40 到</description>
+    </item>
+    
+  </channel>
+</rss>

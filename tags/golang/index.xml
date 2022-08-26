@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>golang on myzhan</title>
+    <link>http://localhost:1313/tags/golang/</link>
+    <description>Recent content in golang on myzhan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 14 Dec 2017 23:11:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>用 golang 来编写压测工具</title>
+      <link>http://localhost:1313/post/write-a-load-testing-tool-in-golang/</link>
+      <pubDate>Thu, 14 Dec 2017 23:11:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/post/write-a-load-testing-tool-in-golang/</guid>
+      <description>之前在项目中做服务端性能测试，一般用的都是 LoadRunner，或者 jmeter。随着接触的项目越来越多，各种各样的代码都有，光传输协议，就</description>
+    </item>
+    
+  </channel>
+</rss>

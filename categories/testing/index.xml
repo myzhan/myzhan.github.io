@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Testing on myzhan</title>
+    <link>http://localhost:1313/categories/testing/</link>
+    <description>Recent content in Testing on myzhan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 04 Mar 2016 20:16:40 +0000</lastBuildDate><atom:link href="http://localhost:1313/categories/testing/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>告别robotframework</title>
+      <link>http://localhost:1313/post/giving-up-robotframework/</link>
+      <pubDate>Fri, 04 Mar 2016 20:16:40 +0000</pubDate>
+      
+      <guid>http://localhost:1313/post/giving-up-robotframework/</guid>
+      <description>刚开始工作的两年，在做 API 型服务端的自动化测试。当时老大安利了 robotframework，一直在用。由于可以编写自定义的 library，ro</description>
+    </item>
+    
+  </channel>
+</rss>

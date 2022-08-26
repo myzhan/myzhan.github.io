@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ci on myzhan</title>
+    <link>http://localhost:1313/tags/ci/</link>
+    <description>Recent content in ci on myzhan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 18 Jul 2016 19:55:13 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/ci/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>jenkins源码阅读：渲染主页</title>
+      <link>http://localhost:1313/post/jenkins-src-render-index/</link>
+      <pubDate>Mon, 18 Jul 2016 19:55:13 +0000</pubDate>
+      
+      <guid>http://localhost:1313/post/jenkins-src-render-index/</guid>
+      <description>jenkins 的一切 URL 请求，都托管给了 Stapler，要了解主页是如何渲染的，依然要从 Stapler 开始。用现在 Web 开发的目光来看 Stapler，它是一个纯粹的路由组</description>
+    </item>
+    
+    <item>
+      <title>jenkins源码阅读：启动和请求处理</title>
+      <link>http://localhost:1313/post/jenkins-src-entry-point/</link>
+      <pubDate>Sat, 16 Jul 2016 18:35:21 +0000</pubDate>
+      
+      <guid>http://localhost:1313/post/jenkins-src-entry-point/</guid>
+      <description>jenkins 编译后，会生成一个 jenkins.war 文件，阅读 jenkins 源码，我们需要研究的一切，都在这个文件里面了。按照习惯，先寻找入口点，然后顺藤摸瓜，才能进入源码树中。 如果</description>
+    </item>
+    
+    <item>
+      <title>编译和运行jenkins</title>
+      <link>http://localhost:1313/post/building-and-debugging-jenkins/</link>
+      <pubDate>Sat, 09 Jul 2016 17:17:49 +0000</pubDate>
+      
+      <guid>http://localhost:1313/post/building-and-debugging-jenkins/</guid>
+      <description>在工作中使用 jenkins 做持续集成，已经将近3年了。按照我的性格，用一样东西，就想了解它的源码实现。期间看过不少 jenkins 插件的代码，却一直没有看过 jenkins core 的源码</description>
+    </item>
+    
+  </channel>
+</rss>
