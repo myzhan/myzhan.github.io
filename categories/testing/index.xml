@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Testing on myzhan</title>
-    <link>http://localhost:1313/categories/testing/</link>
+    <link>https://myzhan.github.io/categories/testing/</link>
     <description>Recent content in Testing on myzhan</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 04 Mar 2016 20:16:40 +0000</lastBuildDate><atom:link href="http://localhost:1313/categories/testing/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>myzhan</copyright>
+    <lastBuildDate>Fri, 04 Mar 2016 20:16:40 +0000</lastBuildDate>
+    <atom:link href="https://myzhan.github.io/categories/testing/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>告别robotframework</title>
-      <link>http://localhost:1313/post/giving-up-robotframework/</link>
+      <link>https://myzhan.github.io/post/giving-up-robotframework/</link>
       <pubDate>Fri, 04 Mar 2016 20:16:40 +0000</pubDate>
-      
-      <guid>http://localhost:1313/post/giving-up-robotframework/</guid>
-      <description>刚开始工作的两年，在做 API 型服务端的自动化测试。当时老大安利了 robotframework，一直在用。由于可以编写自定义的 library，ro</description>
+      <guid>https://myzhan.github.io/post/giving-up-robotframework/</guid>
+      <description>&lt;p&gt;刚开始工作的两年，在做 API 型服务端的自动化测试。当时老大安利了 robotframework，一直在用。由于可以编写自定义的 library，robot 的扩展能力非常强，基本上 python 能做的事情，都可以在 robot 里面实现。通过编写 library，我实现了很多好玩的功能。例如，检测数据库，mc，日志，和运行时更换 mock 服务。&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

@@ -1,334 +1,293 @@
-<!DOCTYPE html>
-<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-cn"
+  dir="ltr"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
   <title>jenkins源码阅读：启动和请求处理 - myzhan</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="jenkins 编译后，会生成一个 jenkins.war 文件，阅读 jenkins 源码，我们需要研究的一切，都在这个文件里面了。按照习惯，先寻找入口点，然后顺藤摸瓜，才能进入源码树中。
+如果 jenkins 独立运行，启动命令是：" />
+  <meta name="author" content="myzhan" />
   
 
-<meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes"/>
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://myzhan.github.io/main.min.css" />
 
-<meta name="MobileOptimized" content="width"/>
-<meta name="HandheldFriendly" content="true"/>
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="https://myzhan.github.io/theme.png" />
 
+  
+  
+  
+  
+  
 
-<meta name="applicable-device" content="pc,mobile">
+  
+  
+  
 
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+  
+  
+  <script
+    defer
+    src="https://myzhan.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
 
-<meta name="mobile-web-app-capable" content="yes">
+  
+  
+  
 
-<meta name="author" content="myzhan" />
-  <meta name="description" content="jenkins 编译后，会生成一个 jenkins.war 文件，阅读 jenkins 源码，我们需要研究的一切，都在这个文件里面了。按照习惯，先寻找入口点，然后顺藤摸瓜，才能进入源码树中。 如果" />
+  
+  <link
+    rel="icon"
+    href="https://myzhan.github.io/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="https://myzhan.github.io/apple-touch-icon.png"
+  />
 
-  <meta name="keywords" content="Hugo, theme, jane" />
+  
+  <meta name="generator" content="Hugo 0.140.2">
 
+  
+  
+  
+  
+  
+  
+  <meta itemprop="name" content="jenkins源码阅读：启动和请求处理">
+  <meta itemprop="description" content="jenkins 编译后，会生成一个 jenkins.war 文件，阅读 jenkins 源码，我们需要研究的一切，都在这个文件里面了。按照习惯，先寻找入口点，然后顺藤摸瓜，才能进入源码树中。
+如果 jenkins 独立运行，启动命令是：">
+  <meta itemprop="datePublished" content="2016-07-16T18:35:21+00:00">
+  <meta itemprop="dateModified" content="2016-07-16T18:35:21+00:00">
+  <meta itemprop="wordCount" content="1095">
+  <meta itemprop="keywords" content="Jenkins,Ci">
+  
+  <meta property="og:url" content="https://myzhan.github.io/post/jenkins-src-entry-point/">
+  <meta property="og:site_name" content="myzhan">
+  <meta property="og:title" content="jenkins源码阅读：启动和请求处理">
+  <meta property="og:description" content="jenkins 编译后，会生成一个 jenkins.war 文件，阅读 jenkins 源码，我们需要研究的一切，都在这个文件里面了。按照习惯，先寻找入口点，然后顺藤摸瓜，才能进入源码树中。
+如果 jenkins 独立运行，启动命令是：">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2016-07-16T18:35:21+00:00">
+    <meta property="article:modified_time" content="2016-07-16T18:35:21+00:00">
+    <meta property="article:tag" content="Jenkins">
+    <meta property="article:tag" content="Ci">
 
+  
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="jenkins源码阅读：启动和请求处理">
+  <meta name="twitter:description" content="jenkins 编译后，会生成一个 jenkins.war 文件，阅读 jenkins 源码，我们需要研究的一切，都在这个文件里面了。按照习惯，先寻找入口点，然后顺藤摸瓜，才能进入源码树中。
+如果 jenkins 独立运行，启动命令是：">
 
+  
+  
 
-
-
-<meta name="generator" content="Hugo 0.101.0" />
-
-
-<link rel="canonical" href="http://localhost:1313/post/jenkins-src-entry-point/" />
-
-
-
-
-
-<link rel="icon" href="/favicon.ico" />
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/sass/jane.min.fa4b2b9f31b5c6d0b683db81157a9226e17b06e61911791ab547242a4a0556f2.css" integrity="sha256-&#43;ksrnzG1xtC2g9uBFXqSJuF7BuYZEXkatUckKkoFVvI=" media="screen" crossorigin="anonymous">
-
-
-
-
-
-<meta property="og:title" content="jenkins源码阅读：启动和请求处理" />
-<meta property="og:description" content="jenkins 编译后，会生成一个 jenkins.war 文件，阅读 jenkins 源码，我们需要研究的一切，都在这个文件里面了。按照习惯，先寻找入口点，然后顺藤摸瓜，才能进入源码树中。 如果" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://localhost:1313/post/jenkins-src-entry-point/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2016-07-16T18:35:21+00:00" />
-<meta property="article:modified_time" content="2016-07-16T18:35:21+00:00" />
-
-<meta itemprop="name" content="jenkins源码阅读：启动和请求处理">
-<meta itemprop="description" content="jenkins 编译后，会生成一个 jenkins.war 文件，阅读 jenkins 源码，我们需要研究的一切，都在这个文件里面了。按照习惯，先寻找入口点，然后顺藤摸瓜，才能进入源码树中。 如果"><meta itemprop="datePublished" content="2016-07-16T18:35:21+00:00" />
-<meta itemprop="dateModified" content="2016-07-16T18:35:21+00:00" />
-<meta itemprop="wordCount" content="1095">
-<meta itemprop="keywords" content="jenkins,ci," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="jenkins源码阅读：启动和请求处理"/>
-<meta name="twitter:description" content="jenkins 编译后，会生成一个 jenkins.war 文件，阅读 jenkins 源码，我们需要研究的一切，都在这个文件里面了。按照习惯，先寻找入口点，然后顺藤摸瓜，才能进入源码树中。 如果"/>
-
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
-
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
-
-
-
-
+  
+  <link rel="canonical" href="https://myzhan.github.io/post/jenkins-src-entry-point/" />
+  
+  
 </head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">Myzhan</a>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-[--w] px-8 lg:justify-center">
+  <div class="relative z-50 ltr:mr-auto rtl:ml-auto flex items-center">
+    <a class="-translate-y-[1px] text-2xl font-medium" href="https://myzhan.github.io/"
+      >myzhan</a
+    >
+    <div
+      class="btn-dark text-[0] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
   </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
+
+  <div
+    class="btn-menu relative z-50 ltr:-mr-8 rtl:-ml-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+    <nav class="lg:ml-12 lg:flex lg:flex-row lg:items-center lg:space-x-10 rtl:space-x-reverse">
+      
+      <a
+        class="block text-center text-xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/"
+        >Home</a
+      >
+      
+      <a
+        class="block text-center text-xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/post/"
+        >Archives</a
+      >
+      
+      <a
+        class="block text-center text-xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/tags/"
+        >Tags</a
+      >
+      
+      <a
+        class="block text-center text-xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/categories/"
+        >Categories</a
+      >
+      
+    </nav>
+    
+
+    
   </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <li class="mobile-menu-item">
-        
-          
-          
-            <a class="menu-item-link" href="http://localhost:1313/">Home</a>
-          
-        
-      </li><li class="mobile-menu-item">
-        
-          
-          
-            <a class="menu-item-link" href="http://localhost:1313/post/">Archives</a>
-          
-        
-      </li><li class="mobile-menu-item">
-        
-          
-          
-            <a class="menu-item-link" href="http://localhost:1313/tags/">Tags</a>
-          
-        
-      </li><li class="mobile-menu-item">
-        
-          
-          
-            <a class="menu-item-link" href="http://localhost:1313/categories/">Categories</a>
-          
-        
-      </li><li class="mobile-menu-item">
-        
-          
-          
-            <a class="menu-item-link" href="http://localhost:1313/about/">About</a>
-          
-        
-      </li>
-    
-
-    
-  </ul>
-</nav>
+</header>
 
 
-  
-    
-
-
-
-
-
-
-  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
-  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
-
-
-
-
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-<div class="pswp__bg"></div>
-
-<div class="pswp__scroll-wrap">
-    
-    <div class="pswp__container">
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-    </div>
-    
-    <div class="pswp__ui pswp__ui--hidden">
-    <div class="pswp__top-bar">
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100vh-9rem)] max-w-[--w] px-8 pb-16 pt-14 dark:prose-invert"
+    >
       
-      <div class="pswp__counter"></div>
-      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-      <button class="pswp__button pswp__button--share" title="Share"></button>
-      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+<article>
+  <header class="mb-14">
+    <h1 class="!my-0 pb-2.5">jenkins源码阅读：启动和请求处理</h1>
+
+    
+    <div class="text-xs antialiased opacity-60">
+      
+      <time>Jul 16, 2016</time>
       
       
-      <div class="pswp__preloader">
-        <div class="pswp__preloader__icn">
-          <div class="pswp__preloader__cut">
-            <div class="pswp__preloader__donut"></div>
-          </div>
-        </div>
-      </div>
+      
+      
+      <span class="mx-1">&middot;</span>
+      <span>myzhan</span>
+      
     </div>
-    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-      <div class="pswp__share-tooltip"></div>
-    </div>
-    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-    </button>
-    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-    </button>
-    <div class="pswp__caption">
-      <div class="pswp__caption__center"></div>
-    </div>
-    </div>
-    </div>
-</div>
-
-  
-
-  
-
-  
-
-  <header id="header" class="header container">
-    <div class="logo-wrapper">
-  <a href="/" class="logo">
     
-      Myzhan
-    
-  </a>
-</div>
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    
-    
-        <li class="menu-item">
-        
-          
-          
-            <a class="menu-item-link" href="http://localhost:1313/">Home</a>
-          
-
-        
-
-      </li>
-    
-        <li class="menu-item">
-        
-          
-          
-            <a class="menu-item-link" href="http://localhost:1313/post/">Archives</a>
-          
-
-        
-
-      </li>
-    
-        <li class="menu-item">
-        
-          
-          
-            <a class="menu-item-link" href="http://localhost:1313/tags/">Tags</a>
-          
-
-        
-
-      </li>
-    
-        <li class="menu-item">
-        
-          
-          
-            <a class="menu-item-link" href="http://localhost:1313/categories/">Categories</a>
-          
-
-        
-
-      </li>
-    
-        <li class="menu-item">
-        
-          
-          
-            <a class="menu-item-link" href="http://localhost:1313/about/">About</a>
-          
-
-        
-
-      </li>
-    
-
-    
-    
-
-    
-  </ul>
-</nav>
-
   </header>
 
-  <div id="mobile-panel">
-    <main id="main" class="main bg-llight">
-      <div class="content-wrapper">
-        <div id="content" class="content container">
-          <article class="post bg-white">
-    
-    <header class="post-header">
-      <h1 class="post-title">jenkins源码阅读：启动和请求处理</h1>
-      
-      <div class="post-meta">
-        <time datetime="2016-07-16" class="post-time">
-          2016-07-16
-        </time>
-        <div class="post-category">
-            <a href="http://localhost:1313/categories/development/"> Development </a>
-            
-          </div>
-        
-
-        
-        
-
-        
-        
-      </div>
-    </header>
-
-    
-    
-<div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">文章目录</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents"></nav>
-  </div>
-</div>
-
-    
-    <div class="post-content">
-      <p>jenkins 编译后，会生成一个 jenkins.war 文件，阅读 jenkins 源码，我们需要研究的一切，都在这个文件里面了。按照习惯，先寻找入口点，然后顺藤摸瓜，才能进入源码树中。</p>
+  <section><p>jenkins 编译后，会生成一个 jenkins.war 文件，阅读 jenkins 源码，我们需要研究的一切，都在这个文件里面了。按照习惯，先寻找入口点，然后顺藤摸瓜，才能进入源码树中。</p>
 <p>如果 jenkins 独立运行，启动命令是：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ java -jar jenkins.war
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ java -jar jenkins.war
 </span></span></code></pre></div><p>所以 jenkins.war 其实是一个普通的 jar 包。java 命令运行一个 jar 文件，会在 jenkens.war/META-INF/ 目录下，找 MANIFEST.MF 文件。这个文件里面有入口类，在这里，是 Main，即是 jenkins.war/Main.class 文件。</p>
 <p>jenkins.war/META-INF/MANIFEST.MF</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ cat MANIFEST.MF
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ cat MANIFEST.MF
 </span></span><span style="display:flex;"><span>Manifest-Version: 1.0
 </span></span><span style="display:flex;"><span>Jenkins-Version: 2.13-SNAPSHOT
 </span></span><span style="display:flex;"><span>Implementation-Version: 2.13-SNAPSHOT
@@ -342,55 +301,55 @@
 <p>通过查看 $JENKINS_SRC/war/pom.xml 文件，发现这个 Main 文件，在 org.jenkins-ci:executable-war 这个依赖中，验证了我的猜测。</p>
 <p>既然是一个 Servlet 程序，那我们再去 $JENKINS_HOME/war/WEB-INF/web.xml 找入口点。与 Servlet 有关的配置，在这里。</p>
 <p>$JENKINS_HOME/war/WEB-INF/web.xml</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#309;font-weight:bold">&lt;servlet&gt;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#309;font-weight:bold">&lt;servlet-name&gt;</span>Stapler<span style="color:#309;font-weight:bold">&lt;/servlet-name&gt;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#309;font-weight:bold">&lt;servlet-class&gt;</span>org.kohsuke.stapler.Stapler<span style="color:#309;font-weight:bold">&lt;/servlet-class&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#309;font-weight:bold">&lt;/servlet&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#309;font-weight:bold">&lt;servlet-mapping&gt;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#309;font-weight:bold">&lt;servlet-name&gt;</span>Stapler<span style="color:#309;font-weight:bold">&lt;/servlet-name&gt;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#309;font-weight:bold">&lt;url-pattern&gt;</span>/*<span style="color:#309;font-weight:bold">&lt;/url-pattern&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#309;font-weight:bold">&lt;/servlet-mapping&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;servlet&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;servlet-name&gt;</span>Stapler<span style="color:#f92672">&lt;/servlet-name&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;servlet-class&gt;</span>org.kohsuke.stapler.Stapler<span style="color:#f92672">&lt;/servlet-class&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/servlet&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;servlet-mapping&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;servlet-name&gt;</span>Stapler<span style="color:#f92672">&lt;/servlet-name&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;url-pattern&gt;</span>/*<span style="color:#f92672">&lt;/url-pattern&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/servlet-mapping&gt;</span>
 </span></span></code></pre></div><p>在这里，jenkins 将所有 URL 请求的处理，都交给了 Stapler。根据 Stapler 的文档，了解到它提供了 URL 到对象的映射。即所有请求，都先交给 Stapler 处理，然后 Stapler 通过反射的方式，找到对应的处理类及方法。</p>
 <p>顺着 web.xml 往下看，终于找到了与 jenkins core 有关的配置。</p>
 <p>$JENKINS_HOME/war/WEB-INF/web.xml</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#309;font-weight:bold">&lt;listener&gt;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#309;font-weight:bold">&lt;listener-class&gt;</span>hudson.WebAppMain<span style="color:#309;font-weight:bold">&lt;/listener-class&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#309;font-weight:bold">&lt;/listener&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;listener&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;listener-class&gt;</span>hudson.WebAppMain<span style="color:#f92672">&lt;/listener-class&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/listener&gt;</span>
 </span></span></code></pre></div><p>WebAppMain.java 文件，在 $JENKINS_SRC/core/src/main/java/hudson 目录下面，文件开头的注释，解释了它的身份。</p>
 <p>$JENKINS_SRC/core/src/main/java/hudson/WebAppMain.java</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#09f;font-style:italic">/**
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic">* Entry point when Hudson is used as a webapp.
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic">*
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic">* @author Kohsuke Kawaguchi
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic">*/</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">* Entry point when Hudson is used as a webapp.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">* @author Kohsuke Kawaguchi
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
 </span></span></code></pre></div><p>这个类的代码大约 400 行，大多是一些初始化工作，下面这段代码引起了我的注意。</p>
 <p>$JENKINS_SRC/core/src/main/java/hudson/WebAppMain.java</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>context<span style="color:#555">.</span><span style="color:#309">setAttribute</span><span style="color:#555">(</span>APP<span style="color:#555">,</span> <span style="color:#069;font-weight:bold">new</span> HudsonIsLoading<span style="color:#555">());</span>
-</span></span><span style="display:flex;"><span>initThread <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">new</span> Thread<span style="color:#555">(</span><span style="color:#c30">&#34;Jenkins initialization thread&#34;</span><span style="color:#555">)</span> <span style="color:#555">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#99f">@Override</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">public</span> <span style="color:#078;font-weight:bold">void</span> <span style="color:#c0f">run</span><span style="color:#555">()</span> <span style="color:#555">{</span>
-</span></span><span style="display:flex;"><span>        Jenkins instance <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">new</span> Hudson<span style="color:#555">(</span>_home<span style="color:#555">,</span> context<span style="color:#555">);</span>
-</span></span><span style="display:flex;"><span>        context<span style="color:#555">.</span><span style="color:#309">setAttribute</span><span style="color:#555">(</span>APP<span style="color:#555">,</span> instance<span style="color:#555">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#555">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#555">};</span>
-</span></span><span style="display:flex;"><span>initThread<span style="color:#555">.</span><span style="color:#309">start</span><span style="color:#555">();</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>context.<span style="color:#a6e22e">setAttribute</span>(APP, <span style="color:#66d9ef">new</span> HudsonIsLoading());
+</span></span><span style="display:flex;"><span>initThread <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Thread(<span style="color:#e6db74">&#34;Jenkins initialization thread&#34;</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span>() {
+</span></span><span style="display:flex;"><span>        Jenkins instance <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Hudson(_home, context);
+</span></span><span style="display:flex;"><span>        context.<span style="color:#a6e22e">setAttribute</span>(APP, instance);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>initThread.<span style="color:#a6e22e">start</span>();
 </span></span></code></pre></div><p>熟悉 jenkins 的同学，到了这里有没有一点似曾相识的感觉？ jenkins 在刚启动的时候，会显示一个 loading 页面，启动完成后，才切到主页，就是靠这段代码实现的，HudsonIsLoading 就是 loading 页面，Hudson 就是主页。</p>
 <p>现在看来 context.setAttribute(APP, xxxx) 这个方法调用，能把 xxxx 对象挂到 &ldquo;/&rdquo; 这个 URL 下面。不过 context.setAttribute 方法，在 Servlet 编程里面，只是保存了一个变量而已，为什么能挂到 &ldquo;/&rdquo; 下面呢？答案一定在 Stapler 的源码里！从 web.xml 配置我们可以知道，入口在 org.kohsuke.stapler.Stapler。继续查看 Stapler 的源码，我找到了答案。</p>
 <p>/org/kohsuke/stapler/Stapler.java</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#069;font-weight:bold">protected</span> <span style="color:#99f">@Override</span> <span style="color:#078;font-weight:bold">void</span> <span style="color:#c0f">service</span><span style="color:#555">(</span>HttpServletRequest req<span style="color:#555">,</span> HttpServletResponse rsp<span style="color:#555">)</span> <span style="color:#555">{</span>
-</span></span><span style="display:flex;"><span>    Object root <span style="color:#555">=</span> webApp<span style="color:#555">.</span><span style="color:#309">getApp</span><span style="color:#555">();</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">if</span><span style="color:#555">(</span>root<span style="color:#555">==</span><span style="color:#069;font-weight:bold">null</span><span style="color:#555">)</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#069;font-weight:bold">throw</span> <span style="color:#069;font-weight:bold">new</span> ServletException<span style="color:#555">(</span><span style="color:#c30">&#34;there&#39;s no \&#34;app\&#34; attribute in the application context.&#34;</span><span style="color:#555">);</span>
-</span></span><span style="display:flex;"><span>    invoke<span style="color:#555">(</span> req<span style="color:#555">,</span> rsp<span style="color:#555">,</span> root<span style="color:#555">,</span> servletPath<span style="color:#555">);</span>
-</span></span><span style="display:flex;"><span><span style="color:#555">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">protected</span> <span style="color:#a6e22e">@Override</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">service</span>(HttpServletRequest req, HttpServletResponse rsp) {
+</span></span><span style="display:flex;"><span>    Object root <span style="color:#f92672">=</span> webApp.<span style="color:#a6e22e">getApp</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(root<span style="color:#f92672">==</span><span style="color:#66d9ef">null</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> ServletException(<span style="color:#e6db74">&#34;there&#39;s no \&#34;app\&#34; attribute in the application context.&#34;</span>);
+</span></span><span style="display:flex;"><span>    invoke( req, rsp, root, servletPath);
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>/org/kohsuke/stapler/WebApp.java</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#09f;font-style:italic">/**
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic">* Returns the &#39;app&#39; object, which is the user-specified object that
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic">* sits at the root of the URL hierarchy and handles the request to &#39;/&#39;.
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic">*/</span>
-</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">public</span> Object <span style="color:#c0f">getApp</span><span style="color:#555">()</span> <span style="color:#555">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">return</span> context<span style="color:#555">.</span><span style="color:#309">getAttribute</span><span style="color:#555">(</span><span style="color:#c30">&#34;app&#34;</span><span style="color:#555">);</span>
-</span></span><span style="display:flex;"><span><span style="color:#555">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">* Returns the &#39;app&#39; object, which is the user-specified object that
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">* sits at the root of the URL hierarchy and handles the request to &#39;/&#39;.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">getApp</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> context.<span style="color:#a6e22e">getAttribute</span>(<span style="color:#e6db74">&#34;app&#34;</span>);
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>跟踪到这里，jenkins 的启动，和处理请求的过程，已经清楚。总结一下，主要是下面这几步。</p>
 <ol>
 <li>启动 winstone 容器，加载 jenkins。</li>
@@ -399,9 +358,9 @@
 </ol>
 <p>最后，写一个 Hello World 庆祝一下，在 Jenkins.java 中，加入以下代码。</p>
 <p>$JENKINS_SRC/core/src/main/java/jenkins/model/Jenkins.java</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#069;font-weight:bold">public</span> <span style="color:#078;font-weight:bold">void</span> <span style="color:#c0f">doHelloWorld</span><span style="color:#555">(</span> StaplerRequest req<span style="color:#555">,</span> StaplerResponse rsp <span style="color:#555">)</span> <span style="color:#069;font-weight:bold">throws</span> IOException<span style="color:#555">,</span> ServletException <span style="color:#555">{</span>
-</span></span><span style="display:flex;"><span>    rsp<span style="color:#555">.</span><span style="color:#309">getWriter</span><span style="color:#555">().</span><span style="color:#309">println</span><span style="color:#555">(</span><span style="color:#c30">&#34;Hello World&#34;</span><span style="color:#555">);</span>
-</span></span><span style="display:flex;"><span><span style="color:#555">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">doHelloWorld</span>( StaplerRequest req, StaplerResponse rsp ) <span style="color:#66d9ef">throws</span> IOException, ServletException {
+</span></span><span style="display:flex;"><span>    rsp.<span style="color:#a6e22e">getWriter</span>().<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;Hello World&#34;</span>);
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>重新编译生成 jenkins.war，运行后用浏览器打开 http://localhost:8080/helloWorld 即可看到 Hello World。</p>
 <p>注意这里的 URL 是大小写敏感的。</p>
 <p>如果想了解 Stapler 的基本用法，可以查看下面这几篇文档。</p>
@@ -410,74 +369,47 @@
 <li><a href="http://stapler.kohsuke.org/getting-started.html">getting-started</a></li>
 <li><a href="http://stapler.kohsuke.org/reference.html">reference</a></li>
 </ul>
+</section>
 
-    </div>
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a
+      class="mb-1.5 ltr:mr-1.5 rtl:ml-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] dark:bg-white/[8%] dark:hover:bg-white/[12%]"
+      href="https://myzhan.github.io/tags/jenkins"
+      >jenkins</a
+    >
+     
+    <a
+      class="mb-1.5 ltr:mr-1.5 rtl:ml-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] dark:bg-white/[8%] dark:hover:bg-white/[12%]"
+      href="https://myzhan.github.io/tags/ci"
+      >ci</a
+    >
+    
+  </footer>
+  
 
+  
+  
+  
+  
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg !leading-[1.2] *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  >
+    
+    <a class="ltr:pr-3 rtl:pl-3" href="https://myzhan.github.io/post/jenkins-src-render-index/"
+      ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>jenkins源码阅读：渲染主页</span></a
+    >
     
     
-<div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">文章作者</span>
-    <span class="item-content">myzhan</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">上次更新</span>
-    <span class="item-content">
-      2016-07-16
-      
-    </span>
-  </p>
-  
-  <p class="copyright-item">
-    <span class="item-title">许可协议</span>
-    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
-  </p>
-</div>
-
-
+    <a class="ltr:ml-auto rtl:mr-auto justify-end pl-3" href="https://myzhan.github.io/post/building-and-debugging-jenkins/"
+      ><span>编译和运行jenkins</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    >
     
-    
-
-    <footer class="post-footer">
-      <div class="post-tags">
-          <a href="http://localhost:1313/tags/jenkins/">jenkins</a>
-          <a href="http://localhost:1313/tags/ci/">ci</a>
-          
-        </div>
-
-      
-      <nav class="post-nav">
-        
-          <a class="prev" href="/post/jenkins-src-render-index/">
-            
-            <i class="iconfont">
-              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
-  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="18" height="18">
-  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
-</svg>
-
-            </i>
-            <span class="prev-text nav-default">jenkins源码阅读：渲染主页</span>
-            <span class="prev-text nav-mobile">上一篇</span>
-          </a>
-        
-          <a class="next" href="/post/building-and-debugging-jenkins/">
-            <span class="next-text nav-default">编译和运行jenkins</span>
-            <span class="prev-text nav-mobile">下一篇</span>
-            
-            <i class="iconfont">
-              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
-  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="18" height="18">
-  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
-</svg>
-
-            </i>
-          </a>
-      </nav>
-    </footer>
-  </article>
+  </nav>
+  
+  
 
   
   
@@ -487,144 +419,32 @@
 
   
 
-  
-  
 
   
+</article>
 
-  
 
-  
-
-    
-
-  
-
-  
-
-        </div>
-      </div>
     </main>
 
-    <footer id="footer" class="footer">
-      <div class="icon-links">
+    <footer
+  class="mx-auto flex h-[4.5rem] max-w-[--w] items-center px-8 text-xs uppercase tracking-wider opacity-60"
+>
+  <div class="mr-auto">
   
+    myzhan
   
-    <a href="https://github.com/myzhan" rel="me noopener" class="iconfont"
-      title="github"  target="_blank"
-      >
-      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
-  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="36" height="36">
-  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
-</svg>
-
-    </a>
-
-
-<a href="http://localhost:1313/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
-    class="iconfont" title="rss" target="_blank">
-    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
-  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="30" height="30">
-  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
-</svg>
-
-  </a>
-  
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
-  </span>
-
-  <span class="copyright-year">
-    &copy;
-    
-      2016 -
-    2023
-    <span class="heart">
-      
-      <i class="iconfont">
-        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
-  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="14" height="14">
-  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
-   fill="#8a8a8a"></path>
-</svg>
-
-      </i>
-    </span><span class="author">
-        myzhan
-        
-      </span></span>
-
-  
-  
-
-  
-</div>
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont">
-        
-        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
-  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="35" height="35">
-  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
-</svg>
-
-      </i>
-    </div>
   </div>
-  
-<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
-  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
 
-
-
-
-<script type="text/javascript" src="/js/main.638251f4230630f0335d8c6748e53a96f94b72670920b60c09a56fdc8bece214.js" integrity="sha256-Y4JR9CMGMPAzXYxnSOU6lvlLcmcJILYMCaVv3Ivs4hQ=" crossorigin="anonymous"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
-    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
-    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</body>
+  </body>
 </html>

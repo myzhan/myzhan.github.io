@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>locust4j on myzhan</title>
-    <link>http://localhost:1313/tags/locust4j/</link>
-    <description>Recent content in locust4j on myzhan</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <title>Locust4j on myzhan</title>
+    <link>https://myzhan.github.io/tags/locust4j/</link>
+    <description>Recent content in Locust4j on myzhan</description>
+    <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 14 Dec 2017 23:11:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/locust4j/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>myzhan</copyright>
+    <lastBuildDate>Thu, 14 Dec 2017 23:11:00 +0000</lastBuildDate>
+    <atom:link href="https://myzhan.github.io/tags/locust4j/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>locust4j 1.0.0 发布</title>
-      <link>http://localhost:1313/post/first-version-of-locust4j/</link>
+      <link>https://myzhan.github.io/post/first-version-of-locust4j/</link>
       <pubDate>Thu, 14 Dec 2017 23:11:00 +0000</pubDate>
-      
-      <guid>http://localhost:1313/post/first-version-of-locust4j/</guid>
-      <description>不知不觉，维护 boomer 已经两年了。说来也奇怪，接到的性能测试需求，一般都是私有协议的，很难直接用 jmeter 这类通用的工具，一般只能基于 boomer 自己写一个。前不久</description>
+      <guid>https://myzhan.github.io/post/first-version-of-locust4j/</guid>
+      <description>&lt;p&gt;不知不觉，维护 &lt;a href=&#34;https://github.com/myzhan/boomer&#34;&gt;boomer&lt;/a&gt; 已经两年了。说来也奇怪，接到的性能测试需求，一般都是私有协议的，很难直接用 jmeter 这类通用的工具，一般只能基于 boomer 自己写一个。前不久需要压测 Flume 的 &lt;a href=&#34;https://flume.apache.org/FlumeUserGuide.html#avro-source&#34;&gt;Avro Source&lt;/a&gt;，这货偏偏没有一个 Go 的客户端！&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

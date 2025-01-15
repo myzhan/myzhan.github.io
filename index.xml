@@ -2,395 +2,61 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>myzhan</title>
-    <link>http://localhost:1313/</link>
+    <link>https://myzhan.github.io/</link>
     <description>Recent content on myzhan</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>zh-cn</language>
+    <copyright>myzhan</copyright>
     <lastBuildDate>Thu, 14 Dec 2017 23:11:00 +0000</lastBuildDate>
-    
-        <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>About</title>
-      <link>http://localhost:1313/about/</link>
-      <pubDate>Sun, 20 Aug 2017 21:38:52 +0800</pubDate>
-      
-      <guid>http://localhost:1313/about/</guid>
-      
-        <description>&lt;p&gt;Hugo is a static site engine written in Go.&lt;/p&gt;
-&lt;p&gt;It makes use of a variety of open source projects including:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/cobra&#34;&gt;Cobra&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/viper&#34;&gt;Viper&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/jWalterWeatherman&#34;&gt;J Walter Weatherman&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/cast&#34;&gt;Cast&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Learn more and contribute on &lt;a href=&#34;https://github.com/gohugoio&#34;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
-</description>
-      
-    </item>
-    
+    <atom:link href="https://myzhan.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>locust4j 1.0.0 发布</title>
-      <link>http://localhost:1313/post/first-version-of-locust4j/</link>
+      <link>https://myzhan.github.io/post/first-version-of-locust4j/</link>
       <pubDate>Thu, 14 Dec 2017 23:11:00 +0000</pubDate>
-      
-      <guid>http://localhost:1313/post/first-version-of-locust4j/</guid>
-      
-        <description>&lt;p&gt;不知不觉，维护 &lt;a href=&#34;https://github.com/myzhan/boomer&#34;&gt;boomer&lt;/a&gt; 已经两年了。说来也奇怪，接到的性能测试需求，一般都是私有协议的，很难直接用 jmeter 这类通用的工具，一般只能基于 boomer 自己写一个。前不久需要压测 Flume 的 &lt;a href=&#34;https://flume.apache.org/FlumeUserGuide.html#avro-source&#34;&gt;Avro Source&lt;/a&gt;，这货偏偏没有一个 Go 的客户端！&lt;/p&gt;
-&lt;p&gt;由于时间紧，只好用 Java 写一个简单版的命令行工具。事后研究一下 Avro 的 ipc 协议，写了一个玩票性质的 &lt;a href=&#34;https://github.com/myzhan/avroipc&#34;&gt;avroipc&lt;/a&gt;。最近，索性又写了一个 Java 版的 boomer，即 &lt;a href=&#34;https://github.com/myzhan/locust4j&#34;&gt;locust4j&lt;/a&gt;。灵感来自一位印度哥们写的 &lt;a href=&#34;https://github.com/vrajat/nomadacris&#34;&gt;nomadacris&lt;/a&gt;，得到他的&lt;a href=&#34;https://github.com/vrajat/nomadacris/issues/1&#34;&gt;同意&lt;/a&gt;，直接就用了他写的 msgpack 相关序列化和反序列化的代码。实现上，基本上是从 boomer 翻译过来的，除了用线程替代 Goroutine，用 ConcurrentLinkedQueue 替代 channel。&lt;/p&gt;
-&lt;p&gt;So，现在也可以用 Java 来写 locust 的 slave 部分了，即用 Java 来写压测逻辑。无论是 Go 还是 Java，性能方面都能碾压原生的 Python 实现。boomer 和 locust4j，都是从队列中取出用户侧上报的测试结果，统计汇总后再定时上报的。从测试情况来看，locust4j 统计的性能比 boomer 还要厉害。空跑一个死循环的情况下，在我的 MBP 上可以跑到 200w 的 RPS，boomer 只能到 50w。但很少单实例能压到这么高的 RPS，大部分情况下，CPU 和内存都是实际的压测代码在使用。一般压测服务端，Go 标准库用起来更爽一点，如果是 Java，还要去找一个能利用非阻塞 IO 的客户端，不然线程都阻塞在 IO 操作上了，也快不起来。&lt;/p&gt;
-&lt;p&gt;目前 locust 的 1.0.0 版本已经发布到 maven 的中心库，用 maven 的项目，声明一下即可使用。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;com.github.myzhan&lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;locust4j&lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;1.0.0&lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果不用 maven，可以在 &lt;a href=&#34;https://github.com/myzhan/locust4j/releases&#34;&gt;release 页面&lt;/a&gt; 下一个预先编译好的 jar 包。&lt;/p&gt;
-&lt;p&gt;在代码库中，有一个用于测试的&lt;a href=&#34;https://github.com/myzhan/locust4j/blob/master/src/main/java/com/github/myzhan/locust4j/examples/Main.java&#34;&gt;小程序&lt;/a&gt;，里面包含了所有  locust4j 提供的 API。&lt;/p&gt;
-&lt;p&gt;由于 JVM 中 JIT 和 GC 的存在，locust4j 收集到的响应时间，有可能是错的，用的时候需要注意。JIT 会导致响应时间逐渐变短，GC 会导致响应时间偶尔变长。实际的结果，需要参考被测程序的反应。&lt;/p&gt;
-&lt;p&gt;Enjoy!&lt;/p&gt;
-</description>
-      
+      <guid>https://myzhan.github.io/post/first-version-of-locust4j/</guid>
+      <description>&lt;p&gt;不知不觉，维护 &lt;a href=&#34;https://github.com/myzhan/boomer&#34;&gt;boomer&lt;/a&gt; 已经两年了。说来也奇怪，接到的性能测试需求，一般都是私有协议的，很难直接用 jmeter 这类通用的工具，一般只能基于 boomer 自己写一个。前不久需要压测 Flume 的 &lt;a href=&#34;https://flume.apache.org/FlumeUserGuide.html#avro-source&#34;&gt;Avro Source&lt;/a&gt;，这货偏偏没有一个 Go 的客户端！&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>用 golang 来编写压测工具</title>
-      <link>http://localhost:1313/post/write-a-load-testing-tool-in-golang/</link>
+      <link>https://myzhan.github.io/post/write-a-load-testing-tool-in-golang/</link>
       <pubDate>Thu, 14 Dec 2017 23:11:00 +0000</pubDate>
-      
-      <guid>http://localhost:1313/post/write-a-load-testing-tool-in-golang/</guid>
-      
-        <description>&lt;p&gt;之前在项目中做服务端性能测试，一般用的都是 LoadRunner，或者 jmeter。随着接触的项目越来越多，各种各样的代码都有，光传输协议，就有 HTTP，TCP，UDP。有时数据传的不是明文，可能是 protobuf，也可能是 RSA 加密后的密文。继续用 LR 或 jmeter，有点难以招架。&lt;/p&gt;
-&lt;p&gt;于是，我开始关注 &lt;a href=&#34;http://locust.io/&#34;&gt;Locust&lt;/a&gt; 这个压测工具。与 LR 使用的 C 和 jmeter 使用的 Java 相比，Locust 使用 Python 来编写压测代码，代码量会少很多。且 Locust 本身的概念少，学习成本较低，上手很快。&lt;/p&gt;
-&lt;p&gt;在实现并发方面，Locust 并没有使用进程、线程来实现，事实上，CPython 的实现也对多线程不友好。于是，Locust 使用 gevent 提供的非阻塞 IO，和 coroutine来实现网络层的并发请求。实际使用中，使用 Locust 编写的压测脚本，单个实例，可以提供 1000 rps 左右的压力，如果还需要更多的压力，挂多几个 slave，也能满足需求。不过我生性爱折腾，一直想着摆脱 CPython 的 GIL，和 gevent 的 monkey_patch()，过年在家无聊，就一直在构思着怎样实现一个性能更好的施压端，用golang 提供的 goroutine，应该是个不错的选择。&lt;/p&gt;
-&lt;p&gt;Locust 已经实现了 master &amp;amp; slave 的架构，一个 Locust 进程如果运行在 master 模式，那它要做的事情，就只是收集各个 slave 汇报上来的信息，并展示在 web界面上而已。我的想法很简单，用 golang 来实现 slave 这一部分。实现为一个框架，在运行时，按需创建 goroutine 来跑调用方提供的 function，然后定时将信息汇报给 Locust 的 master。&lt;/p&gt;
-&lt;p&gt;过年回来撸了一周，最后弄了一个 &lt;a href=&#34;https://github.com/myzhan/boomer&#34;&gt;boomer&lt;/a&gt; ，已开源。参考 Locust 的 slave 部分代码来实现的，连文件的命名都一致，应该很容易理解。与 Locust 最大的区别，就是用 goroutine，取代了 gevent。golang 本身的性能，也是一个优势。&lt;/p&gt;
-&lt;p&gt;用 boomer 来编写一个简单的 http 压测例子。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;package&lt;/span&gt; main
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;import&lt;/span&gt; boomer &lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;github.com/myzhan/boomer&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;import&lt;/span&gt; (
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;time&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;net/http&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;log&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#c0f&#34;&gt;now&lt;/span&gt;() &lt;span style=&#34;color:#078;font-weight:bold&#34;&gt;int64&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;return&lt;/span&gt; time.&lt;span style=&#34;color:#c0f&#34;&gt;Now&lt;/span&gt;().&lt;span style=&#34;color:#c0f&#34;&gt;UnixNano&lt;/span&gt;() &lt;span style=&#34;color:#555&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#366&#34;&gt;int64&lt;/span&gt;(time.Millisecond)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#c0f&#34;&gt;test_http&lt;/span&gt;() {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;/*
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;	一个常规的 HTTP GET 操作，实际使用时，这里放业务自身的处理过程
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;	只要将处理结果，通过 boomer 暴露出来的函数汇报就行了
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;	请求成功，类似 Locust 的 events.request_success.fire
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;	boomer.Events.Publish(&amp;#34;request_success&amp;#34;, type, name, 处理时间, 响应耗时)
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;	请求失败，类似 Locust 的 events.request_failure.fire
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;	boomer.Events.Publish(&amp;#34;request_failure&amp;#34;, type, name, 处理时间, 错误信息)
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;	 */&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	startTime &lt;span style=&#34;color:#555&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#c0f&#34;&gt;now&lt;/span&gt;()
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	resp, err &lt;span style=&#34;color:#555&#34;&gt;:=&lt;/span&gt; http.&lt;span style=&#34;color:#c0f&#34;&gt;Get&lt;/span&gt;(&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;http://localhost:8080/&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;defer&lt;/span&gt; resp.Body.&lt;span style=&#34;color:#c0f&#34;&gt;Close&lt;/span&gt;()
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	endTime &lt;span style=&#34;color:#555&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#c0f&#34;&gt;now&lt;/span&gt;()
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	log.&lt;span style=&#34;color:#c0f&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#366&#34;&gt;float64&lt;/span&gt;(endTime &lt;span style=&#34;color:#555&#34;&gt;-&lt;/span&gt; startTime))
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;if&lt;/span&gt; err &lt;span style=&#34;color:#555&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		boomer.Events.&lt;span style=&#34;color:#c0f&#34;&gt;Publish&lt;/span&gt;(&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;request_failure&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;demo&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;http&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f60&#34;&gt;0.0&lt;/span&gt;, err.&lt;span style=&#34;color:#c0f&#34;&gt;Error&lt;/span&gt;())
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}&lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;else&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		boomer.Events.&lt;span style=&#34;color:#c0f&#34;&gt;Publish&lt;/span&gt;(&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;request_success&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;demo&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;http&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#366&#34;&gt;float64&lt;/span&gt;(endTime &lt;span style=&#34;color:#555&#34;&gt;-&lt;/span&gt; startTime), resp.ContentLength)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#c0f&#34;&gt;main&lt;/span&gt;() {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	task &lt;span style=&#34;color:#555&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#555&#34;&gt;&amp;amp;&lt;/span&gt;boomer.Task{
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;// Weight 权重，和 Locust 的 task 权重类似，在有多个 task 的时候生效
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;&lt;/span&gt;				&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;// FIXED: 之前误写为Weith
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;&lt;/span&gt;				Weight: &lt;span style=&#34;color:#f60&#34;&gt;10&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;// Fn 类似于 Locust 的 task
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;&lt;/span&gt;				Fn: test_http,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;/*
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;	通知 boomer 去执行自定义函数，支持多个
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;	boomer.Run(task1, task2, task3)
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;	*/&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	boomer.&lt;span style=&#34;color:#c0f&#34;&gt;Run&lt;/span&gt;(task)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;运行&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;# dummy.py 可以在 boomer 代码库里找到，由于 master 不再负责实际的业务逻辑&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;# 所以 dummy.py 的格式，只要符合 Locust 脚本的规范就行了&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;locust -f dummy.py --master --master-bind-host&lt;span style=&#34;color:#555&#34;&gt;=&lt;/span&gt;127.0.0.1 --master-bind-port&lt;span style=&#34;color:#555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f60&#34;&gt;5557&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;go run main.go --master-host&lt;span style=&#34;color:#555&#34;&gt;=&lt;/span&gt;127.0.0.1 --master-port&lt;span style=&#34;color:#555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f60&#34;&gt;5557&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;boomer 目前比较完整地实现了 Locust slave 端的功能，在实际使用中，较原生的 Python 实现，有 5-10 倍以上的性能提升。&lt;/p&gt;
-&lt;p&gt;Locust 官方表示，master 和 slave 间通讯，用 zeromq 会有较大的性能提升，但是我目前并没有感觉到明显的性能差异，可能是我挂的 slave 数量还不够多吧。目前 boomer 还不支持zeromq，如果将来这里确实是个瓶颈，实现起来也很快。&lt;/p&gt;
-&lt;p&gt;Enjoy!&lt;/p&gt;
-</description>
-      
+      <guid>https://myzhan.github.io/post/write-a-load-testing-tool-in-golang/</guid>
+      <description>&lt;p&gt;之前在项目中做服务端性能测试，一般用的都是 LoadRunner，或者 jmeter。随着接触的项目越来越多，各种各样的代码都有，光传输协议，就有 HTTP，TCP，UDP。有时数据传的不是明文，可能是 protobuf，也可能是 RSA 加密后的密文。继续用 LR 或 jmeter，有点难以招架。&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>jenkins源码阅读：渲染主页</title>
-      <link>http://localhost:1313/post/jenkins-src-render-index/</link>
+      <link>https://myzhan.github.io/post/jenkins-src-render-index/</link>
       <pubDate>Mon, 18 Jul 2016 19:55:13 +0000</pubDate>
-      
-      <guid>http://localhost:1313/post/jenkins-src-render-index/</guid>
-      
-        <description>&lt;p&gt;jenkins 的一切 URL 请求，都托管给了 Stapler，要了解主页是如何渲染的，依然要从 Stapler 开始。用现在 Web 开发的目光来看 Stapler，它是一个纯粹的路由组件，即根据用户访问的 URL ，找到对应的处理代码。不过对于 Stapler 来说，“约定”优于“配置”，除了在 web.xml 中将 /* 交给 Stapler 处理，再也没有任何配置。免“配置”，对于开发来说，省了很多麻烦，只要在文档中详细说明“约定”，大家通读一遍文档，也就知道了。&lt;/p&gt;
-&lt;p&gt;Stapler 的&lt;a href=&#34;http://stapler.kohsuke.org/reference.html&#34;&gt;文档&lt;/a&gt;里面记录了很多细节，与主页（Index）有关的，有“Index View”和“Index Action Method”这两个。不过 $JENKINS_SRC/core/src/main/resources/jenkins/model/Jenkins 目录下面，并没有 index.jelly 文件，jenkins.model.Jenkins 类里面，也没有 doIndex 方法。&lt;/p&gt;
-&lt;p&gt;Google 了一下，找到了&lt;a href=&#34;http://hudson-ci.org/docs/HudsonArch-View.pdf&#34;&gt;一份PPT&lt;/a&gt;和&lt;a href=&#34;https://github.com/tfennelly/jenkins-notes/blob/master/jenkins-ui.md&#34;&gt;一篇文章&lt;/a&gt;，原来 jenkins.model.Jenkins 实现了 StaplerFallback 接口。Stapler 实在找不到处理方法的时候，会调用 getStaplerFallback 方法，jenkins.model.Jenkins 就是靠这个方法，实现了主页的渲染。&lt;/p&gt;
-&lt;p&gt;getStaplerFallback 方法返回了一个 hudson.model.View 对象，Stapler 会根据这个对象，再去找对应的模板，这是最后的方法了，如果还是找不到，就会返回 404。终于，在 $JENKINS_SRC/core/src/main/resources/hudson/model/View 目录下，找到了 index.jelly 文件，主页的模板！&lt;/p&gt;
-&lt;p&gt;来试着“劫持”一下 jenkins 的主页。修改 Jenkins.java 文件，加上下面的方法。&lt;/p&gt;
-&lt;p&gt;$JENKINS_SRC/core/src/main/java/jenkins/model/Jenkins.java&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#078;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#c0f&#34;&gt;doIndex&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;(&lt;/span&gt; StaplerRequest req&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt; StaplerResponse rsp &lt;span style=&#34;color:#555&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;throws&lt;/span&gt; IOException&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt; ServletException &lt;span style=&#34;color:#555&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    rsp&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#309&#34;&gt;getWriter&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;().&lt;/span&gt;&lt;span style=&#34;color:#309&#34;&gt;println&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;Index hijack&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;);&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#555&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;用浏览器访问 http://localhost:8080/ ，成功看到了“Index hijack”！&lt;/p&gt;
-&lt;p&gt;继续翻看 Stapler 的源码，找到了比文档更清楚的答案。&lt;/p&gt;
-&lt;p&gt;/org/kohsuke/stapler/Stapler.java&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#078;font-weight:bold&#34;&gt;boolean&lt;/span&gt; &lt;span style=&#34;color:#c0f&#34;&gt;tryInvoke&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;(&lt;/span&gt;RequestImpl req&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt; ResponseImpl rsp&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt; Object node &lt;span style=&#34;color:#555&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;throws&lt;/span&gt; IOException&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt; ServletException &lt;span style=&#34;color:#555&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;//省略很多代码
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;if&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;(&lt;/span&gt;node &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;instanceof&lt;/span&gt; StaplerFallback&lt;span style=&#34;color:#555&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#555&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;if&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;(&lt;/span&gt;traceable&lt;span style=&#34;color:#555&#34;&gt;())&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            traceEval&lt;span style=&#34;color:#555&#34;&gt;(&lt;/span&gt;req&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt;rsp&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt;node&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;((StaplerFallback)&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;).getStaplerFallback()&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;);&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        Object n&lt;span style=&#34;color:#555&#34;&gt;;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;try&lt;/span&gt; &lt;span style=&#34;color:#555&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            n &lt;span style=&#34;color:#555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#555&#34;&gt;((&lt;/span&gt;StaplerFallback&lt;span style=&#34;color:#555&#34;&gt;)&lt;/span&gt;node&lt;span style=&#34;color:#555&#34;&gt;).&lt;/span&gt;&lt;span style=&#34;color:#309&#34;&gt;getStaplerFallback&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;();&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#555&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;catch&lt;/span&gt; &lt;span style=&#34;color:#555&#34;&gt;(&lt;/span&gt;RuntimeException e&lt;span style=&#34;color:#555&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#555&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#555&#34;&gt;(&lt;/span&gt;Function&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#309&#34;&gt;renderResponse&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;(&lt;/span&gt;req&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt;rsp&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt;node&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt;e&lt;span style=&#34;color:#555&#34;&gt;))&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;// let the exception serve the request and we are done
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;&lt;/span&gt;            &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;else&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;throw&lt;/span&gt; e&lt;span style=&#34;color:#555&#34;&gt;;&lt;/span&gt;     &lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;// unprocessed exception
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#555&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;if&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;(&lt;/span&gt;n&lt;span style=&#34;color:#555&#34;&gt;!=&lt;/span&gt;node &lt;span style=&#34;color:#555&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; n&lt;span style=&#34;color:#555&#34;&gt;!=&lt;/span&gt;&lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;null&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#555&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;// delegate to the fallback object
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;&lt;/span&gt;            invoke&lt;span style=&#34;color:#555&#34;&gt;(&lt;/span&gt;req&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt;rsp&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt;n&lt;span style=&#34;color:#555&#34;&gt;);&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#555&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   &lt;span style=&#34;color:#555&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#555&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
-      
+      <guid>https://myzhan.github.io/post/jenkins-src-render-index/</guid>
+      <description>&lt;p&gt;jenkins 的一切 URL 请求，都托管给了 Stapler，要了解主页是如何渲染的，依然要从 Stapler 开始。用现在 Web 开发的目光来看 Stapler，它是一个纯粹的路由组件，即根据用户访问的 URL ，找到对应的处理代码。不过对于 Stapler 来说，“约定”优于“配置”，除了在 web.xml 中将 /* 交给 Stapler 处理，再也没有任何配置。免“配置”，对于开发来说，省了很多麻烦，只要在文档中详细说明“约定”，大家通读一遍文档，也就知道了。&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>jenkins源码阅读：启动和请求处理</title>
-      <link>http://localhost:1313/post/jenkins-src-entry-point/</link>
+      <link>https://myzhan.github.io/post/jenkins-src-entry-point/</link>
       <pubDate>Sat, 16 Jul 2016 18:35:21 +0000</pubDate>
-      
-      <guid>http://localhost:1313/post/jenkins-src-entry-point/</guid>
-      
-        <description>&lt;p&gt;jenkins 编译后，会生成一个 jenkins.war 文件，阅读 jenkins 源码，我们需要研究的一切，都在这个文件里面了。按照习惯，先寻找入口点，然后顺藤摸瓜，才能进入源码树中。&lt;/p&gt;
-&lt;p&gt;如果 jenkins 独立运行，启动命令是：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ java -jar jenkins.war
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;所以 jenkins.war 其实是一个普通的 jar 包。java 命令运行一个 jar 文件，会在 jenkens.war/META-INF/ 目录下，找 MANIFEST.MF 文件。这个文件里面有入口类，在这里，是 Main，即是 jenkins.war/Main.class 文件。&lt;/p&gt;
-&lt;p&gt;jenkins.war/META-INF/MANIFEST.MF&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ cat MANIFEST.MF
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Manifest-Version: 1.0
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Jenkins-Version: 2.13-SNAPSHOT
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Implementation-Version: 2.13-SNAPSHOT
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Built-By: myzhan
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Build-Jdk: 1.7.0_79
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Hudson-Version: 1.395
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Created-By: Apache Maven 3.3.3
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Main-Class: Main
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Archiver-Version: Plexus Archiver
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;反编译一下 Main.class 文件，一个标准的 Main 文件，属于 default 包。但是这个 Main 文件，并不在 jenkins 的源码里面，即不在 jenkins core 里面。过了一遍反编译的源码，发现它先将 jenkins.war 解压到 $JENKINS_HOME/war 目录下，再启动一个 winstone 容器。鉴于jenkins 本身是一个 Servlet 程序，我猜测，在这个入口，是先启动一个 Servlet 容器，再加载 jenkins 本身。&lt;/p&gt;
-&lt;p&gt;通过查看 $JENKINS_SRC/war/pom.xml 文件，发现这个 Main 文件，在 org.jenkins-ci:executable-war 这个依赖中，验证了我的猜测。&lt;/p&gt;
-&lt;p&gt;既然是一个 Servlet 程序，那我们再去 $JENKINS_HOME/war/WEB-INF/web.xml 找入口点。与 Servlet 有关的配置，在这里。&lt;/p&gt;
-&lt;p&gt;$JENKINS_HOME/war/WEB-INF/web.xml&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;servlet&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;servlet-name&amp;gt;&lt;/span&gt;Stapler&lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;/servlet-name&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;servlet-class&amp;gt;&lt;/span&gt;org.kohsuke.stapler.Stapler&lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;/servlet-class&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;/servlet&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;servlet-mapping&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;servlet-name&amp;gt;&lt;/span&gt;Stapler&lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;/servlet-name&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;url-pattern&amp;gt;&lt;/span&gt;/*&lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;/url-pattern&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;/servlet-mapping&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在这里，jenkins 将所有 URL 请求的处理，都交给了 Stapler。根据 Stapler 的文档，了解到它提供了 URL 到对象的映射。即所有请求，都先交给 Stapler 处理，然后 Stapler 通过反射的方式，找到对应的处理类及方法。&lt;/p&gt;
-&lt;p&gt;顺着 web.xml 往下看，终于找到了与 jenkins core 有关的配置。&lt;/p&gt;
-&lt;p&gt;$JENKINS_HOME/war/WEB-INF/web.xml&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;listener&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;listener-class&amp;gt;&lt;/span&gt;hudson.WebAppMain&lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;/listener-class&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#309;font-weight:bold&#34;&gt;&amp;lt;/listener&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;WebAppMain.java 文件，在 $JENKINS_SRC/core/src/main/java/hudson 目录下面，文件开头的注释，解释了它的身份。&lt;/p&gt;
-&lt;p&gt;$JENKINS_SRC/core/src/main/java/hudson/WebAppMain.java&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;/**
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;* Entry point when Hudson is used as a webapp.
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;*
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;* @author Kohsuke Kawaguchi
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;*/&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这个类的代码大约 400 行，大多是一些初始化工作，下面这段代码引起了我的注意。&lt;/p&gt;
-&lt;p&gt;$JENKINS_SRC/core/src/main/java/hudson/WebAppMain.java&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;context&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#309&#34;&gt;setAttribute&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;(&lt;/span&gt;APP&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;new&lt;/span&gt; HudsonIsLoading&lt;span style=&#34;color:#555&#34;&gt;());&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;initThread &lt;span style=&#34;color:#555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;new&lt;/span&gt; Thread&lt;span style=&#34;color:#555&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;Jenkins initialization thread&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#555&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#99f&#34;&gt;@Override&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#078;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#c0f&#34;&gt;run&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#555&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        Jenkins instance &lt;span style=&#34;color:#555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;new&lt;/span&gt; Hudson&lt;span style=&#34;color:#555&#34;&gt;(&lt;/span&gt;_home&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt; context&lt;span style=&#34;color:#555&#34;&gt;);&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        context&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#309&#34;&gt;setAttribute&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;(&lt;/span&gt;APP&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt; instance&lt;span style=&#34;color:#555&#34;&gt;);&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#555&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#555&#34;&gt;};&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;initThread&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#309&#34;&gt;start&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;();&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;熟悉 jenkins 的同学，到了这里有没有一点似曾相识的感觉？ jenkins 在刚启动的时候，会显示一个 loading 页面，启动完成后，才切到主页，就是靠这段代码实现的，HudsonIsLoading 就是 loading 页面，Hudson 就是主页。&lt;/p&gt;
-&lt;p&gt;现在看来 context.setAttribute(APP, xxxx) 这个方法调用，能把 xxxx 对象挂到 &amp;ldquo;/&amp;rdquo; 这个 URL 下面。不过 context.setAttribute 方法，在 Servlet 编程里面，只是保存了一个变量而已，为什么能挂到 &amp;ldquo;/&amp;rdquo; 下面呢？答案一定在 Stapler 的源码里！从 web.xml 配置我们可以知道，入口在 org.kohsuke.stapler.Stapler。继续查看 Stapler 的源码，我找到了答案。&lt;/p&gt;
-&lt;p&gt;/org/kohsuke/stapler/Stapler.java&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;protected&lt;/span&gt; &lt;span style=&#34;color:#99f&#34;&gt;@Override&lt;/span&gt; &lt;span style=&#34;color:#078;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#c0f&#34;&gt;service&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;(&lt;/span&gt;HttpServletRequest req&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt; HttpServletResponse rsp&lt;span style=&#34;color:#555&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#555&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Object root &lt;span style=&#34;color:#555&#34;&gt;=&lt;/span&gt; webApp&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#309&#34;&gt;getApp&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;();&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;if&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;(&lt;/span&gt;root&lt;span style=&#34;color:#555&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;null&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;)&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;throw&lt;/span&gt; &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;new&lt;/span&gt; ServletException&lt;span style=&#34;color:#555&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;there&amp;#39;s no \&amp;#34;app\&amp;#34; attribute in the application context.&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;);&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    invoke&lt;span style=&#34;color:#555&#34;&gt;(&lt;/span&gt; req&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt; rsp&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt; root&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt; servletPath&lt;span style=&#34;color:#555&#34;&gt;);&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#555&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;/org/kohsuke/stapler/WebApp.java&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;/**
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;* Returns the &amp;#39;app&amp;#39; object, which is the user-specified object that
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;* sits at the root of the URL hierarchy and handles the request to &amp;#39;/&amp;#39;.
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#09f;font-style:italic&#34;&gt;*/&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;public&lt;/span&gt; Object &lt;span style=&#34;color:#c0f&#34;&gt;getApp&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#555&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;return&lt;/span&gt; context&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#309&#34;&gt;getAttribute&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;app&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;);&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#555&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;跟踪到这里，jenkins 的启动，和处理请求的过程，已经清楚。总结一下，主要是下面这几步。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;启动 winstone 容器，加载 jenkins。&lt;/li&gt;
-&lt;li&gt;Stapler 负责处理请求。&lt;/li&gt;
-&lt;li&gt;WebAppMain 负责初始化。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;最后，写一个 Hello World 庆祝一下，在 Jenkins.java 中，加入以下代码。&lt;/p&gt;
-&lt;p&gt;$JENKINS_SRC/core/src/main/java/jenkins/model/Jenkins.java&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#078;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#c0f&#34;&gt;doHelloWorld&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;(&lt;/span&gt; StaplerRequest req&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt; StaplerResponse rsp &lt;span style=&#34;color:#555&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;throws&lt;/span&gt; IOException&lt;span style=&#34;color:#555&#34;&gt;,&lt;/span&gt; ServletException &lt;span style=&#34;color:#555&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    rsp&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#309&#34;&gt;getWriter&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;().&lt;/span&gt;&lt;span style=&#34;color:#309&#34;&gt;println&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;Hello World&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;);&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#555&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;重新编译生成 jenkins.war，运行后用浏览器打开 http://localhost:8080/helloWorld 即可看到 Hello World。&lt;/p&gt;
-&lt;p&gt;注意这里的 URL 是大小写敏感的。&lt;/p&gt;
-&lt;p&gt;如果想了解 Stapler 的基本用法，可以查看下面这几篇文档。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://stapler.kohsuke.org/what-is.html&#34;&gt;what-is&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://stapler.kohsuke.org/getting-started.html&#34;&gt;getting-started&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://stapler.kohsuke.org/reference.html&#34;&gt;reference&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-      
+      <guid>https://myzhan.github.io/post/jenkins-src-entry-point/</guid>
+      <description>&lt;p&gt;jenkins 编译后，会生成一个 jenkins.war 文件，阅读 jenkins 源码，我们需要研究的一切，都在这个文件里面了。按照习惯，先寻找入口点，然后顺藤摸瓜，才能进入源码树中。&lt;/p&gt;&#xA;&lt;p&gt;如果 jenkins 独立运行，启动命令是：&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>编译和运行jenkins</title>
-      <link>http://localhost:1313/post/building-and-debugging-jenkins/</link>
+      <link>https://myzhan.github.io/post/building-and-debugging-jenkins/</link>
       <pubDate>Sat, 09 Jul 2016 17:17:49 +0000</pubDate>
-      
-      <guid>http://localhost:1313/post/building-and-debugging-jenkins/</guid>
-      
-        <description>&lt;p&gt;在工作中使用 jenkins 做持续集成，已经将近3年了。按照我的性格，用一样东西，就想了解它的源码实现。期间看过不少 jenkins 插件的代码，却一直没有看过 jenkins core 的源码。主要原因，是第一眼看代码的时候，感觉 jenkins 当初从 hudson 分出来，背负了不少历史包袱，代码结构有点混乱。&lt;/p&gt;
-&lt;p&gt;不过最近心血来潮，又开始想研究 jenkins core 的源码，在公司里面使用 jenkins，大多是用来实现自动打包部署，和自动化测试。这些 job 的实现，查看文档，使用几个插件就能完成。不了解源码，已经不能满足我的好奇心了。&lt;/p&gt;
-&lt;p&gt;学习源码，第一步要做的，就是能够编译运行，并且debug。jenkins 使用 maven 作为构建系统，编译和运行，都非常简单。不过依赖非常多，在 maven 下载依赖的时候，在这里写博客。算是挖个坑，督促自己把坑填了。:D&lt;/p&gt;
-&lt;h2 id=&#34;源码&#34;&gt;源码&lt;/h2&gt;
-&lt;p&gt;jenkins 的源码，目前放在 github 上面，clone 下来即可。&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ git clone https://github.com/jenkinsci/jenkins.git
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;编译&#34;&gt;编译&lt;/h2&gt;
-&lt;p&gt;编译 jenkins，需要 JDK 和 maven，按照 &lt;a href=&#34;https://wiki.jenkins-ci.org/display/JENKINS/Building+Jenkins&#34;&gt;官方文档&lt;/a&gt; 操作即可。不过默认的构建命令，会跑单元测试，由于环境原因，测试用例或许会失败。为了先简单体验一下，我们可以跳过部分测试。这里我用了源码目录里，BUILDING.TXT 文件介绍的命令。&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ mvn clean install -pl war -am -DskipTests
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这一步执行后，maven 需要在源里下载很多依赖包，由于国内的网络环境，需要花不少时间。如果等不及，可以使用国内的 maven 源。不过我在使用 oschina 提供的源时，提示缺少依赖，可能是还没同步过来，乖乖换回了官方的源。&lt;/p&gt;
-&lt;p&gt;如果一切顺利，就能在 war/target/ 目录下面，找到 jenkins.war 文件。在我这边就不顺利，由于网络不好，光是下载依赖就花了几个小时，哈哈。&lt;/p&gt;
-&lt;h2 id=&#34;运行&#34;&gt;运行&lt;/h2&gt;
-&lt;p&gt;在使用方面，jenkins非常友好。所有代码、依赖，都在 jenkins.war 文件里面，所有数据，默认都在 $HOME/.jenkins 目录下面。在升级版本，或者备份、迁移数据的时候，都很舒服。&lt;/p&gt;
-&lt;p&gt;上面我们已经得到 jenkins.war 文件，运行之。&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ java -jar jenkins.war
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;用浏览器访问 http://localhost:8080 ，即可以访问我们从源码编译出来的 jenkins 版本了。&lt;/p&gt;
-&lt;h2 id=&#34;debug&#34;&gt;Debug&lt;/h2&gt;
-&lt;p&gt;成功编译运行后，最简单、原始的方法，就是在自己不懂的地方，打日志，重新编译运行啦。IDE 我用的是 Intellij IDEA，因为可以通过直接打开 maven 的 pom 文件，来导入一个 Project。&lt;/p&gt;
-&lt;p&gt;如果更习惯使用 debugger 来单步调试，也是支持的。根据文档，在源码目录，执行以下命令即可。&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ cd war
-$ mvnDebug jenkins-dev:run
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这样子跑起来的 jenkins 实例，会额外监听 8000 端口(jdwp端口)，用 IDE 提供的 remote debug 功能连上去即可。&lt;/p&gt;
-</description>
-      
+      <guid>https://myzhan.github.io/post/building-and-debugging-jenkins/</guid>
+      <description>&lt;p&gt;在工作中使用 jenkins 做持续集成，已经将近3年了。按照我的性格，用一样东西，就想了解它的源码实现。期间看过不少 jenkins 插件的代码，却一直没有看过 jenkins core 的源码。主要原因，是第一眼看代码的时候，感觉 jenkins 当初从 hudson 分出来，背负了不少历史包袱，代码结构有点混乱。&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>告别robotframework</title>
-      <link>http://localhost:1313/post/giving-up-robotframework/</link>
+      <link>https://myzhan.github.io/post/giving-up-robotframework/</link>
       <pubDate>Fri, 04 Mar 2016 20:16:40 +0000</pubDate>
-      
-      <guid>http://localhost:1313/post/giving-up-robotframework/</guid>
-      
-        <description>&lt;p&gt;刚开始工作的两年，在做 API 型服务端的自动化测试。当时老大安利了 robotframework，一直在用。由于可以编写自定义的 library，robot 的扩展能力非常强，基本上 python 能做的事情，都可以在 robot 里面实现。通过编写 library，我实现了很多好玩的功能。例如，检测数据库，mc，日志，和运行时更换 mock 服务。&lt;/p&gt;
-&lt;p&gt;去年想尝试新事物，便换了项目。新项目的自动化从零开始，我也不想继续再用 robot。不用 robot，用什么呢？当时我也没有答案。不过当时我在做一件事情，就是把新项目的接口调用，都封装到一个 python 写的库里面。既然像模像样地写一个库，自然要有逼格，src，test，doc 这些目录都要有，不然会被程序员 BS 。写了好几个接口后，突然来了灵感，我写在 test 下面的那些 unittest，不就可以用来做服务端的自动化测试吗？事实证明，完全可以！ 被测对象，从 python 库，变成了服务端 API。&lt;/p&gt;
-&lt;p&gt;举个例子，服务端有个 login 接口，接收 name 和 password 参数。我把这个接口封装成了 python 调用，类似于 RPC。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-Python&#34; data-lang=&#34;Python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;resp &lt;span style=&#34;color:#555&#34;&gt;=&lt;/span&gt; User&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;login(name, password)
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这样，如果有人需要访问 login 接口，只要像上面这样调用就可以了。&lt;/p&gt;
-&lt;p&gt;我这样写 unittest。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-Python&#34; data-lang=&#34;Python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#c0f&#34;&gt;test_login&lt;/span&gt;():
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    resp &lt;span style=&#34;color:#555&#34;&gt;=&lt;/span&gt; User&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;login(&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;xxx&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;123&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;assert&lt;/span&gt; resp&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;nick_name &lt;span style=&#34;color:#555&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;xxx&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在 robot 里面淫浸多年，我非常喜欢数据驱动方式的自动化测试，于是通过 pytest 来解决这个问题。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-Python&#34; data-lang=&#34;Python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#0cf;font-weight:bold&#34;&gt;pytest&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#99f&#34;&gt;@pytest&lt;/span&gt;&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;mark&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;parametrize(&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;name, password, expected&amp;#34;&lt;/span&gt;, [
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;xxx&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;123&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;xxx&amp;#34;&lt;/span&gt;),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;yyy&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;123&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;yyy&amp;#34;&lt;/span&gt;),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;])
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#c0f&#34;&gt;test_login&lt;/span&gt;(name, password, expected):
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    resp &lt;span style=&#34;color:#555&#34;&gt;=&lt;/span&gt; User&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;login(name, password)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;assert&lt;/span&gt; resp&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;nick_name &lt;span style=&#34;color:#555&#34;&gt;==&lt;/span&gt; expected
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Bingo！现在完全可以通过不同的 name 和 password，来测试服务端的 login 接口了。接着我又把我在 robot 里面已经实现的一些功能，搬了过来。&lt;/p&gt;
-&lt;p&gt;测试缓存不存在的情况。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-Python&#34; data-lang=&#34;Python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#c0f&#34;&gt;test_login&lt;/span&gt;():
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;with&lt;/span&gt; mc_delete(&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;userinfo_xxx&amp;#34;&lt;/span&gt;):
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        resp &lt;span style=&#34;color:#555&#34;&gt;=&lt;/span&gt; User&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;login(&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;xxx&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;123&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;assert&lt;/span&gt; resp&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;nick_name &lt;span style=&#34;color:#555&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;xxx&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;熟悉的 with ！不过这还不能完全体现 with 的优势，来看看另外一个例子。&lt;/p&gt;
-&lt;p&gt;假设 login 接口，需要再调用内部系统去完成，那么我们可以测试内部系统响应异常的情况。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-Python&#34; data-lang=&#34;Python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#c0f&#34;&gt;test_login&lt;/span&gt;():
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;with&lt;/span&gt; mock(&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;microservice&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;error&amp;#34;&lt;/span&gt;):
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        resp &lt;span style=&#34;color:#555&#34;&gt;=&lt;/span&gt; User&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;login(&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;xxx&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;123&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;assert&lt;/span&gt; resp&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;not_ok
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;assert&lt;/span&gt; resp&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;nick_name &lt;span style=&#34;color:#555&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;mock 函数把内部系统的响应，mock 为 error，导致我们的系统，不能正常登录。很妙的是，mock 还是一个 context manager，离开 with 块之后，自动取消 mock 状态。测试用例还可以写成这样。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-Python&#34; data-lang=&#34;Python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#c0f&#34;&gt;test_login&lt;/span&gt;():
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;with&lt;/span&gt; mock(&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;microservice&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;error&amp;#34;&lt;/span&gt;):
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        resp &lt;span style=&#34;color:#555&#34;&gt;=&lt;/span&gt; User&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;login(&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;xxx&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;123&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;assert&lt;/span&gt; resp&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;not_ok
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;assert&lt;/span&gt; resp&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;nick_name &lt;span style=&#34;color:#555&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    resp &lt;span style=&#34;color:#555&#34;&gt;=&lt;/span&gt; User&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;login(&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;xxx&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;123&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;assert&lt;/span&gt; resp&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;ok
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#069;font-weight:bold&#34;&gt;assert&lt;/span&gt; resp&lt;span style=&#34;color:#555&#34;&gt;.&lt;/span&gt;nick_name &lt;span style=&#34;color:#555&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;xxx&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;很快，这样子写出来的用例，就有了 600 多个，每天都在 jenkins 上面做自动化回归测试。于是我成功地告别了 robot。&lt;/p&gt;
-&lt;p&gt;撸完这些后，忽然觉得心里空荡荡的。这大概就是我所理解的，API 接口自动化的最好状态了。&lt;/p&gt;
-&lt;p&gt;Simple is better than complex！&lt;/p&gt;
-</description>
-      
+      <guid>https://myzhan.github.io/post/giving-up-robotframework/</guid>
+      <description>&lt;p&gt;刚开始工作的两年，在做 API 型服务端的自动化测试。当时老大安利了 robotframework，一直在用。由于可以编写自定义的 library，robot 的扩展能力非常强，基本上 python 能做的事情，都可以在 robot 里面实现。通过编写 library，我实现了很多好玩的功能。例如，检测数据库，mc，日志，和运行时更换 mock 服务。&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>我与 HotSpot JIT 的故事</title>
-      <link>http://localhost:1313/post/the-stroy-of-hotspot-jit-and-me/</link>
+      <link>https://myzhan.github.io/post/the-stroy-of-hotspot-jit-and-me/</link>
       <pubDate>Tue, 02 Feb 2016 19:12:36 +0000</pubDate>
-      
-      <guid>http://localhost:1313/post/the-stroy-of-hotspot-jit-and-me/</guid>
-      
-        <description>&lt;p&gt;线上有一个 HTTP 服务，之前都运行的好好的，突然有一天，出现了一个问题。应用刚刚重启的时候，系统
-的 CPU 负载非常高，24 核的 CPU，Load 要去到 40 到 50。持续 2 分钟左右，负载才会慢慢降回正常水平。&lt;/p&gt;
-&lt;p&gt;项目使用的 web 框架基于 netty，处理请求的方式是队列加线程池。在刚启动的时候，可以看到马上就有 1w
-多的连接挂了上来。请求队列中，有上 w 个积压的请求。我们当时的推论是，积压的请求过多，导致负载过高。&lt;/p&gt;
-&lt;p&gt;这个问题，困扰了我一年多时间，把所有启动相关的代码都 review 了一遍，期间还发现了数据库连接池的问题，
-但都没找到问题的根本原因。&lt;/p&gt;
-&lt;p&gt;直到有一天，另外一个用同样框架的项目也遇到了这个问题，且对他们的影响很大，他们不得不停下手头的工作，
-集中精力排查这个问题。最后在 JVM 启动参数中，加上了 -XX:CICompilerCount=12，终于解决了这个问题！
-启动后 2-3 秒，负载恢复正常。&lt;/p&gt;
-&lt;p&gt;这个问题，居然真的跟 JIT 有关！为什么说是真的呢？因为我们也曾怀疑过，刚启动的时候，需要 JIT 来预热。
-我们给框架加了一个预热线程池，在刚启动的时候，使用一个非常小的线程池，来处理请求。避免 JVM 中，有过
-多的线程抢占 CPU 时间，线程越多，处理越慢。过了十几秒（拍脑袋决定的，估计十几秒后，JIT 能编译大部分
-“热”代码），才换一个较大的线程池，来处理请求队列中的请求。这个优化做完后，高负载的持续时间，减少到了
-1 分半左右，依然没有解决问题。&lt;/p&gt;
-&lt;p&gt;从上面的拍脑袋可以看出，当时我们对 JIT 是一知半解，白白浪费了解决问题的灵感。于是昨晚认真看了
-&lt;a href=&#34;http://book.douban.com/subject/25872755/&#34;&gt;《JAVA性能权威指南》&lt;/a&gt; 中的 JIT 相关章节，就当作是亡羊补牢吧。&lt;/p&gt;
-</description>
-      
+      <guid>https://myzhan.github.io/post/the-stroy-of-hotspot-jit-and-me/</guid>
+      <description>&lt;p&gt;线上有一个 HTTP 服务，之前都运行的好好的，突然有一天，出现了一个问题。应用刚刚重启的时候，系统&#xA;的 CPU 负载非常高，24 核的 CPU，Load 要去到 40 到 50。持续 2 分钟左右，负载才会慢慢降回正常水平。&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>
