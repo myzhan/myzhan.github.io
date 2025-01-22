@@ -32,13 +32,23 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 <html
   class="not-ready lg:text-base"
   style="--bg: #faf8f1"
   lang="zh-cn"
   dir="ltr"
 >
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -68,22 +78,26 @@
   
   
   
-  <link rel="preload stylesheet" as="style" href="https://myzhan.github.io/main.min.css" />
+  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
 
   
   
   
   
   
-  <link rel="preload" as="image" href="https://myzhan.github.io/theme.png" />
+  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
 
   
   
   
   
+  <link rel="preload" as="image" href="https://www.gravatar.com/avatar/1c20e6863b1a37430a0142fde45cd9fb?s=160&amp;d=identicon" />
+  
   
 
   
+  
+  <link rel="preload" as="image" href="http://localhost:1313/github.svg" />
   
   
 
@@ -91,7 +105,7 @@
   
   <script
     defer
-    src="https://myzhan.github.io/highlight.min.js"
+    src="http://localhost:1313/highlight.min.js"
     onload="hljs.initHighlightingOnLoad();"
   ></script>
   
@@ -103,11 +117,11 @@
   
   <link
     rel="icon"
-    href="https://myzhan.github.io/favicon.ico"
+    href="http://localhost:1313/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="https://myzhan.github.io/apple-touch-icon.png"
+    href="http://localhost:1313/apple-touch-icon.png"
   />
 
   
@@ -116,48 +130,12 @@
   
   
   
-  
-  
-  
-  <meta itemprop="name" content="移植内存泄漏检测工具到鸿蒙系统">
-  <meta itemprop="description" content="memory-leak-detector 是字节开源的一款上基于 hook 来实现的 Android 内存泄漏检测工具。 最近在鸿蒙 Next 系统上遇到一些资源泄漏的问题，于是萌生了把这个工具移植到鸿蒙 Next 系统上的想法，丰富一下工具库。考虑到 Android 和鸿蒙都是 基于 Linux，这个移植应该是行得通的。移植的策略，就是先把工程搭起来，编译通过。遇到错误，如果是 Android 特有的，就注释掉，如果是功能必须的，则修改代码解决。">
-  <meta itemprop="datePublished" content="2025-01-20T21:42:08+08:00">
-  <meta itemprop="dateModified" content="2025-01-20T21:42:08+08:00">
-  <meta itemprop="wordCount" content="874">
-  <meta itemprop="keywords" content="Hook,Harmonyos,鸿蒙Next">
-  
-  <meta property="og:url" content="https://myzhan.github.io/post/port-a-menory-leak-detector-to-harmonyos/">
-  <meta property="og:site_name" content="myzhan">
-  <meta property="og:title" content="移植内存泄漏检测工具到鸿蒙系统">
-  <meta property="og:description" content="memory-leak-detector 是字节开源的一款上基于 hook 来实现的 Android 内存泄漏检测工具。 最近在鸿蒙 Next 系统上遇到一些资源泄漏的问题，于是萌生了把这个工具移植到鸿蒙 Next 系统上的想法，丰富一下工具库。考虑到 Android 和鸿蒙都是 基于 Linux，这个移植应该是行得通的。移植的策略，就是先把工程搭起来，编译通过。遇到错误，如果是 Android 特有的，就注释掉，如果是功能必须的，则修改代码解决。">
-  <meta property="og:locale" content="zh_cn">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2025-01-20T21:42:08+08:00">
-    <meta property="article:modified_time" content="2025-01-20T21:42:08+08:00">
-    <meta property="article:tag" content="Hook">
-    <meta property="article:tag" content="Harmonyos">
-    <meta property="article:tag" content="鸿蒙Next">
-
-  
-  
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="移植内存泄漏检测工具到鸿蒙系统">
-  <meta name="twitter:description" content="memory-leak-detector 是字节开源的一款上基于 hook 来实现的 Android 内存泄漏检测工具。 最近在鸿蒙 Next 系统上遇到一些资源泄漏的问题，于是萌生了把这个工具移植到鸿蒙 Next 系统上的想法，丰富一下工具库。考虑到 Android 和鸿蒙都是 基于 Linux，这个移植应该是行得通的。移植的策略，就是先把工程搭起来，编译通过。遇到错误，如果是 Android 特有的，就注释掉，如果是功能必须的，则修改代码解决。">
-
-  
-  
-
-  
-  <link rel="canonical" href="https://myzhan.github.io/post/port-a-menory-leak-detector-to-harmonyos/" />
-  
-  
 </head>
 
   <body class="text-black duration-200 ease-out dark:text-white">
     <header class="mx-auto flex h-[4.5rem] max-w-[--w] px-8 lg:justify-center">
   <div class="relative z-50 ltr:mr-auto rtl:ml-auto flex items-center">
-    <a class="-translate-y-[1px] text-2xl font-medium" href="https://myzhan.github.io/"
+    <a class="-translate-y-[1px] text-2xl font-medium" href="http://localhost:1313/"
       >myzhan</a
     >
     <div
@@ -237,21 +215,25 @@
         >Archives</a
       >
       
-      <a
-        class="block text-center text-xl leading-[5rem] lg:text-base lg:font-normal"
-        href="../../tags/"
-        >Tags</a
-      >
-      
-      <a
-        class="block text-center text-xl leading-[5rem] lg:text-base lg:font-normal"
-        href="../../categories/"
-        >Categories</a
-      >
-      
     </nav>
     
 
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 rtl:space-x-reverse dark:invert ltr:lg:ml-14 rtl:lg:mr-14 lg:mt-0 lg:items-center"
+    >
+      
+      <a
+        class="h-7 w-7 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/myzhan"
+        target="_blank"
+        rel="me"
+      >
+        github
+      </a>
+      
+    </nav>
     
   </div>
 </header>
@@ -362,19 +344,19 @@
      
     <a
       class="mb-1.5 ltr:mr-1.5 rtl:ml-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="https://myzhan.github.io/tags/hook"
+      href="http://localhost:1313/tags/hook"
       >hook</a
     >
      
     <a
       class="mb-1.5 ltr:mr-1.5 rtl:ml-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="https://myzhan.github.io/tags/harmonyos"
+      href="http://localhost:1313/tags/harmonyos"
       >harmonyos</a
     >
      
     <a
       class="mb-1.5 ltr:mr-1.5 rtl:ml-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="https://myzhan.github.io/tags/%E9%B8%BF%E8%92%99next"
+      href="http://localhost:1313/tags/%E9%B8%BF%E8%92%99next"
       >鸿蒙Next</a
     >
     
@@ -390,7 +372,7 @@
   >
     
     
-    <a class="ltr:ml-auto rtl:mr-auto justify-end pl-3" href="https://myzhan.github.io/post/first-version-of-locust4j/"
+    <a class="ltr:ml-auto rtl:mr-auto justify-end pl-3" href="http://localhost:1313/post/first-version-of-locust4j/"
       ><span>locust4j 1.0.0 发布</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     >
     

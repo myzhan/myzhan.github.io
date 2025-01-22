@@ -2,67 +2,67 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on myzhan</title>
-    <link>https://myzhan.github.io/post/</link>
+    <link>http://localhost:1313/post/</link>
     <description>Recent content in Posts on myzhan</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
     <copyright>myzhan</copyright>
     <lastBuildDate>Mon, 20 Jan 2025 21:42:08 +0800</lastBuildDate>
-    <atom:link href="https://myzhan.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>移植内存泄漏检测工具到鸿蒙系统</title>
-      <link>https://myzhan.github.io/post/port-a-menory-leak-detector-to-harmonyos/</link>
+      <link>http://localhost:1313/post/port-a-menory-leak-detector-to-harmonyos/</link>
       <pubDate>Mon, 20 Jan 2025 21:42:08 +0800</pubDate>
-      <guid>https://myzhan.github.io/post/port-a-menory-leak-detector-to-harmonyos/</guid>
+      <guid>http://localhost:1313/post/port-a-menory-leak-detector-to-harmonyos/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/ByteDance/memory-leak-detector&#34;&gt;memory-leak-detector&lt;/a&gt; 是字节开源的一款上基于 hook 来实现的 Android 内存泄漏检测工具。&#xA;最近在鸿蒙 Next 系统上遇到一些资源泄漏的问题，于是萌生了把这个工具移植到鸿蒙 Next 系统上的想法，丰富一下工具库。考虑到 Android 和鸿蒙都是&#xA;基于 Linux，这个移植应该是行得通的。移植的策略，就是先把工程搭起来，编译通过。遇到错误，如果是 Android 特有的，就注释掉，如果是功能必须的，则修改代码解决。&lt;/p&gt;</description>
     </item>
     <item>
       <title>locust4j 1.0.0 发布</title>
-      <link>https://myzhan.github.io/post/first-version-of-locust4j/</link>
+      <link>http://localhost:1313/post/first-version-of-locust4j/</link>
       <pubDate>Thu, 14 Dec 2017 23:11:00 +0000</pubDate>
-      <guid>https://myzhan.github.io/post/first-version-of-locust4j/</guid>
+      <guid>http://localhost:1313/post/first-version-of-locust4j/</guid>
       <description>&lt;p&gt;不知不觉，维护 &lt;a href=&#34;https://github.com/myzhan/boomer&#34;&gt;boomer&lt;/a&gt; 已经两年了。说来也奇怪，接到的性能测试需求，一般都是私有协议的，很难直接用 jmeter 这类通用的工具，一般只能基于 boomer 自己写一个。前不久需要压测 Flume 的 &lt;a href=&#34;https://flume.apache.org/FlumeUserGuide.html#avro-source&#34;&gt;Avro Source&lt;/a&gt;，这货偏偏没有一个 Go 的客户端！&lt;/p&gt;</description>
     </item>
     <item>
       <title>用 golang 来编写压测工具</title>
-      <link>https://myzhan.github.io/post/write-a-load-testing-tool-in-golang/</link>
+      <link>http://localhost:1313/post/write-a-load-testing-tool-in-golang/</link>
       <pubDate>Thu, 14 Dec 2017 23:11:00 +0000</pubDate>
-      <guid>https://myzhan.github.io/post/write-a-load-testing-tool-in-golang/</guid>
+      <guid>http://localhost:1313/post/write-a-load-testing-tool-in-golang/</guid>
       <description>&lt;p&gt;之前在项目中做服务端性能测试，一般用的都是 LoadRunner，或者 jmeter。随着接触的项目越来越多，各种各样的代码都有，光传输协议，就有 HTTP，TCP，UDP。有时数据传的不是明文，可能是 protobuf，也可能是 RSA 加密后的密文。继续用 LR 或 jmeter，有点难以招架。&lt;/p&gt;</description>
     </item>
     <item>
       <title>jenkins源码阅读：渲染主页</title>
-      <link>https://myzhan.github.io/post/jenkins-src-render-index/</link>
+      <link>http://localhost:1313/post/jenkins-src-render-index/</link>
       <pubDate>Mon, 18 Jul 2016 19:55:13 +0000</pubDate>
-      <guid>https://myzhan.github.io/post/jenkins-src-render-index/</guid>
+      <guid>http://localhost:1313/post/jenkins-src-render-index/</guid>
       <description>&lt;p&gt;jenkins 的一切 URL 请求，都托管给了 Stapler，要了解主页是如何渲染的，依然要从 Stapler 开始。用现在 Web 开发的目光来看 Stapler，它是一个纯粹的路由组件，即根据用户访问的 URL ，找到对应的处理代码。不过对于 Stapler 来说，“约定”优于“配置”，除了在 web.xml 中将 /* 交给 Stapler 处理，再也没有任何配置。免“配置”，对于开发来说，省了很多麻烦，只要在文档中详细说明“约定”，大家通读一遍文档，也就知道了。&lt;/p&gt;</description>
     </item>
     <item>
       <title>jenkins源码阅读：启动和请求处理</title>
-      <link>https://myzhan.github.io/post/jenkins-src-entry-point/</link>
+      <link>http://localhost:1313/post/jenkins-src-entry-point/</link>
       <pubDate>Sat, 16 Jul 2016 18:35:21 +0000</pubDate>
-      <guid>https://myzhan.github.io/post/jenkins-src-entry-point/</guid>
+      <guid>http://localhost:1313/post/jenkins-src-entry-point/</guid>
       <description>&lt;p&gt;jenkins 编译后，会生成一个 jenkins.war 文件，阅读 jenkins 源码，我们需要研究的一切，都在这个文件里面了。按照习惯，先寻找入口点，然后顺藤摸瓜，才能进入源码树中。&lt;/p&gt;&#xA;&lt;p&gt;如果 jenkins 独立运行，启动命令是：&lt;/p&gt;</description>
     </item>
     <item>
       <title>编译和运行jenkins</title>
-      <link>https://myzhan.github.io/post/building-and-debugging-jenkins/</link>
+      <link>http://localhost:1313/post/building-and-debugging-jenkins/</link>
       <pubDate>Sat, 09 Jul 2016 17:17:49 +0000</pubDate>
-      <guid>https://myzhan.github.io/post/building-and-debugging-jenkins/</guid>
+      <guid>http://localhost:1313/post/building-and-debugging-jenkins/</guid>
       <description>&lt;p&gt;在工作中使用 jenkins 做持续集成，已经将近3年了。按照我的性格，用一样东西，就想了解它的源码实现。期间看过不少 jenkins 插件的代码，却一直没有看过 jenkins core 的源码。主要原因，是第一眼看代码的时候，感觉 jenkins 当初从 hudson 分出来，背负了不少历史包袱，代码结构有点混乱。&lt;/p&gt;</description>
     </item>
     <item>
       <title>告别robotframework</title>
-      <link>https://myzhan.github.io/post/giving-up-robotframework/</link>
+      <link>http://localhost:1313/post/giving-up-robotframework/</link>
       <pubDate>Fri, 04 Mar 2016 20:16:40 +0000</pubDate>
-      <guid>https://myzhan.github.io/post/giving-up-robotframework/</guid>
+      <guid>http://localhost:1313/post/giving-up-robotframework/</guid>
       <description>&lt;p&gt;刚开始工作的两年，在做 API 型服务端的自动化测试。当时老大安利了 robotframework，一直在用。由于可以编写自定义的 library，robot 的扩展能力非常强，基本上 python 能做的事情，都可以在 robot 里面实现。通过编写 library，我实现了很多好玩的功能。例如，检测数据库，mc，日志，和运行时更换 mock 服务。&lt;/p&gt;</description>
     </item>
     <item>
       <title>我与 HotSpot JIT 的故事</title>
-      <link>https://myzhan.github.io/post/the-stroy-of-hotspot-jit-and-me/</link>
+      <link>http://localhost:1313/post/the-stroy-of-hotspot-jit-and-me/</link>
       <pubDate>Tue, 02 Feb 2016 19:12:36 +0000</pubDate>
-      <guid>https://myzhan.github.io/post/the-stroy-of-hotspot-jit-and-me/</guid>
+      <guid>http://localhost:1313/post/the-stroy-of-hotspot-jit-and-me/</guid>
       <description>&lt;p&gt;线上有一个 HTTP 服务，之前都运行的好好的，突然有一天，出现了一个问题。应用刚刚重启的时候，系统&#xA;的 CPU 负载非常高，24 核的 CPU，Load 要去到 40 到 50。持续 2 分钟左右，负载才会慢慢降回正常水平。&lt;/p&gt;</description>
     </item>
   </channel>

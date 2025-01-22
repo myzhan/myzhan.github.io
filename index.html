@@ -32,13 +32,23 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 <html
   class="not-ready lg:text-base"
   style="--bg: #faf8f1"
   lang="zh-cn"
   dir="ltr"
 >
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -59,7 +69,7 @@
   
   <meta
     name="description"
-    content="Personal blog of myzhan"
+    content="A personal blog"
   />
   <meta name="author" content="myzhan" />
   
@@ -70,22 +80,26 @@
   
   
   
-  <link rel="preload stylesheet" as="style" href="https://myzhan.github.io/main.min.css" />
+  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
 
   
   
   
   
   
-  <link rel="preload" as="image" href="https://myzhan.github.io/theme.png" />
+  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
 
   
   
   
   
+  <link rel="preload" as="image" href="https://www.gravatar.com/avatar/1c20e6863b1a37430a0142fde45cd9fb?s=160&amp;d=identicon" />
+  
   
 
   
+  
+  <link rel="preload" as="image" href="http://localhost:1313/github.svg" />
   
   
 
@@ -99,11 +113,11 @@
   
   <link
     rel="icon"
-    href="https://myzhan.github.io/favicon.ico"
+    href="http://localhost:1313/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="https://myzhan.github.io/apple-touch-icon.png"
+    href="http://localhost:1313/apple-touch-icon.png"
   />
 
   
@@ -112,47 +126,12 @@
   
   
   
-  
-  
-  
-  <meta itemprop="name" content="myzhan">
-  <meta itemprop="description" content="Personal blog of myzhan">
-  <meta itemprop="datePublished" content="2025-01-20T21:42:08+08:00">
-  <meta itemprop="dateModified" content="2025-01-20T21:42:08+08:00">
-  
-  <meta property="og:url" content="https://myzhan.github.io/">
-  <meta property="og:site_name" content="myzhan">
-  <meta property="og:title" content="myzhan">
-  <meta property="og:description" content="Personal blog of myzhan">
-  <meta property="og:locale" content="zh_cn">
-  <meta property="og:type" content="website">
-
-  
-  
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="myzhan">
-  <meta name="twitter:description" content="Personal blog of myzhan">
-
-  
-  
-  <link
-    rel="alternate"
-    type="application/rss&#43;xml"
-    href="https://myzhan.github.io/index.xml"
-    title="myzhan"
-  />
-  
-
-  
-  <link rel="canonical" href="https://myzhan.github.io/" />
-  
-  
 </head>
 
   <body class="text-black duration-200 ease-out dark:text-white">
     <header class="mx-auto flex h-[4.5rem] max-w-[--w] px-8 lg:justify-center">
   <div class="relative z-50 ltr:mr-auto rtl:ml-auto flex items-center">
-    <a class="-translate-y-[1px] text-2xl font-medium" href="https://myzhan.github.io/"
+    <a class="-translate-y-[1px] text-2xl font-medium" href="http://localhost:1313/"
       >myzhan</a
     >
     <div
@@ -232,21 +211,25 @@
         >Archives</a
       >
       
-      <a
-        class="block text-center text-xl leading-[5rem] lg:text-base lg:font-normal"
-        href="./tags/"
-        >Tags</a
-      >
-      
-      <a
-        class="block text-center text-xl leading-[5rem] lg:text-base lg:font-normal"
-        href="./categories/"
-        >Categories</a
-      >
-      
     </nav>
     
 
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 rtl:space-x-reverse dark:invert ltr:lg:ml-14 rtl:lg:mr-14 lg:mt-0 lg:items-center"
+    >
+      
+      <a
+        class="h-7 w-7 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/myzhan"
+        target="_blank"
+        rel="me"
+      >
+        github
+      </a>
+      
+    </nav>
     
   </div>
 </header>
@@ -274,6 +257,30 @@
 
 
 
+<div class="-mt-2 mb-12 flex items-center">
+  
+  <div
+    class="ltr:-ml-1 rtl:-mr-1 ltr:mr-5 rtl:ml-5 h-24 w-24 shrink-0 rounded-full border-[0.5px] border-black/10 bg-white/50 p-3 dark:!bg-white/90"
+  >
+    <img
+      class="my-0 h-full w-full rounded-full !bg-black/5 hover:animate-spin dark:!bg-black/80"
+      src="https://www.gravatar.com/avatar/1c20e6863b1a37430a0142fde45cd9fb?s=160&amp;d=identicon"
+      alt="myzhan"
+    />
+  </div>
+  
+  
+  <div>
+    <div class="mb-1 mt-3 text-2xl font-medium text-black dark:text-white">
+      myzhan
+    </div>
+    <div class="break-words">
+      a nerd
+    </div>
+  </div>
+  
+</div>
+
 
 
 
@@ -283,7 +290,7 @@
   <time class="text-xs antialiased opacity-60"
     >Jan 20, 2025</time
   >
-  <a class="absolute inset-0 text-[0]" href="https://myzhan.github.io/post/port-a-menory-leak-detector-to-harmonyos/">移植内存泄漏检测工具到鸿蒙系统</a>
+  <a class="absolute inset-0 text-[0]" href="http://localhost:1313/post/port-a-menory-leak-detector-to-harmonyos/">移植内存泄漏检测工具到鸿蒙系统</a>
 </section>
 
 
@@ -296,7 +303,7 @@
   <time class="text-xs antialiased opacity-60"
     >Dec 14, 2017</time
   >
-  <a class="absolute inset-0 text-[0]" href="https://myzhan.github.io/post/first-version-of-locust4j/">locust4j 1.0.0 发布</a>
+  <a class="absolute inset-0 text-[0]" href="http://localhost:1313/post/first-version-of-locust4j/">locust4j 1.0.0 发布</a>
 </section>
 
 
@@ -309,7 +316,7 @@
   <time class="text-xs antialiased opacity-60"
     >Dec 14, 2017</time
   >
-  <a class="absolute inset-0 text-[0]" href="https://myzhan.github.io/post/write-a-load-testing-tool-in-golang/">用 golang 来编写压测工具</a>
+  <a class="absolute inset-0 text-[0]" href="http://localhost:1313/post/write-a-load-testing-tool-in-golang/">用 golang 来编写压测工具</a>
 </section>
 
 
@@ -322,7 +329,7 @@
   <time class="text-xs antialiased opacity-60"
     >Jul 18, 2016</time
   >
-  <a class="absolute inset-0 text-[0]" href="https://myzhan.github.io/post/jenkins-src-render-index/">jenkins源码阅读：渲染主页</a>
+  <a class="absolute inset-0 text-[0]" href="http://localhost:1313/post/jenkins-src-render-index/">jenkins源码阅读：渲染主页</a>
 </section>
 
 
@@ -335,7 +342,7 @@
   <time class="text-xs antialiased opacity-60"
     >Jul 16, 2016</time
   >
-  <a class="absolute inset-0 text-[0]" href="https://myzhan.github.io/post/jenkins-src-entry-point/">jenkins源码阅读：启动和请求处理</a>
+  <a class="absolute inset-0 text-[0]" href="http://localhost:1313/post/jenkins-src-entry-point/">jenkins源码阅读：启动和请求处理</a>
 </section>
 
 
@@ -348,7 +355,7 @@
   <time class="text-xs antialiased opacity-60"
     >Jul 9, 2016</time
   >
-  <a class="absolute inset-0 text-[0]" href="https://myzhan.github.io/post/building-and-debugging-jenkins/">编译和运行jenkins</a>
+  <a class="absolute inset-0 text-[0]" href="http://localhost:1313/post/building-and-debugging-jenkins/">编译和运行jenkins</a>
 </section>
 
 
@@ -361,7 +368,7 @@
   <time class="text-xs antialiased opacity-60"
     >Mar 4, 2016</time
   >
-  <a class="absolute inset-0 text-[0]" href="https://myzhan.github.io/post/giving-up-robotframework/">告别robotframework</a>
+  <a class="absolute inset-0 text-[0]" href="http://localhost:1313/post/giving-up-robotframework/">告别robotframework</a>
 </section>
 
 
@@ -374,7 +381,7 @@
   <time class="text-xs antialiased opacity-60"
     >Feb 2, 2016</time
   >
-  <a class="absolute inset-0 text-[0]" href="https://myzhan.github.io/post/the-stroy-of-hotspot-jit-and-me/">我与 HotSpot JIT 的故事</a>
+  <a class="absolute inset-0 text-[0]" href="http://localhost:1313/post/the-stroy-of-hotspot-jit-and-me/">我与 HotSpot JIT 的故事</a>
 </section>
 
 
