@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>鸿蒙Next on myzhan</title>
+    <link>http://localhost:1313/tags/%E9%B8%BF%E8%92%99next/</link>
+    <description>Recent content in 鸿蒙Next on myzhan</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <copyright>myzhan</copyright>
+    <lastBuildDate>Mon, 20 Jan 2025 21:42:08 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E9%B8%BF%E8%92%99next/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>移植内存泄漏检测工具到鸿蒙系统</title>
+      <link>http://localhost:1313/post/port-a-menory-leak-detector-to-harmonyos/</link>
+      <pubDate>Mon, 20 Jan 2025 21:42:08 +0800</pubDate>
+      <guid>http://localhost:1313/post/port-a-menory-leak-detector-to-harmonyos/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/ByteDance/memory-leak-detector&#34;&gt;memory-leak-detector&lt;/a&gt; 是字节开源的一款上基于 hook 来实现的 Android 内存泄漏检测工具。&#xA;最近在鸿蒙 Next 系统上遇到一些资源泄漏的问题，于是萌生了把这个工具移植到鸿蒙 Next 系统上的想法，丰富一下工具库。考虑到 Android 和鸿蒙都是&#xA;基于 Linux，这个移植应该是行得通的。移植的策略，就是先把工程搭起来，编译通过。遇到错误，如果是 Android 特有的，就注释掉，如果是功能必须的，则修改代码解决。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

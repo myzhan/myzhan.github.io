@@ -38,7 +38,7 @@
   lang="zh-cn"
   dir="ltr"
 >
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -67,14 +67,14 @@
   
   
   
-  <link rel="preload stylesheet" as="style" href="https://myzhan.github.io/main.min.css" />
+  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
 
   
   
   
   
   
-  <link rel="preload" as="image" href="https://myzhan.github.io/theme.png" />
+  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
 
   
   
@@ -90,7 +90,7 @@
   
   <script
     defer
-    src="https://myzhan.github.io/highlight.min.js"
+    src="http://localhost:1313/highlight.min.js"
     onload="hljs.initHighlightingOnLoad();"
   ></script>
   
@@ -102,11 +102,11 @@
   
   <link
     rel="icon"
-    href="https://myzhan.github.io/favicon.ico"
+    href="http://localhost:1313/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="https://myzhan.github.io/apple-touch-icon.png"
+    href="http://localhost:1313/apple-touch-icon.png"
   />
 
   
@@ -115,50 +115,12 @@
   
   
   
-  
-  
-  
-  <meta itemprop="name" content="jenkins源码阅读：启动和请求处理">
-  <meta itemprop="description" content="jenkins 编译后，会生成一个 jenkins.war 文件，阅读 jenkins 源码，我们需要研究的一切，都在这个文件里面了。按照习惯，先寻找入口点，然后顺藤摸瓜，才能进入源码树中。
-如果 jenkins 独立运行，启动命令是：">
-  <meta itemprop="datePublished" content="2016-07-16T18:35:21+00:00">
-  <meta itemprop="dateModified" content="2016-07-16T18:35:21+00:00">
-  <meta itemprop="wordCount" content="1095">
-  <meta itemprop="keywords" content="Jenkins,Ci">
-  
-  <meta property="og:url" content="https://myzhan.github.io/post/jenkins-src-entry-point/">
-  <meta property="og:site_name" content="myzhan">
-  <meta property="og:title" content="jenkins源码阅读：启动和请求处理">
-  <meta property="og:description" content="jenkins 编译后，会生成一个 jenkins.war 文件，阅读 jenkins 源码，我们需要研究的一切，都在这个文件里面了。按照习惯，先寻找入口点，然后顺藤摸瓜，才能进入源码树中。
-如果 jenkins 独立运行，启动命令是：">
-  <meta property="og:locale" content="zh_cn">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2016-07-16T18:35:21+00:00">
-    <meta property="article:modified_time" content="2016-07-16T18:35:21+00:00">
-    <meta property="article:tag" content="Jenkins">
-    <meta property="article:tag" content="Ci">
-
-  
-  
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="jenkins源码阅读：启动和请求处理">
-  <meta name="twitter:description" content="jenkins 编译后，会生成一个 jenkins.war 文件，阅读 jenkins 源码，我们需要研究的一切，都在这个文件里面了。按照习惯，先寻找入口点，然后顺藤摸瓜，才能进入源码树中。
-如果 jenkins 独立运行，启动命令是：">
-
-  
-  
-
-  
-  <link rel="canonical" href="https://myzhan.github.io/post/jenkins-src-entry-point/" />
-  
-  
 </head>
 
   <body class="text-black duration-200 ease-out dark:text-white">
     <header class="mx-auto flex h-[4.5rem] max-w-[--w] px-8 lg:justify-center">
   <div class="relative z-50 ltr:mr-auto rtl:ml-auto flex items-center">
-    <a class="-translate-y-[1px] text-2xl font-medium" href="https://myzhan.github.io/"
+    <a class="-translate-y-[1px] text-2xl font-medium" href="http://localhost:1313/"
       >myzhan</a
     >
     <div
@@ -377,13 +339,13 @@
      
     <a
       class="mb-1.5 ltr:mr-1.5 rtl:ml-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="https://myzhan.github.io/tags/jenkins"
+      href="http://localhost:1313/tags/jenkins"
       >jenkins</a
     >
      
     <a
       class="mb-1.5 ltr:mr-1.5 rtl:ml-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="https://myzhan.github.io/tags/ci"
+      href="http://localhost:1313/tags/ci"
       >ci</a
     >
     
@@ -398,12 +360,12 @@
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg !leading-[1.2] *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
   >
     
-    <a class="ltr:pr-3 rtl:pl-3" href="https://myzhan.github.io/post/jenkins-src-render-index/"
+    <a class="ltr:pr-3 rtl:pl-3" href="http://localhost:1313/post/jenkins-src-render-index/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>jenkins源码阅读：渲染主页</span></a
     >
     
     
-    <a class="ltr:ml-auto rtl:mr-auto justify-end pl-3" href="https://myzhan.github.io/post/building-and-debugging-jenkins/"
+    <a class="ltr:ml-auto rtl:mr-auto justify-end pl-3" href="http://localhost:1313/post/building-and-debugging-jenkins/"
       ><span>编译和运行jenkins</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     >
     

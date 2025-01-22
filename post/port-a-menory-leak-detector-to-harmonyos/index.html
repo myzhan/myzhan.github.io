@@ -1,0 +1,401 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-cn"
+  dir="ltr"
+>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>移植内存泄漏检测工具到鸿蒙系统 - myzhan</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="memory-leak-detector 是字节开源的一款上基于 hook 来实现的 Android 内存泄漏检测工具。
+最近在鸿蒙 Next 系统上遇到一些资源泄漏的问题，于是萌生了把这个工具移植到鸿蒙 Next 系统上的想法，丰富一下工具库。考虑到 Android 和鸿蒙都是
+基于 Linux，这个移植应该是行得通的。移植的策略，就是先把工程搭起来，编译通过。遇到错误，如果是 Android 特有的，就注释掉，如果是功能必须的，则修改代码解决。" />
+  <meta name="author" content="myzhan" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  <script
+    defer
+    src="http://localhost:1313/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link
+    rel="icon"
+    href="http://localhost:1313/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="http://localhost:1313/apple-touch-icon.png"
+  />
+
+  
+  <meta name="generator" content="Hugo 0.140.2">
+
+  
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-[--w] px-8 lg:justify-center">
+  <div class="relative z-50 ltr:mr-auto rtl:ml-auto flex items-center">
+    <a class="-translate-y-[1px] text-2xl font-medium" href="http://localhost:1313/"
+      >myzhan</a
+    >
+    <div
+      class="btn-dark text-[0] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 ltr:-mr-8 rtl:-ml-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+    <nav class="lg:ml-12 lg:flex lg:flex-row lg:items-center lg:space-x-10 rtl:space-x-reverse">
+      
+      <a
+        class="block text-center text-xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/"
+        >Home</a
+      >
+      
+      <a
+        class="block text-center text-xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/post/"
+        >Archives</a
+      >
+      
+      <a
+        class="block text-center text-xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/tags/"
+        >Tags</a
+      >
+      
+      <a
+        class="block text-center text-xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/categories/"
+        >Categories</a
+      >
+      
+    </nav>
+    
+
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100vh-9rem)] max-w-[--w] px-8 pb-16 pt-14 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-14">
+    <h1 class="!my-0 pb-2.5">移植内存泄漏检测工具到鸿蒙系统</h1>
+
+    
+    <div class="text-xs antialiased opacity-60">
+      
+      <time>Jan 20, 2025</time>
+      
+      
+      
+      
+      <span class="mx-1">&middot;</span>
+      <span>myzhan</span>
+      
+    </div>
+    
+  </header>
+
+  <section><p><a href="https://github.com/ByteDance/memory-leak-detector">memory-leak-detector</a> 是字节开源的一款上基于 hook 来实现的 Android 内存泄漏检测工具。
+最近在鸿蒙 Next 系统上遇到一些资源泄漏的问题，于是萌生了把这个工具移植到鸿蒙 Next 系统上的想法，丰富一下工具库。考虑到 Android 和鸿蒙都是
+基于 Linux，这个移植应该是行得通的。移植的策略，就是先把工程搭起来，编译通过。遇到错误，如果是 Android 特有的，就注释掉，如果是功能必须的，则修改代码解决。</p>
+<p>先说一下 memory-leak-detector 的原理。它利用了多种函数 hook 技术，在运行时将分配内存的函数，跳转到代理函数，在代理函数里面调用实际的内存分配函数，如果分配成功，
+则以分配的内存地址为 key，记录当前的堆栈信息。同样，它也 hook 了对应的释放内存的函数，跳转到代理函数，然后删除堆栈记录。如果一块内存只有分配没有释放，那它的分配
+堆栈会一直存在记录里面，在输出报告的时候会输出。从原理也能知道，报告里面输出的，并不一定是泄漏，也有可能只是还没到释放时间而已，所以报告要结合实际代码进行分析确认。</p>
+<p>malloc 代理函数的例子：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">malloc_proxy</span>(<span style="color:#66d9ef">size_t</span> size) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (isPss <span style="color:#f92672">&amp;&amp;</span> size <span style="color:#f92672">&gt;=</span> limit <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>(<span style="color:#66d9ef">uintptr_t</span>) <span style="color:#a6e22e">pthread_getspecific</span>(guard)) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">pthread_setspecific</span>(guard, (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>) <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// malloc_origin 是实际的内存分配函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>address <span style="color:#f92672">=</span> <span style="color:#a6e22e">malloc_origin</span>(size);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (address <span style="color:#f92672">!=</span> NULL) {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 如果分配成功，则记录当前的堆栈
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#a6e22e">insert_memory_backtrace</span>(address, size);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">pthread_setspecific</span>(guard, (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>) <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> address;
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 不满足配置条件，不记录，直接分配
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">malloc_origin</span>(size);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>free 代理函数的例子：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">free_proxy</span>(<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>address) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ((isVss <span style="color:#f92672">|</span> isPss) <span style="color:#f92672">&amp;&amp;</span> address <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>(<span style="color:#66d9ef">uintptr_t</span>) <span style="color:#a6e22e">pthread_getspecific</span>(guard)) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">pthread_setspecific</span>(guard, (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>) <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 释放内存
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">free_origin</span>(address);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 删除记录
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        cache<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">remove</span>((<span style="color:#66d9ef">uintptr_t</span>) address);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">pthread_setspecific</span>(guard, (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>) <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 不满足配置条件，直接释放
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">free_origin</span>(address);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>根据配置需求的不同，memory-leak-detector 使用了两种 hook 机制，分别是 Inline Hook 和 PLT Hook。与 hook 有关的机制不在这里展开说了，
+<a href="https://blog.yorek.xyz/android/paid/master/native_hook/">Native Hook 技术，天使还是魔鬼？</a>一文有非常详尽的描述。</p>
+<p>接下来，分析一下 Android 和鸿蒙的差异。从鸿蒙 Next 开始，已经完全删除掉 Android Framework 层，可以认为它们已经是两个系统。
+那跟内存泄漏检测有关的，主要有哪些差异会影响呢？</p>
+<table>
+  <thead>
+      <tr>
+          <th>组件</th>
+          <th>Android</th>
+          <th>鸿蒙</th>
+          <th>备注</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>CPU</td>
+          <td>arm32 和 arm64</td>
+          <td>只有 arm64</td>
+          <td>移植过程可以删掉 arm32 部分的代码</td>
+      </tr>
+      <tr>
+          <td>C 标准库</td>
+          <td>bionic</td>
+          <td>鸿蒙 Fork 的 musl</td>
+          <td><a href="https://gitee.com/openharmony/third_party_musl">Fork 仓库地址</a></td>
+      </tr>
+      <tr>
+          <td>FFI</td>
+          <td>Java JNI</td>
+          <td>JS NAPI</td>
+          <td>对外暴露接口需要</td>
+      </tr>
+  </tbody>
+</table>
+<p>实际移植下来，用到的 xDL，xHook 和 And64InlineHook 等库兼容性都不错。大部分的工作，都只是在处理 Android 的 bionic 和鸿蒙的 musl 的差异。</p>
+<p>折腾两天，初步跑通了，放在 <a href="https://github.com/myzhan/HarmonyLeaksDetector">myzhan/HarmonyLeaksDetector</a>，欢迎试用。</p>
+</section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a
+      class="mb-1.5 ltr:mr-1.5 rtl:ml-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] dark:bg-white/[8%] dark:hover:bg-white/[12%]"
+      href="http://localhost:1313/tags/hook"
+      >hook</a
+    >
+     
+    <a
+      class="mb-1.5 ltr:mr-1.5 rtl:ml-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] dark:bg-white/[8%] dark:hover:bg-white/[12%]"
+      href="http://localhost:1313/tags/harmonyos"
+      >harmonyos</a
+    >
+     
+    <a
+      class="mb-1.5 ltr:mr-1.5 rtl:ml-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] dark:bg-white/[8%] dark:hover:bg-white/[12%]"
+      href="http://localhost:1313/tags/%E9%B8%BF%E8%92%99next"
+      >鸿蒙Next</a
+    >
+    
+  </footer>
+  
+
+  
+  
+  
+  
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg !leading-[1.2] *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  >
+    
+    
+    <a class="ltr:ml-auto rtl:mr-auto justify-end pl-3" href="http://localhost:1313/post/first-version-of-locust4j/"
+      ><span>locust4j 1.0.0 发布</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="mx-auto flex h-[4.5rem] max-w-[--w] items-center px-8 text-xs uppercase tracking-wider opacity-60"
+>
+  <div class="mr-auto">
+  
+    myzhan
+  
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+
+  </body>
+</html>
