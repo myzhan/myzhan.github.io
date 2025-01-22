@@ -2,25 +2,25 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Locust on myzhan</title>
-    <link>http://localhost:1313/tags/locust/</link>
+    <link>https://myzhan.github.io/tags/locust/</link>
     <description>Recent content in Locust on myzhan</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
     <copyright>myzhan</copyright>
     <lastBuildDate>Thu, 14 Dec 2017 23:11:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/locust/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://myzhan.github.io/tags/locust/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>locust4j 1.0.0 发布</title>
-      <link>http://localhost:1313/post/first-version-of-locust4j/</link>
+      <link>https://myzhan.github.io/post/first-version-of-locust4j/</link>
       <pubDate>Thu, 14 Dec 2017 23:11:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/first-version-of-locust4j/</guid>
+      <guid>https://myzhan.github.io/post/first-version-of-locust4j/</guid>
       <description>&lt;p&gt;不知不觉，维护 &lt;a href=&#34;https://github.com/myzhan/boomer&#34;&gt;boomer&lt;/a&gt; 已经两年了。说来也奇怪，接到的性能测试需求，一般都是私有协议的，很难直接用 jmeter 这类通用的工具，一般只能基于 boomer 自己写一个。前不久需要压测 Flume 的 &lt;a href=&#34;https://flume.apache.org/FlumeUserGuide.html#avro-source&#34;&gt;Avro Source&lt;/a&gt;，这货偏偏没有一个 Go 的客户端！&lt;/p&gt;</description>
     </item>
     <item>
       <title>用 golang 来编写压测工具</title>
-      <link>http://localhost:1313/post/write-a-load-testing-tool-in-golang/</link>
+      <link>https://myzhan.github.io/post/write-a-load-testing-tool-in-golang/</link>
       <pubDate>Thu, 14 Dec 2017 23:11:00 +0000</pubDate>
-      <guid>http://localhost:1313/post/write-a-load-testing-tool-in-golang/</guid>
+      <guid>https://myzhan.github.io/post/write-a-load-testing-tool-in-golang/</guid>
       <description>&lt;p&gt;之前在项目中做服务端性能测试，一般用的都是 LoadRunner，或者 jmeter。随着接触的项目越来越多，各种各样的代码都有，光传输协议，就有 HTTP，TCP，UDP。有时数据传的不是明文，可能是 protobuf，也可能是 RSA 加密后的密文。继续用 LR 或 jmeter，有点难以招架。&lt;/p&gt;</description>
     </item>
   </channel>

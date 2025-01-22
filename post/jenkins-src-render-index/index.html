@@ -38,7 +38,7 @@
   lang="zh-cn"
   dir="ltr"
 >
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -66,14 +66,14 @@
   
   
   
-  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
+  <link rel="preload stylesheet" as="style" href="https://myzhan.github.io/main.min.css" />
 
   
   
   
   
   
-  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
+  <link rel="preload" as="image" href="https://myzhan.github.io/theme.png" />
 
   
   
@@ -89,7 +89,7 @@
   
   <script
     defer
-    src="http://localhost:1313/highlight.min.js"
+    src="https://myzhan.github.io/highlight.min.js"
     onload="hljs.initHighlightingOnLoad();"
   ></script>
   
@@ -101,11 +101,11 @@
   
   <link
     rel="icon"
-    href="http://localhost:1313/favicon.ico"
+    href="https://myzhan.github.io/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="http://localhost:1313/apple-touch-icon.png"
+    href="https://myzhan.github.io/apple-touch-icon.png"
   />
 
   
@@ -114,12 +114,47 @@
   
   
   
+  
+  
+  
+  <meta itemprop="name" content="jenkins源码阅读：渲染主页">
+  <meta itemprop="description" content="jenkins 的一切 URL 请求，都托管给了 Stapler，要了解主页是如何渲染的，依然要从 Stapler 开始。用现在 Web 开发的目光来看 Stapler，它是一个纯粹的路由组件，即根据用户访问的 URL ，找到对应的处理代码。不过对于 Stapler 来说，“约定”优于“配置”，除了在 web.xml 中将 /* 交给 Stapler 处理，再也没有任何配置。免“配置”，对于开发来说，省了很多麻烦，只要在文档中详细说明“约定”，大家通读一遍文档，也就知道了。">
+  <meta itemprop="datePublished" content="2016-07-18T19:55:13+00:00">
+  <meta itemprop="dateModified" content="2016-07-18T19:55:13+00:00">
+  <meta itemprop="wordCount" content="636">
+  <meta itemprop="keywords" content="Jenkins,Ci">
+  
+  <meta property="og:url" content="https://myzhan.github.io/post/jenkins-src-render-index/">
+  <meta property="og:site_name" content="myzhan">
+  <meta property="og:title" content="jenkins源码阅读：渲染主页">
+  <meta property="og:description" content="jenkins 的一切 URL 请求，都托管给了 Stapler，要了解主页是如何渲染的，依然要从 Stapler 开始。用现在 Web 开发的目光来看 Stapler，它是一个纯粹的路由组件，即根据用户访问的 URL ，找到对应的处理代码。不过对于 Stapler 来说，“约定”优于“配置”，除了在 web.xml 中将 /* 交给 Stapler 处理，再也没有任何配置。免“配置”，对于开发来说，省了很多麻烦，只要在文档中详细说明“约定”，大家通读一遍文档，也就知道了。">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2016-07-18T19:55:13+00:00">
+    <meta property="article:modified_time" content="2016-07-18T19:55:13+00:00">
+    <meta property="article:tag" content="Jenkins">
+    <meta property="article:tag" content="Ci">
+
+  
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="jenkins源码阅读：渲染主页">
+  <meta name="twitter:description" content="jenkins 的一切 URL 请求，都托管给了 Stapler，要了解主页是如何渲染的，依然要从 Stapler 开始。用现在 Web 开发的目光来看 Stapler，它是一个纯粹的路由组件，即根据用户访问的 URL ，找到对应的处理代码。不过对于 Stapler 来说，“约定”优于“配置”，除了在 web.xml 中将 /* 交给 Stapler 处理，再也没有任何配置。免“配置”，对于开发来说，省了很多麻烦，只要在文档中详细说明“约定”，大家通读一遍文档，也就知道了。">
+
+  
+  
+
+  
+  <link rel="canonical" href="https://myzhan.github.io/post/jenkins-src-render-index/" />
+  
+  
 </head>
 
   <body class="text-black duration-200 ease-out dark:text-white">
     <header class="mx-auto flex h-[4.5rem] max-w-[--w] px-8 lg:justify-center">
   <div class="relative z-50 ltr:mr-auto rtl:ml-auto flex items-center">
-    <a class="-translate-y-[1px] text-2xl font-medium" href="http://localhost:1313/"
+    <a class="-translate-y-[1px] text-2xl font-medium" href="https://myzhan.github.io/"
       >myzhan</a
     >
     <div
@@ -189,25 +224,25 @@
       
       <a
         class="block text-center text-xl leading-[5rem] lg:text-base lg:font-normal"
-        href="/"
+        href="../../"
         >Home</a
       >
       
       <a
         class="block text-center text-xl leading-[5rem] lg:text-base lg:font-normal"
-        href="/post/"
+        href="../../post/"
         >Archives</a
       >
       
       <a
         class="block text-center text-xl leading-[5rem] lg:text-base lg:font-normal"
-        href="/tags/"
+        href="../../tags/"
         >Tags</a
       >
       
       <a
         class="block text-center text-xl leading-[5rem] lg:text-base lg:font-normal"
-        href="/categories/"
+        href="../../categories/"
         >Categories</a
       >
       
@@ -284,13 +319,13 @@
      
     <a
       class="mb-1.5 ltr:mr-1.5 rtl:ml-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="http://localhost:1313/tags/jenkins"
+      href="https://myzhan.github.io/tags/jenkins"
       >jenkins</a
     >
      
     <a
       class="mb-1.5 ltr:mr-1.5 rtl:ml-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="http://localhost:1313/tags/ci"
+      href="https://myzhan.github.io/tags/ci"
       >ci</a
     >
     
@@ -305,12 +340,12 @@
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg !leading-[1.2] *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
   >
     
-    <a class="ltr:pr-3 rtl:pl-3" href="http://localhost:1313/post/write-a-load-testing-tool-in-golang/"
+    <a class="ltr:pr-3 rtl:pl-3" href="https://myzhan.github.io/post/write-a-load-testing-tool-in-golang/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>用 golang 来编写压测工具</span></a
     >
     
     
-    <a class="ltr:ml-auto rtl:mr-auto justify-end pl-3" href="http://localhost:1313/post/jenkins-src-entry-point/"
+    <a class="ltr:ml-auto rtl:mr-auto justify-end pl-3" href="https://myzhan.github.io/post/jenkins-src-entry-point/"
       ><span>jenkins源码阅读：启动和请求处理</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     >
     

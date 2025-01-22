@@ -2,132 +2,132 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>https://myzhan.github.io/categories/</loc>
     <lastmod>2025-01-20T21:42:08+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/categories/development/</loc>
+    <loc>https://myzhan.github.io/categories/development/</loc>
     <lastmod>2025-01-20T21:42:08+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/tags/harmonyos/</loc>
+    <loc>https://myzhan.github.io/tags/harmonyos/</loc>
     <lastmod>2025-01-20T21:42:08+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/tags/hook/</loc>
+    <loc>https://myzhan.github.io/tags/hook/</loc>
     <lastmod>2025-01-20T21:42:08+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/</loc>
+    <loc>https://myzhan.github.io/</loc>
     <lastmod>2025-01-20T21:42:08+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/post/</loc>
+    <loc>https://myzhan.github.io/post/</loc>
     <lastmod>2025-01-20T21:42:08+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>https://myzhan.github.io/tags/</loc>
     <lastmod>2025-01-20T21:42:08+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/tags/%E9%B8%BF%E8%92%99next/</loc>
+    <loc>https://myzhan.github.io/tags/%E9%B8%BF%E8%92%99next/</loc>
     <lastmod>2025-01-20T21:42:08+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/post/port-a-menory-leak-detector-to-harmonyos/</loc>
+    <loc>https://myzhan.github.io/post/port-a-menory-leak-detector-to-harmonyos/</loc>
     <lastmod>2025-01-20T21:42:08+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/tags/golang/</loc>
+    <loc>https://myzhan.github.io/tags/golang/</loc>
     <lastmod>2017-12-14T23:11:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/tags/locust/</loc>
+    <loc>https://myzhan.github.io/tags/locust/</loc>
     <lastmod>2017-12-14T23:11:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/tags/locust4j/</loc>
+    <loc>https://myzhan.github.io/tags/locust4j/</loc>
     <lastmod>2017-12-14T23:11:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/post/first-version-of-locust4j/</loc>
+    <loc>https://myzhan.github.io/post/first-version-of-locust4j/</loc>
     <lastmod>2017-12-14T23:11:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/</loc>
+    <loc>https://myzhan.github.io/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/</loc>
     <lastmod>2017-12-14T23:11:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/post/write-a-load-testing-tool-in-golang/</loc>
+    <loc>https://myzhan.github.io/post/write-a-load-testing-tool-in-golang/</loc>
     <lastmod>2017-12-14T23:11:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/tags/ci/</loc>
+    <loc>https://myzhan.github.io/tags/ci/</loc>
     <lastmod>2016-07-18T19:55:13+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/tags/jenkins/</loc>
+    <loc>https://myzhan.github.io/tags/jenkins/</loc>
     <lastmod>2016-07-18T19:55:13+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/post/jenkins-src-render-index/</loc>
+    <loc>https://myzhan.github.io/post/jenkins-src-render-index/</loc>
     <lastmod>2016-07-18T19:55:13+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/post/jenkins-src-entry-point/</loc>
+    <loc>https://myzhan.github.io/post/jenkins-src-entry-point/</loc>
     <lastmod>2016-07-16T18:35:21+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/post/building-and-debugging-jenkins/</loc>
+    <loc>https://myzhan.github.io/post/building-and-debugging-jenkins/</loc>
     <lastmod>2016-07-09T17:17:49+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/tags/robotframework/</loc>
+    <loc>https://myzhan.github.io/tags/robotframework/</loc>
     <lastmod>2016-03-04T20:16:40+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/categories/testing/</loc>
+    <loc>https://myzhan.github.io/categories/testing/</loc>
     <lastmod>2016-03-04T20:16:40+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/post/giving-up-robotframework/</loc>
+    <loc>https://myzhan.github.io/post/giving-up-robotframework/</loc>
     <lastmod>2016-03-04T20:16:40+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/tags/java/</loc>
+    <loc>https://myzhan.github.io/tags/java/</loc>
     <lastmod>2016-02-02T19:12:36+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/tags/jit/</loc>
+    <loc>https://myzhan.github.io/tags/jit/</loc>
     <lastmod>2016-02-02T19:12:36+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/post/the-stroy-of-hotspot-jit-and-me/</loc>
+    <loc>https://myzhan.github.io/post/the-stroy-of-hotspot-jit-and-me/</loc>
     <lastmod>2016-02-02T19:12:36+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

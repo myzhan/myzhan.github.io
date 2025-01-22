@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>JIT on myzhan</title>
-    <link>http://localhost:1313/tags/jit/</link>
+    <link>https://myzhan.github.io/tags/jit/</link>
     <description>Recent content in JIT on myzhan</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
     <copyright>myzhan</copyright>
     <lastBuildDate>Tue, 02 Feb 2016 19:12:36 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/jit/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://myzhan.github.io/tags/jit/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>我与 HotSpot JIT 的故事</title>
-      <link>http://localhost:1313/post/the-stroy-of-hotspot-jit-and-me/</link>
+      <link>https://myzhan.github.io/post/the-stroy-of-hotspot-jit-and-me/</link>
       <pubDate>Tue, 02 Feb 2016 19:12:36 +0000</pubDate>
-      <guid>http://localhost:1313/post/the-stroy-of-hotspot-jit-and-me/</guid>
+      <guid>https://myzhan.github.io/post/the-stroy-of-hotspot-jit-and-me/</guid>
       <description>&lt;p&gt;线上有一个 HTTP 服务，之前都运行的好好的，突然有一天，出现了一个问题。应用刚刚重启的时候，系统&#xA;的 CPU 负载非常高，24 核的 CPU，Load 要去到 40 到 50。持续 2 分钟左右，负载才会慢慢降回正常水平。&lt;/p&gt;</description>
     </item>
   </channel>
