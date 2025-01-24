@@ -2,25 +2,25 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Hook on myzhan</title>
-    <link>http://localhost:1313/tags/hook/</link>
+    <link>https://myzhan.github.io/tags/hook/</link>
     <description>Recent content in Hook on myzhan</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
     <copyright>myzhan</copyright>
     <lastBuildDate>Thu, 23 Jan 2025 19:22:44 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/hook/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://myzhan.github.io/tags/hook/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hook机制在测试领域的应用</title>
-      <link>http://localhost:1313/post/hook-in-testing/</link>
+      <link>https://myzhan.github.io/post/hook-in-testing/</link>
       <pubDate>Thu, 23 Jan 2025 19:22:44 +0800</pubDate>
-      <guid>http://localhost:1313/post/hook-in-testing/</guid>
+      <guid>https://myzhan.github.io/post/hook-in-testing/</guid>
       <description>&lt;h2 id=&#34;1-前言&#34;&gt;1. 前言&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;All problems in computer science can be solved by another level of indirection.     &amp;mdash;&amp;ndash; David Wheeler&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;Hook 又名钩子，是一种机制，通过 Hook 机制，我们能拦截程序的执行，在中途插入我们的代码，来达成各种各样的目的。&lt;/p&gt;&#xA;&lt;p&gt;我更喜欢把 Hook 理解为一种思路，一种在计算机体系的软硬件层面，都想办法去插入拦截的思路。例如有一款硬件叫 &lt;a href=&#34;https://greatscottgadgets.com/throwingstar/&#34;&gt;Throwing Star LAN Tap&lt;/a&gt;，只要把网线断掉，接上它，就能实现抓包嗅探，而被嗅探的对象，根本不知道它的存在。&lt;/p&gt;</description>
     </item>
     <item>
       <title>移植内存泄漏检测工具到鸿蒙系统</title>
-      <link>http://localhost:1313/post/port-a-menory-leak-detector-to-harmonyos/</link>
+      <link>https://myzhan.github.io/post/port-a-menory-leak-detector-to-harmonyos/</link>
       <pubDate>Mon, 20 Jan 2025 21:42:08 +0800</pubDate>
-      <guid>http://localhost:1313/post/port-a-menory-leak-detector-to-harmonyos/</guid>
+      <guid>https://myzhan.github.io/post/port-a-menory-leak-detector-to-harmonyos/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/ByteDance/memory-leak-detector&#34;&gt;memory-leak-detector&lt;/a&gt; 是字节开源的一款上基于 hook 来实现的 Android 内存泄漏检测工具。&#xA;最近在鸿蒙 Next 系统上遇到一些资源泄漏的问题，于是萌生了把这个工具移植到鸿蒙 Next 系统上的想法，丰富一下工具库。考虑到 Android 和鸿蒙都是&#xA;基于 Linux，这个移植应该是行得通的。移植的策略，就是先把工程搭起来，编译通过。遇到错误，如果是 Android 特有的，就注释掉，如果是功能必须的，则修改代码解决。&lt;/p&gt;</description>
     </item>
   </channel>

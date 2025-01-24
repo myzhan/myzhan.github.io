@@ -2,25 +2,25 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Testing on myzhan</title>
-    <link>http://localhost:1313/categories/testing/</link>
+    <link>https://myzhan.github.io/categories/testing/</link>
     <description>Recent content in Testing on myzhan</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
     <copyright>myzhan</copyright>
     <lastBuildDate>Thu, 23 Jan 2025 19:22:44 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/categories/testing/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://myzhan.github.io/categories/testing/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hook机制在测试领域的应用</title>
-      <link>http://localhost:1313/post/hook-in-testing/</link>
+      <link>https://myzhan.github.io/post/hook-in-testing/</link>
       <pubDate>Thu, 23 Jan 2025 19:22:44 +0800</pubDate>
-      <guid>http://localhost:1313/post/hook-in-testing/</guid>
+      <guid>https://myzhan.github.io/post/hook-in-testing/</guid>
       <description>&lt;h2 id=&#34;1-前言&#34;&gt;1. 前言&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;All problems in computer science can be solved by another level of indirection.     &amp;mdash;&amp;ndash; David Wheeler&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;Hook 又名钩子，是一种机制，通过 Hook 机制，我们能拦截程序的执行，在中途插入我们的代码，来达成各种各样的目的。&lt;/p&gt;&#xA;&lt;p&gt;我更喜欢把 Hook 理解为一种思路，一种在计算机体系的软硬件层面，都想办法去插入拦截的思路。例如有一款硬件叫 &lt;a href=&#34;https://greatscottgadgets.com/throwingstar/&#34;&gt;Throwing Star LAN Tap&lt;/a&gt;，只要把网线断掉，接上它，就能实现抓包嗅探，而被嗅探的对象，根本不知道它的存在。&lt;/p&gt;</description>
     </item>
     <item>
       <title>告别robotframework</title>
-      <link>http://localhost:1313/post/giving-up-robotframework/</link>
+      <link>https://myzhan.github.io/post/giving-up-robotframework/</link>
       <pubDate>Fri, 04 Mar 2016 20:16:40 +0000</pubDate>
-      <guid>http://localhost:1313/post/giving-up-robotframework/</guid>
+      <guid>https://myzhan.github.io/post/giving-up-robotframework/</guid>
       <description>&lt;p&gt;刚开始工作的两年，在做 API 型服务端的自动化测试。当时老大安利了 robotframework，一直在用。由于可以编写自定义的 library，robot 的扩展能力非常强，基本上 python 能做的事情，都可以在 robot 里面实现。通过编写 library，我实现了很多好玩的功能。例如，检测数据库，mc，日志，和运行时更换 mock 服务。&lt;/p&gt;</description>
     </item>
   </channel>
