@@ -48,7 +48,7 @@
   lang="zh-cn"
   dir="ltr"
 >
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -133,6 +133,47 @@ Hook 又名钩子，是一种机制，通过 Hook 机制，我们能拦截程序
   
   
   
+  
+  
+  
+  <meta itemprop="name" content="Hook机制在测试领域的应用">
+  <meta itemprop="description" content="1. 前言 All problems in computer science can be solved by another level of indirection. —– David Wheeler
+Hook 又名钩子，是一种机制，通过 Hook 机制，我们能拦截程序的执行，在中途插入我们的代码，来达成各种各样的目的。
+我更喜欢把 Hook 理解为一种思路，一种在计算机体系的软硬件层面，都想办法去插入拦截的思路。例如有一款硬件叫 Throwing Star LAN Tap，只要把网线断掉，接上它，就能实现抓包嗅探，而被嗅探的对象，根本不知道它的存在。">
+  <meta itemprop="datePublished" content="2025-01-23T19:22:44+08:00">
+  <meta itemprop="dateModified" content="2025-01-23T19:22:44+08:00">
+  <meta itemprop="wordCount" content="3487">
+  <meta itemprop="keywords" content="Hook,Test">
+  
+  <meta property="og:url" content="https://myzhan.github.io/post/hook-in-testing/">
+  <meta property="og:site_name" content="myzhan">
+  <meta property="og:title" content="Hook机制在测试领域的应用">
+  <meta property="og:description" content="1. 前言 All problems in computer science can be solved by another level of indirection. —– David Wheeler
+Hook 又名钩子，是一种机制，通过 Hook 机制，我们能拦截程序的执行，在中途插入我们的代码，来达成各种各样的目的。
+我更喜欢把 Hook 理解为一种思路，一种在计算机体系的软硬件层面，都想办法去插入拦截的思路。例如有一款硬件叫 Throwing Star LAN Tap，只要把网线断掉，接上它，就能实现抓包嗅探，而被嗅探的对象，根本不知道它的存在。">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2025-01-23T19:22:44+08:00">
+    <meta property="article:modified_time" content="2025-01-23T19:22:44+08:00">
+    <meta property="article:tag" content="Hook">
+    <meta property="article:tag" content="Test">
+
+  
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Hook机制在测试领域的应用">
+  <meta name="twitter:description" content="1. 前言 All problems in computer science can be solved by another level of indirection. —– David Wheeler
+Hook 又名钩子，是一种机制，通过 Hook 机制，我们能拦截程序的执行，在中途插入我们的代码，来达成各种各样的目的。
+我更喜欢把 Hook 理解为一种思路，一种在计算机体系的软硬件层面，都想办法去插入拦截的思路。例如有一款硬件叫 Throwing Star LAN Tap，只要把网线断掉，接上它，就能实现抓包嗅探，而被嗅探的对象，根本不知道它的存在。">
+
+  
+  
+
+  
+  <link rel="canonical" href="https://myzhan.github.io/post/hook-in-testing/" />
+  
+  
 </head>
 
   <body class="text-black duration-200 ease-out dark:text-white">
@@ -208,13 +249,13 @@ Hook 又名钩子，是一种机制，通过 Hook 机制，我们能拦截程序
       
       <a
         class="block text-center text-xl leading-[5rem] lg:text-base lg:font-normal"
-        href="../../"
+        href="/"
         >Home</a
       >
       
       <a
         class="block text-center text-xl leading-[5rem] lg:text-base lg:font-normal"
-        href="../../post/"
+        href="/post/"
         >Archives</a
       >
       
@@ -281,7 +322,7 @@ Hook 又名钩子，是一种机制，通过 Hook 机制，我们能拦截程序
 <h2 id="2-分层视角">2. 分层视角</h2>
 <p>上面说过，在不同的系统，不同的语言上，有各种各样的 Hook 实现。如何挑选不同的 Hook 方案，解决实际的问题，要求我们先对技术体系，有一个分层的视角，明确问题，或者解决方案所处的层面。如果没有分层视角，那么看问题就像看一个完整的洋葱，只能从表面找解法。</p>
 <p>Brendan Gregg 在展示他的工具集的时候，经常会带上一个图。从应用到内核，都划分了不同的层面，每个层面都有不同的工具，很清晰，就像切开一个洋葱。</p>
-<p><img src="../../post/hook-in-testing/bcc_tracing_tools_early2019.png" alt=""></p>
+<p><img src="/post/hook-in-testing/bcc_tracing_tools_early2019.png" alt=""></p>
 <p>我们最常遇到的场景，一般都在 System Call Interface(系统调用) 往上的用户态，只需要在 Applications，Runtimes，System Libraries 层面找解法。Applications 就是我们的应用，Runtimes 一般是指 JVM，Lua，或者 Go 这类语言自带的运行时，System Libraries 是底下的第三方依赖，例如 libc.so，openssl.so。</p>
 <p>下文 Applications 统称应用，Runtimes 统称运行时，System Libraries 统称系统库。</p>
 <p>System Call Interface 往下，内核态，虽然不常遇到，但我有个预判，后续会被 BPF 统治。如果感兴趣，只需要了解 BPF 就好，BPF 后续甚至有统治用户态的可能。</p>
